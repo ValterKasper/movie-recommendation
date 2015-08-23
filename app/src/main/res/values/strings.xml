@@ -1,0 +1,12 @@
+<resources>
+	<string name="app_name">NotToday</string>
+	<string name="hello_world">Hello world!</string>
+	<string name="action_settings">Settings</string>
+    <string name="title_activity_foo">FooActivity</string>
+	<string name="greet_button">Greet</string>
+    <string name="title_activity_zbar">ZBarActivity</string>
+    <string name="title_activity_bar">BarActivity</string>
+    <string name="title_activity_compute">ComputeActivity</string>
+    <string name="title_activity_items">ItemsActivity</string>
+    <string name="title_activity_movie">MovieActivity</string>
+</resources>

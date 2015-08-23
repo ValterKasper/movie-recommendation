@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:paddingLeft="16dp"
+	android:paddingRight="16dp"
+	android:paddingTop="16dp"
+	android:paddingBottom="16dp"
+    android:id="@+id/rlMain"
+	tools:context=".MainActivity">
+
+	<EditText
+		android:id="@+id/etGreet"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:text="John"
+		android:inputType="textCapSentences"/>
+
+	<Button
+		android:id="@+id/bGreet"
+		android:text="@string/greet_button"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/etGreet"
+		android:layout_centerHorizontal="true"
+		android:onClick="didTapGreetButton" />
+
+	<TextView
+		android:id="@+id/tvMessage"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/bGreet"
+		android:gravity="center"
+		android:textSize="30sp" />
+
+
+	<TextView
+		android:id="@+id/tvHello"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/bGreet"
+		android:gravity="center"
+		android:text="Hello world!"
+		android:textSize="30sp" />
+
+</RelativeLayout>

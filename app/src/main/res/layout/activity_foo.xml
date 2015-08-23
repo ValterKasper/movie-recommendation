@@ -1,0 +1,60 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                tools:context="sk.kasper.nottoday.activities.takes.FooActivity">
+
+
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"/>
+
+    <ListView
+        android:id="@+id/lvItems"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bAddItem"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tool_bar"/>
+
+    <Button
+        android:id="@+id/bAddItem"
+        style="@style/ButtonBlue"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Add"/>
+
+    <TextView
+        android:id="@+id/vEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No items"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:visibility="visible"
+        android:layout_below="@+id/tool_bar"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        style="@style/Green"
+        android:text="Medium Text"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/vEmpty"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        style="@style/Red.Big.Mono"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/textView3"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        style="@style/Green.Big.Mono"
+        android:text="Medium Text"
+        android:id="@+id/textView4"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>
