@@ -1,4 +1,4 @@
-package sk.kasper.nottoday.movie;
+package sk.kasper.movieapp.movie;
 
 /**
  * Created by Valter on 22.08.2015.

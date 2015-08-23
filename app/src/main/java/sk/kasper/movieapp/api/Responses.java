@@ -1,8 +1,8 @@
-package sk.kasper.nottoday.api;
+package sk.kasper.movieapp.api;
 
 import java.util.List;
 
-import sk.kasper.nottoday.models.Item;
+import sk.kasper.movieapp.models.Item;
 
 /**
  * Created by Valter on 08.08.2015.

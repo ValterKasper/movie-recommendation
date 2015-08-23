@@ -1,10 +1,9 @@
-package sk.kasper.nottoday.activities;
+package sk.kasper.movieapp.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
@@ -12,15 +11,12 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.Observer;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
-import sk.kasper.nottoday.R;
-import sk.kasper.nottoday.Utils;
-import sk.kasper.nottoday.models.Item;
+import sk.kasper.movieapp.R;
+import sk.kasper.movieapp.Utils;
+import sk.kasper.movieapp.models.Item;
 
 public class ItemsActivity extends AppCompatActivity {
     @Bind(R.id.tvItems)

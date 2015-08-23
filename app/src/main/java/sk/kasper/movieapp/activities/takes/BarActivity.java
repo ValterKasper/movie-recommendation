@@ -1,8 +1,8 @@
-package sk.kasper.nottoday.activities.takes;
+package sk.kasper.movieapp.activities.takes;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -11,7 +11,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
-import sk.kasper.nottoday.R;
+import sk.kasper.movieapp.R;
 
 public class BarActivity extends AppCompatActivity {
     @Bind(R.id.tvResult)

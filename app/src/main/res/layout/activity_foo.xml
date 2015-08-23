@@ -2,8 +2,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                tools:context="sk.kasper.nottoday.activities.takes.FooActivity">
+                tools:context="sk.kasper.movieapp.activities.takes.FooActivity">
 
 
     <include
@@ -15,8 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/bAddItem"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/tool_bar"/>
+        android:layout_below="@+id/tool_bar"
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:id="@+id/bAddItem"
@@ -29,32 +28,32 @@
         android:id="@+id/vEmpty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tool_bar"
+        android:layout_centerHorizontal="true"
         android:text="No items"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:visibility="visible"
-        android:layout_below="@+id/tool_bar"
-        android:layout_centerHorizontal="true"/>
+        android:visibility="visible"/>
 
     <TextView
-        style="@style/Green"
-        android:text="Medium Text"
         android:id="@+id/textView2"
+        style="@style/Green"
         android:layout_below="@+id/vEmpty"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:text="Medium Text"/>
 
     <TextView
-        style="@style/Red.Big.Mono"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
         android:id="@+id/textView3"
+        style="@style/Red.Big.Mono"
         android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <TextView
-        style="@style/Green.Big.Mono"
-        android:text="Medium Text"
         android:id="@+id/textView4"
+        style="@style/Green.Big.Mono"
         android:layout_below="@+id/textView3"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:text="Medium Text"/>
 
 </RelativeLayout>

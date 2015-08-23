@@ -1,4 +1,4 @@
-package sk.kasper.nottoday.movie;
+package sk.kasper.movieapp.movie;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,8 +8,8 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import sk.kasper.nottoday.BaseActivity;
-import sk.kasper.nottoday.R;
+import sk.kasper.movieapp.BaseActivity;
+import sk.kasper.movieapp.R;
 
 public class MovieActivity extends BaseActivity implements IMovieView{
     @Bind(R.id.tvMovieName)

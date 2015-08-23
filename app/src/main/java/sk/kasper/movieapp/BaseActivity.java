@@ -1,6 +1,5 @@
-package sk.kasper.nottoday;
+package sk.kasper.movieapp;
 
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 /**

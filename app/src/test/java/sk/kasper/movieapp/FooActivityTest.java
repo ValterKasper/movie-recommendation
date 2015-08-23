@@ -1,4 +1,4 @@
-package sk.kasper.nottoday;
+package sk.kasper.movieapp;
 
 import android.app.Dialog;
 import android.view.View;
@@ -17,14 +17,13 @@ import org.robolectric.util.ActivityController;
 import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
-import sk.kasper.nottoday.activities.takes.FooActivity;
-import sk.kasper.nottoday.api.Requests;
-import sk.kasper.nottoday.api.Responses;
-import sk.kasper.nottoday.models.Item;
+import sk.kasper.movieapp.activities.takes.FooActivity;
+import sk.kasper.movieapp.api.Requests;
+import sk.kasper.movieapp.api.Responses;
+import sk.kasper.movieapp.models.Item;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.assertj.android.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 @Config(constants = BuildConfig.class, sdk = 21)
 @RunWith(RobolectricGradleTestRunner.class)
@@ -47,7 +46,7 @@ public class FooActivityTest {
         lvItems = (ListView) activity.findViewById(R.id.lvItems);
         assertThat(lvItems).isNotNull();
 
-        vEmpty = (View) activity.findViewById(R.id.vEmpty);
+        vEmpty = activity.findViewById(R.id.vEmpty);
         assertThat(vEmpty).isNotNull();
 
         requestCalled = false;

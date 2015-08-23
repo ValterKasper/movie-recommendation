@@ -1,4 +1,4 @@
-package sk.kasper.nottoday.movie;
+package sk.kasper.movieapp.movie;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;

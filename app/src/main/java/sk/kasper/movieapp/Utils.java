@@ -1,9 +1,9 @@
-package sk.kasper.nottoday;
+package sk.kasper.movieapp;
 
 import android.util.Log;
 
 import retrofit.RestAdapter;
-import sk.kasper.nottoday.api.NotTodayApi;
+import sk.kasper.movieapp.api.NotTodayApi;
 
 /**
  * Created by Valter on 01.08.2015.

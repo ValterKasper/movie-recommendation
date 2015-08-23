@@ -1,15 +1,14 @@
-package sk.kasper.nottoday;
+package sk.kasper.movieapp;
 
-import android.app.Application;
 import android.test.ApplicationTestCase;
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
  */
 public class ApplicationTest
-		extends ApplicationTestCase<NotTodayApplication> {
+		extends ApplicationTestCase<MovieApplication> {
 
 	public ApplicationTest() {
-		super(NotTodayApplication.class);
+		super(MovieApplication.class);
 	}
 }

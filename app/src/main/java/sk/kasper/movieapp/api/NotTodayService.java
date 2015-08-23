@@ -1,4 +1,4 @@
-package sk.kasper.nottoday.api;
+package sk.kasper.movieapp.api;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import de.greenrobot.event.EventBus;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import sk.kasper.nottoday.models.Item;
+import sk.kasper.movieapp.models.Item;
 
 /**
  * Created by Valter on 01.08.2015.

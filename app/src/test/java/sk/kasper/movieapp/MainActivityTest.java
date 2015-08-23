@@ -1,4 +1,4 @@
-package sk.kasper.nottoday;
+package sk.kasper.movieapp;
 
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,20 +12,20 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
-import sk.kasper.nottoday.activities.MainActivity;
+import sk.kasper.movieapp.activities.MainActivity;
 
+import static org.assertj.android.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.assertj.android.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
 
 @Config(constants = BuildConfig.class, sdk = 21)
 @RunWith(RobolectricGradleTestRunner.class)
 public class MainActivityTest {
-    private MainActivity activity;
     Button button;
     TextView tvMessage;
     EditText etGreet;
+    private MainActivity activity;
 
     @Before
     public void setup() throws Exception {

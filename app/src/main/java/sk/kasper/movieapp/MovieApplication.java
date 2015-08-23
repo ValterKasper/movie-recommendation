@@ -1,26 +1,22 @@
-package sk.kasper.nottoday;
+package sk.kasper.movieapp;
 
 import android.app.Application;
 
-import java.util.Arrays;
-import java.util.List;
-
 import de.greenrobot.event.EventBus;
-import sk.kasper.nottoday.api.NotTodayApi;
-import sk.kasper.nottoday.api.NotTodayService;
+import sk.kasper.movieapp.api.NotTodayApi;
+import sk.kasper.movieapp.api.NotTodayService;
 
 /**
  * Created by Valter on 01.08.2015.
  */
-public class NotTodayApplication extends Application {
+public class MovieApplication extends Application {
 
 	private NotTodayService notTodayService;
+	private NotTodayApi notTodayApi;
 
 	public NotTodayApi getNotTodayApi() {
 		return notTodayApi;
 	}
-
-	private NotTodayApi notTodayApi;
 
 	@Override
 	public void onCreate() {

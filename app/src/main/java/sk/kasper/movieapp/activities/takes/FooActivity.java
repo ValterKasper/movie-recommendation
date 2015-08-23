@@ -1,9 +1,9 @@
-package sk.kasper.nottoday.activities.takes;
+package sk.kasper.movieapp.activities.takes;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,10 +19,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
-import sk.kasper.nottoday.R;
-import sk.kasper.nottoday.api.Requests;
-import sk.kasper.nottoday.api.Responses;
-import sk.kasper.nottoday.models.Item;
+import sk.kasper.movieapp.R;
+import sk.kasper.movieapp.api.Requests;
+import sk.kasper.movieapp.api.Responses;
+import sk.kasper.movieapp.models.Item;
 
 
 /**

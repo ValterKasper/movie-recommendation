@@ -1,4 +1,4 @@
-package sk.kasper.nottoday.activities;
+package sk.kasper.movieapp.activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import sk.kasper.nottoday.R;
+import sk.kasper.movieapp.R;
 
 
 public class MainActivity extends Activity {
