@@ -1,17 +1,13 @@
 package sk.kasper.nottoday.movie;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import javax.inject.Inject;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observable;
 import sk.kasper.nottoday.BaseActivity;
 import sk.kasper.nottoday.R;
 

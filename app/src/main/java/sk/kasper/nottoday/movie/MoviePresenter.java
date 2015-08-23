@@ -1,18 +1,15 @@
 package sk.kasper.nottoday.movie;
 
-import javax.inject.Inject;
-
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by Valter on 22.08.2015.
+ * Manipulates with UI
  */
 public class MoviePresenter {
-    private IMovieView movieView;
-
     IMovieInteractor movieInteractor;
+    private IMovieView movieView;
 
     public MoviePresenter(IMovieView movieView, MovieInteractor movieInteractor) {
         this.movieView = movieView;
