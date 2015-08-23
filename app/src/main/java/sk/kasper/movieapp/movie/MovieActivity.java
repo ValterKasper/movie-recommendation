@@ -16,15 +16,17 @@ public class MovieActivity extends BaseActivity implements IMovieView{
     TextView tvMovieName;
     private MoviePresenter presenter;
 
+    // TODO sprav frontu
+    private Movie actualMovie;
+
     @OnClick(R.id.bLike)
     public void likeClick() {
-        presenter.onLikeClick();
+        presenter.onLikeMovie(actualMovie);
     }
-
 
     @OnClick(R.id.bDislike)
     public void dislikeClick() {
-        presenter.onDislikeClick();
+        presenter.onDislikeMovie(actualMovie);
     }
 
     @Override
@@ -33,7 +35,7 @@ public class MovieActivity extends BaseActivity implements IMovieView{
         setContentView(R.layout.activity_movie);
         ButterKnife.bind(this);
 
-        presenter = new MoviePresenter(this, new MovieInteractor());
+        presenter = new MoviePresenter(this, new MovieSuggestionEngineInteractorMock());
     }
 
     @Override
@@ -59,9 +61,6 @@ public class MovieActivity extends BaseActivity implements IMovieView{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -70,11 +69,6 @@ public class MovieActivity extends BaseActivity implements IMovieView{
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void showMovieInfo(Movie movie) {
-        tvMovieName.setText(movie.name);
     }
 
     @Override
@@ -87,4 +81,9 @@ public class MovieActivity extends BaseActivity implements IMovieView{
 
     }
 
+    @Override
+    public void addMovieCard(Movie movie) {
+        actualMovie = movie;
+        tvMovieName.setText(movie.name);
+    }
 }

@@ -8,17 +8,22 @@ import rx.schedulers.Schedulers;
  * Manipulates with UI
  */
 public class MoviePresenter {
-    IMovieInteractor movieInteractor;
+    IMovieSuggestionEngineInteractor movieInteractor;
     private IMovieView movieView;
 
-    public MoviePresenter(IMovieView movieView, MovieInteractor movieInteractor) {
+    public MoviePresenter(IMovieView movieView, MovieSuggestionEngineInteractorMock movieInteractor) {
         this.movieView = movieView;
         this.movieInteractor = movieInteractor;
     }
 
     public void onResume() {
-        movieView.showProgressBar();
-        movieInteractor.loadMovie(12345)
+        loadNextMovie();
+        loadNextMovie();
+        loadNextMovie();
+    }
+
+    private void loadNextMovie() {
+        movieInteractor.getNextSuggestion()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Movie>() {
@@ -34,17 +39,18 @@ public class MoviePresenter {
 
                     @Override
                     public void onNext(Movie movie) {
-                        movieView.showMovieInfo(movie);
-                        movieView.hideProgressBar();
+                        movieView.addMovieCard(movie);
                     }
                 });
     }
 
-    public void onLikeClick() {
-
+    public void onLikeMovie(Movie movie) {
+        movieInteractor.movieLiked(movie);
+        loadNextMovie();
     }
 
-    public void onDislikeClick() {
-
+    public void onDislikeMovie(Movie movie) {
+        movieInteractor.movieDisliked(movie);
+        loadNextMovie();
     }
 }

@@ -1,9 +1,14 @@
 package sk.kasper.movieapp.movie;
 
 /**
- * Created by Valter on 22.08.2015.
+ * Just movie
  */
 public class Movie {
     public Long id;
     public String name;
+
+    public Movie(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
