@@ -11,7 +11,7 @@ import sk.kasper.movieapp.api.NotTodayApi;
 public class Utils {
 	public static NotTodayApi getApi() {
 		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(NotTodayApi.REST_ENDPOINT)
+				.setEndpoint(NotTodayApi.REST_TASTEKID_ENDPOINT)
 				.setLogLevel(RestAdapter.LogLevel.FULL)
 				.setLog(new RestAdapter.Log() {
 					@Override

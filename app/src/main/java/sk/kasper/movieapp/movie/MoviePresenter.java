@@ -1,8 +1,6 @@
 package sk.kasper.movieapp.movie;
 
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Manipulates with UI
@@ -11,7 +9,7 @@ public class MoviePresenter {
     IMovieSuggestionEngineInteractor movieInteractor;
     private IMovieView movieView;
 
-    public MoviePresenter(IMovieView movieView, MovieSuggestionEngineInteractorMock movieInteractor) {
+    public MoviePresenter(IMovieView movieView, IMovieSuggestionEngineInteractor movieInteractor) {
         this.movieView = movieView;
         this.movieInteractor = movieInteractor;
     }
@@ -24,8 +22,6 @@ public class MoviePresenter {
 
     private void loadNextMovie() {
         movieInteractor.getNextSuggestion()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Movie>() {
                     @Override
                     public void onCompleted() {

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Provides movie data
@@ -23,7 +25,9 @@ public class MovieSuggestionEngineInteractorMock implements IMovieSuggestionEngi
     @Override
     public Observable<Movie> getNextSuggestion() {
         nextMoviePosition++;
-        return Observable.just(movies.get(nextMoviePosition % movies.size()));
+        return Observable.just(movies.get(nextMoviePosition % movies.size()))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override

@@ -13,27 +13,27 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="sk.kasper.movieapp.activities.MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="sk.kasper.movieapp.activities.takes.FooActivity"
+            android:name=".activities.takes.FooActivity"
             android:label="@string/title_activity_foo" >
         </activity>
         <activity
-            android:name="sk.kasper.movieapp.activities.takes.BarActivity"
+            android:name=".activities.takes.BarActivity"
             android:label="@string/title_activity_bar" >
         </activity>
         <activity
-            android:name="sk.kasper.movieapp.activities.takes.ComputeActivity"
+            android:name=".activities.takes.ComputeActivity"
             android:label="@string/title_activity_compute" >
         </activity>
         <activity
-            android:name="sk.kasper.movieapp.activities.ItemsActivity"
+            android:name=".activities.ItemsActivity"
             android:label="@string/title_activity_items" >
         </activity>
         <activity
-            android:name="sk.kasper.movieapp.movie.MovieActivity"
+            android:name=".movie.MovieActivity"
             android:label="@string/title_activity_movie" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,6 +41,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".services.MovieService"
+            android:exported="false">
+        </service>
+        <service
+            android:name=".services.BindingMovieService"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>
