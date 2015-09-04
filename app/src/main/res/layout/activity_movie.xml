@@ -22,23 +22,19 @@
 
     <Button
         android:id="@+id/bLike"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/opinionButton.Green"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:text="Like"
-        android:theme="@style/Widget.AppCompat.Button.Borderless"/>
+        android:text="Like"/>
 
     <Button
         android:id="@+id/bDislike"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/opinionButton.Red"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:text="Dislike"
-        android:theme="@style/Widget.AppCompat.Button.Borderless"/>
+        android:text="Dislike"/>
 
     <ImageView
         android:id="@+id/imageView"

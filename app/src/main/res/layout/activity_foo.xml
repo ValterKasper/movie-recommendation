@@ -11,11 +11,9 @@
 
     <ListView
         android:id="@+id/lvItems"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/centered"
         android:layout_above="@+id/bAddItem"
-        android:layout_below="@+id/tool_bar"
-        android:layout_centerHorizontal="true"/>
+        android:layout_below="@+id/tool_bar"/>
 
     <Button
         android:id="@+id/bAddItem"

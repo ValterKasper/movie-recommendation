@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +41,35 @@ public class FooActivity extends AppCompatActivity {
 
     private ArrayAdapter<Item> adapter;
     private List<Item> items;
+
+    public static void main(boolean v1, boolean v2) {
+        if (v1) {
+            Log.d("AA", "main ");
+        } else {
+            if (v2) {
+                if (v1) {
+                    Log.d("AA", "main ");
+                    if (v2) {
+                        if (v1 && v2) {
+                            Log.d("AA", "main ");
+                        } else {
+                            Log.d("AA", "main ");
+                            int a = v1 ? 5 : 6;
+                        }
+                    }
+                }
+                Log.d("AA", "main ");
+            }
+        }
+
+        if ("asd".isEmpty()) {
+            Log.d("AA", "main ");
+        }
+
+        if ("asd".isEmpty()) {
+            Log.d("AA", "main ");
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -43,4 +43,25 @@
 		<item name="android:layout_width">wrap_content</item>
 		<item name="android:layout_height">wrap_content</item>
 	</style>
+
+	<style name="centered">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_centerHorizontal">true</item>
+	</style>
+
+	<style name="opinionButton" parent="android:Widget.Holo.Button.Borderless">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+	</style>
+
+	<style name="opinionButton.Green">
+		<item name="android:textColor">@android:color/holo_green_light</item>
+	</style>
+
+	<style name="opinionButton.Red">
+		<item name="android:textColor">@android:color/holo_red_light</item>
+	</style>
+
+
 </resources>
