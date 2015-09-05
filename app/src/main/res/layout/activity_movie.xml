@@ -28,15 +28,9 @@
                 android:layout_height="match_parent"
 				tools:context="sk.kasper.movieapp.ui.movie.MovieActivity">
 
-    <include layout="@layout/movie_toolbar"/>
-
-    <TextView
-        android:id="@+id/tvMovieName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Movie name"/>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/movie_toolbar"/>
 
     <Button
         android:id="@+id/bLike"
@@ -55,14 +49,23 @@
         android:text="Dislike"/>
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/ivCover"
         android:layout_width="match_parent"
         android:layout_height="72dp"
+        android:layout_above="@+id/bLike"
         android:layout_alignEnd="@+id/bDislike"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/bDislike"
-        android:layout_below="@+id/toolbar"
-        android:src="@drawable/abc_btn_check_material"/>
+        android:layout_below="@+id/toolbar"/>
+
+    <TextView
+        android:id="@+id/tvMovieName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ivCover"
+        android:layout_centerHorizontal="true"
+        android:text="Movie name"
+        android:textSize="32dp"/>
 
 </RelativeLayout>

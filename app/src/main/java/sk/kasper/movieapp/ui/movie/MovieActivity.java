@@ -31,7 +31,10 @@ import android.os.IBinder;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
@@ -51,6 +54,9 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
+	@Bind(R.id.ivCover)
+	ImageView ivCover;
 
     private MoviePresenter presenter;
 
@@ -139,6 +145,10 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 	public void showNextMovie() {
 		movieQueue.remove();
 		tvMovieName.setText(movieQueue.element().name);
+		Picasso.with(this)
+				.load(movieQueue.element().coverUrl)
+				.placeholder(R.mipmap.ic_launcher)
+				.into(ivCover);
 	}
 
 	@OnClick(R.id.bLike)
