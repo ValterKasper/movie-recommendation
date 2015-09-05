@@ -42,20 +42,32 @@ public class MoviePresenterTest {
     private MoviePresenter moviePresenter;
     private IMovieView view;
     private IMovieSuggestionEngineInteractor interactor;
+	private Movie fooMovie;
 
     @Before
     public void setUp() {
         view = mock(IMovieView.class);
         interactor = mock(IMovieSuggestionEngineInteractor.class);
-        moviePresenter = new MoviePresenter(view, interactor);
-    }
+		when(interactor.getNextSuggestion()).thenReturn(Observable.just(new Movie(2L, "Bar")));
+		moviePresenter = new MoviePresenter(view, interactor);
+		fooMovie = new Movie(10L, "Foo");
+	}
 
     @Test
-    public void likedMessageToInteracotor() {
-        Movie movie = new Movie(10L, "Foo");
-        when(interactor.getNextSuggestion()).thenReturn(Observable.just(new Movie(2L, "Bar")));
-        moviePresenter.onLikeMovie(movie);
+	public void testNextCardIsShownWhenLikeButtonClicked() throws Exception {
+		moviePresenter.onLikeMovie(fooMovie);
+		verify(view).showNextMovie();
+	}
 
-        verify(interactor).movieLiked(movie);
-    }
+	@Test
+	public void testNextCardIsShownWhenDislikeButtonClicked() throws Exception {
+		moviePresenter.onDislikeMovie(fooMovie);
+		verify(view).showNextMovie();
+	}
+
+	@Test
+	public void likedMessageToInteracotor() {
+		moviePresenter.onLikeMovie(fooMovie);
+		verify(interactor).movieLiked(fooMovie);
+	}
 }
