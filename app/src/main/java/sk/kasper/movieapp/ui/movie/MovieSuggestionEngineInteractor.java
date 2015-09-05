@@ -26,13 +26,21 @@ package sk.kasper.movieapp.ui.movie;
 
 import rx.Observable;
 import sk.kasper.movieapp.models.Movie;
+import sk.kasper.movieapp.network.ApiaryApi;
 
 
 public class MovieSuggestionEngineInteractor implements IMovieSuggestionEngineInteractor {
+
+	private final ApiaryApi api;
+
+	public MovieSuggestionEngineInteractor(final ApiaryApi apiaryApi) {
+		api = apiaryApi;
+	}
+
     @Override
     public Observable<Movie> getNextSuggestion() {
-        return Observable.just(new Movie(10L, "LLL"));
-    }
+		return api.loadMovie();
+	}
 
     @Override
     public void movieLiked(Movie movie) {

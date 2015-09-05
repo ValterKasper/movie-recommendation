@@ -30,6 +30,13 @@ package sk.kasper.movieapp.models;
 public class Movie {
     public Long id;
     public String name;
+    public String coverUrl;
+
+    public Movie(final Long id, final String name, final String coverUrl) {
+        this.id = id;
+        this.name = name;
+        this.coverUrl = coverUrl;
+    }
 
     public Movie(Long id, String name) {
         this.id = id;

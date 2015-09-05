@@ -22,46 +22,24 @@
  * THE SOFTWARE.
  */
 
-package sk.kasper.movieapp;
+package sk.kasper.movieapp.network;
 
-import android.util.Log;
+import java.util.List;
 
-import retrofit.RestAdapter;
-import sk.kasper.movieapp.network.ApiaryApi;
-import sk.kasper.movieapp.network.TasteKidApi;
+import retrofit.http.GET;
+import rx.Observable;
+import sk.kasper.movieapp.models.Movie;
 
 /**
- * Helper methods
+ * REST API for testing
  */
-public class Utils {
+public interface ApiaryApi {
 
-	public static TasteKidApi getTasteKidApi() {
-		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(TasteKidApi.REST_TASTEKID_ENDPOINT)
-				.setLogLevel(RestAdapter.LogLevel.FULL)
-				.setLog(new RestAdapter.Log() {
-					@Override
-					public void log(String msg) {
-						Log.d("Retrofit: ", msg);
-					}
-				})
-				.build();
+	String REST_APIARY_ENDPOINT = "http://private-e16bf-nottoday.apiary-mock.com";
 
-		return restAdapter.create(TasteKidApi.class);
-	}
+	@GET("/movies")
+	Observable<List<Movie>> loadMovies();
 
-	public static ApiaryApi getApiaryApi() {
-		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(ApiaryApi.REST_APIARY_ENDPOINT)
-				.setLogLevel(RestAdapter.LogLevel.FULL)
-				.setLog(new RestAdapter.Log() {
-					@Override
-					public void log(String msg) {
-						Log.d("Retrofit: ", msg);
-					}
-				})
-				.build();
-
-		return restAdapter.create(ApiaryApi.class);
-	}
+	@GET("/movie")
+	Observable<Movie> loadMovie();
 }

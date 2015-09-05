@@ -26,23 +26,15 @@ package sk.kasper.movieapp.network;
 
 import java.util.List;
 
-import retrofit.Callback;
 import retrofit.http.GET;
 import rx.Observable;
-import sk.kasper.movieapp.models.Item;
 
 /**
  * Api for movie REST services
  */
-public interface MovieApi {
-    String REST_APIARY_ENDPOINT = "http://private-e16bf-nottoday.apiary-mock.com";
-    String REST_TASTEKID_ENDPOINT = "https://www.tastekid.com/api/";
+public interface TasteKidApi {
 
-	@GET("/items")
-	void loadItems(Callback<List<Item>> callback);
-
-	@GET("/items")
-	Observable<List<Item>> loadItems();
+	String REST_TASTEKID_ENDPOINT = "https://www.tastekid.com/api/";
 
     @GET("https://www.tastekid.com/api/similar?q=rush&type=movies")
     Observable<TasteKidResponse> loadMovies();

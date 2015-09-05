@@ -40,6 +40,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import sk.kasper.movieapp.R;
+import sk.kasper.movieapp.Utils;
 import sk.kasper.movieapp.models.Movie;
 import sk.kasper.movieapp.ui.BaseActivity;
 
@@ -53,7 +54,6 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 
     private MoviePresenter presenter;
 
-    // TODO make queue
 	private Queue<Movie> movieQueue = new ArrayDeque<>();
 	private boolean isBound = false;
 
@@ -76,7 +76,7 @@ public class MovieActivity extends BaseActivity implements IMovieView {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-        presenter = new MoviePresenter(this, new MovieSuggestionEngineInteractorMock());
+        presenter = new MoviePresenter(this, new MovieSuggestionEngineInteractor(Utils.getApiaryApi()));
     }
 
     @Override

@@ -29,9 +29,9 @@ package sk.kasper.movieapp.network;
  */
 public class MovieService {
 
-	private MovieApi movieApi;
+	private TasteKidApi movieApi;
 
-	public MovieService(final MovieApi movieApi) {
+	public MovieService(final TasteKidApi movieApi) {
 		this.movieApi = movieApi;
 	}
 
