@@ -22,31 +22,27 @@
  * THE SOFTWARE.
  */
 
-package sk.kasper.movieapp;
+package sk.kasper.movieapp.ui.movie;
 
-import android.util.Log;
-
-import retrofit.RestAdapter;
-import sk.kasper.movieapp.network.MovieApi;
+import sk.kasper.movieapp.models.Movie;
 
 /**
- * Helper methods
+ * Represents UI for movie suggestion.
  */
-public class Utils {
+public interface IMovieView {
+    void showProgressBar();
 
-	public static MovieApi getApi() {
-		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(MovieApi.REST_TASTEKID_ENDPOINT)
-				.setLogLevel(RestAdapter.LogLevel.FULL)
-				.setLog(new RestAdapter.Log() {
-					@Override
-					public void log(String msg) {
-						Log.d("Retrofit: ", msg);
-					}
-				})
-				.build();
+    void hideProgressBar();
 
-		return restAdapter.create(MovieApi.class);
-	}
+	/**
+	 * Adds new movie card
+	 *
+	 * @param movie to add
+	 */
+	void addMovieCard(Movie movie);
 
+	/**
+	 * Show next movie that was added with addMovieCard
+	 */
+	void showNextMovie();
 }

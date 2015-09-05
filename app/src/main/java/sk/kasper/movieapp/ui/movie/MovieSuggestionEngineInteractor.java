@@ -22,31 +22,25 @@
  * THE SOFTWARE.
  */
 
-package sk.kasper.movieapp;
+package sk.kasper.movieapp.ui.movie;
 
-import android.util.Log;
+import rx.Observable;
+import sk.kasper.movieapp.models.Movie;
 
-import retrofit.RestAdapter;
-import sk.kasper.movieapp.network.MovieApi;
 
-/**
- * Helper methods
- */
-public class Utils {
+public class MovieSuggestionEngineInteractor implements IMovieSuggestionEngineInteractor {
+    @Override
+    public Observable<Movie> getNextSuggestion() {
+        return Observable.just(new Movie(10L, "LLL"));
+    }
 
-	public static MovieApi getApi() {
-		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(MovieApi.REST_TASTEKID_ENDPOINT)
-				.setLogLevel(RestAdapter.LogLevel.FULL)
-				.setLog(new RestAdapter.Log() {
-					@Override
-					public void log(String msg) {
-						Log.d("Retrofit: ", msg);
-					}
-				})
-				.build();
+    @Override
+    public void movieLiked(Movie movie) {
 
-		return restAdapter.create(MovieApi.class);
-	}
+    }
 
+    @Override
+    public void movieDisliked(Movie movie) {
+
+    }
 }

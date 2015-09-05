@@ -1,4 +1,28 @@
-package sk.kasper.movieapp.movie;
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2015 Valter Kasper
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+package sk.kasper.movieapp.ui.movie;
 
 import android.content.ComponentName;
 import android.content.ServiceConnection;
@@ -9,11 +33,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import sk.kasper.movieapp.BaseActivity;
 import sk.kasper.movieapp.R;
+import sk.kasper.movieapp.models.Movie;
+import sk.kasper.movieapp.ui.BaseActivity;
 
 public class MovieActivity extends BaseActivity implements IMovieView {
     private static final String TAG = "MovieActivity";
@@ -26,8 +54,8 @@ public class MovieActivity extends BaseActivity implements IMovieView {
     private MoviePresenter presenter;
 
     // TODO make queue
-    private Movie actualMovie;
-    private boolean isBound = false;
+	private Queue<Movie> movieQueue = new ArrayDeque<>();
+	private boolean isBound = false;
 
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -104,17 +132,22 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 
     @Override
     public void addMovieCard(Movie movie) {
-        actualMovie = movie;
-        tvMovieName.setText(movie.name);
-    }
+		movieQueue.add(movie);
+	}
 
-    @OnClick(R.id.bLike)
-    public void likeClick() {
-        presenter.onLikeMovie(actualMovie);
-    }
+	@Override
+	public void showNextMovie() {
+		movieQueue.remove();
+		tvMovieName.setText(movieQueue.element().name);
+	}
+
+	@OnClick(R.id.bLike)
+	public void likeClick() {
+		presenter.onLikeMovie(movieQueue.element());
+	}
 
     @OnClick(R.id.bDislike)
     public void dislikeClick() {
-        presenter.onDislikeMovie(actualMovie);
-    }
+		presenter.onDislikeMovie(movieQueue.element());
+	}
 }

@@ -22,31 +22,46 @@
  * THE SOFTWARE.
  */
 
-package sk.kasper.movieapp;
+package sk.kasper.movieapp.ui.movie;
 
-import android.util.Log;
+import java.util.ArrayList;
+import java.util.List;
 
-import retrofit.RestAdapter;
-import sk.kasper.movieapp.network.MovieApi;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import sk.kasper.movieapp.models.Movie;
 
 /**
- * Helper methods
+ * Provides movie data
  */
-public class Utils {
+public class MovieSuggestionEngineInteractorMock implements IMovieSuggestionEngineInteractor {
+    List<Movie> movies = new ArrayList<>();
+    private int nextMoviePosition = 0;
 
-	public static MovieApi getApi() {
-		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(MovieApi.REST_TASTEKID_ENDPOINT)
-				.setLogLevel(RestAdapter.LogLevel.FULL)
-				.setLog(new RestAdapter.Log() {
-					@Override
-					public void log(String msg) {
-						Log.d("Retrofit: ", msg);
-					}
-				})
-				.build();
+    public MovieSuggestionEngineInteractorMock() {
+        String[] names = {"Rush", "Bláznivá dovolená", "Cesta vzhůru", "Hitman: Agent 47", "RYTMUS sídliskový sen"};
 
-		return restAdapter.create(MovieApi.class);
-	}
+        for (String name : names) {
+            movies.add(new Movie(1L, name));
+        }
+    }
 
+    @Override
+    public Observable<Movie> getNextSuggestion() {
+        nextMoviePosition++;
+        return Observable.just(movies.get(nextMoviePosition % movies.size()))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public void movieLiked(Movie movie) {
+
+    }
+
+    @Override
+    public void movieDisliked(Movie movie) {
+
+    }
 }

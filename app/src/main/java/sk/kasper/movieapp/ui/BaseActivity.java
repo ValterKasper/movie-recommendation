@@ -22,31 +22,13 @@
  * THE SOFTWARE.
  */
 
-package sk.kasper.movieapp;
+package sk.kasper.movieapp.ui;
 
-import android.util.Log;
-
-import retrofit.RestAdapter;
-import sk.kasper.movieapp.network.MovieApi;
+import android.support.v7.app.AppCompatActivity;
 
 /**
- * Helper methods
+ * Base class for creating activities in application
  */
-public class Utils {
-
-	public static MovieApi getApi() {
-		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(MovieApi.REST_TASTEKID_ENDPOINT)
-				.setLogLevel(RestAdapter.LogLevel.FULL)
-				.setLog(new RestAdapter.Log() {
-					@Override
-					public void log(String msg) {
-						Log.d("Retrofit: ", msg);
-					}
-				})
-				.build();
-
-		return restAdapter.create(MovieApi.class);
-	}
+public abstract class BaseActivity extends AppCompatActivity {
 
 }

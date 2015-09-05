@@ -27,8 +27,8 @@ package sk.kasper.movieapp;
 import android.app.Application;
 
 import de.greenrobot.event.EventBus;
-import sk.kasper.movieapp.api.MovieApi;
-import sk.kasper.movieapp.api.MovieService;
+import sk.kasper.movieapp.network.MovieApi;
+import sk.kasper.movieapp.network.MovieService;
 
 /**
  * Core activity

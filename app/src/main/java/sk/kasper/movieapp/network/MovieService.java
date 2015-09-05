@@ -22,31 +22,20 @@
  * THE SOFTWARE.
  */
 
-package sk.kasper.movieapp;
-
-import android.util.Log;
-
-import retrofit.RestAdapter;
-import sk.kasper.movieapp.network.MovieApi;
+package sk.kasper.movieapp.network;
 
 /**
- * Helper methods
+ * Movie service
  */
-public class Utils {
+public class MovieService {
 
-	public static MovieApi getApi() {
-		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(MovieApi.REST_TASTEKID_ENDPOINT)
-				.setLogLevel(RestAdapter.LogLevel.FULL)
-				.setLog(new RestAdapter.Log() {
-					@Override
-					public void log(String msg) {
-						Log.d("Retrofit: ", msg);
-					}
-				})
-				.build();
+	private MovieApi movieApi;
 
-		return restAdapter.create(MovieApi.class);
+	public MovieService(final MovieApi movieApi) {
+		this.movieApi = movieApi;
 	}
 
+	public void onEvent(Object object) {
+
+	}
 }
