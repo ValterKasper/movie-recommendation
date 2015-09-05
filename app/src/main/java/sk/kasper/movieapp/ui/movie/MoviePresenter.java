@@ -25,6 +25,7 @@
 package sk.kasper.movieapp.ui.movie;
 
 import rx.Subscriber;
+import rx.Subscription;
 import sk.kasper.movieapp.models.Movie;
 
 /**
@@ -33,20 +34,15 @@ import sk.kasper.movieapp.models.Movie;
 public class MoviePresenter {
     IMovieSuggestionEngineInteractor movieInteractor;
     private IMovieView movieView;
+    private Subscription movieSubscription;
 
     public MoviePresenter(IMovieView movieView, IMovieSuggestionEngineInteractor movieInteractor) {
         this.movieView = movieView;
         this.movieInteractor = movieInteractor;
     }
 
-    public void onResume() {
-        loadNextMovie();
-        loadNextMovie();
-        loadNextMovie();
-    }
-
-    private void loadNextMovie() {
-        movieInteractor.getNextSuggestion()
+    private Subscription getMovieSubscription() {
+        return movieInteractor.getSuggestion()
                 .subscribe(new Subscriber<Movie>() {
                     @Override
                     public void onCompleted() {
@@ -65,15 +61,17 @@ public class MoviePresenter {
                 });
     }
 
+    public void onResume() {
+        movieSubscription = getMovieSubscription();
+    }
+
     public void onLikeMovie(Movie movie) {
         movieInteractor.movieLiked(movie);
         movieView.showNextMovie();
-        loadNextMovie();
     }
 
     public void onDislikeMovie(Movie movie) {
         movieInteractor.movieDisliked(movie);
         movieView.showNextMovie();
-        loadNextMovie();
     }
 }

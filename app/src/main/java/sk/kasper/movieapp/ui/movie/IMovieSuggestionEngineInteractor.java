@@ -31,7 +31,8 @@ import sk.kasper.movieapp.models.Movie;
  * Describes interface of suggestion engine.
  */
 public interface IMovieSuggestionEngineInteractor {
-    Observable<Movie> getNextSuggestion();
+
+	Observable<Movie> getSuggestion();
 
     void movieLiked(Movie movie);
 

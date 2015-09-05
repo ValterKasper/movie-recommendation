@@ -48,7 +48,7 @@ public class MoviePresenterTest {
     public void setUp() {
         view = mock(IMovieView.class);
         interactor = mock(IMovieSuggestionEngineInteractor.class);
-		when(interactor.getNextSuggestion()).thenReturn(Observable.just(new Movie(2L, "Bar")));
+		when(interactor.getSuggestion()).thenReturn(Observable.just(new Movie(2L, "Bar")));
 		moviePresenter = new MoviePresenter(view, interactor);
 		fooMovie = new Movie(10L, "Foo");
 	}
