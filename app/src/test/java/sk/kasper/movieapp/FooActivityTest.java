@@ -17,8 +17,8 @@ import org.robolectric.util.ActivityController;
 import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
-import sk.kasper.movieapp.api.Requests;
-import sk.kasper.movieapp.api.Responses;
+import sk.kasper.movieapp.network.Requests;
+import sk.kasper.movieapp.network.Responses;
 import sk.kasper.movieapp.models.Item;
 
 import static org.assertj.android.api.Assertions.assertThat;

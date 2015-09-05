@@ -7,10 +7,10 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 import rx.Observable;
-import sk.kasper.movieapp.movie.IMovieSuggestionEngineInteractor;
-import sk.kasper.movieapp.movie.IMovieView;
-import sk.kasper.movieapp.movie.Movie;
-import sk.kasper.movieapp.movie.MoviePresenter;
+import sk.kasper.movieapp.ui.movie.IMovieSuggestionEngineInteractor;
+import sk.kasper.movieapp.ui.movie.IMovieView;
+import sk.kasper.movieapp.models.Movie;
+import sk.kasper.movieapp.ui.movie.MoviePresenter;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
