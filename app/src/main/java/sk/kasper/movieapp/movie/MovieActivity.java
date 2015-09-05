@@ -25,7 +25,7 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 
     private MoviePresenter presenter;
 
-    // TODO sprav frontu
+    // TODO make queue
     private Movie actualMovie;
     private boolean isBound = false;
 
