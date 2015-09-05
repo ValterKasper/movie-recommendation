@@ -3,26 +3,26 @@ package sk.kasper.movieapp;
 import android.app.Application;
 
 import de.greenrobot.event.EventBus;
-import sk.kasper.movieapp.api.NotTodayApi;
-import sk.kasper.movieapp.api.NotTodayService;
+import sk.kasper.movieapp.api.MovieApi;
+import sk.kasper.movieapp.api.MovieService;
 
 /**
  * Created by Valter on 01.08.2015.
  */
 public class MovieApplication extends Application {
 
-	private NotTodayService notTodayService;
-	private NotTodayApi notTodayApi;
+	private MovieService movieService;
+	private MovieApi movieApi;
 
-	public NotTodayApi getNotTodayApi() {
-		return notTodayApi;
+	public MovieApi getMovieApi() {
+		return movieApi;
 	}
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		notTodayApi = Utils.getApi();
-		notTodayService = new NotTodayService(notTodayApi);
-		EventBus.getDefault().register(notTodayService);
+		movieApi = Utils.getApi();
+		movieService = new MovieService(movieApi);
+		EventBus.getDefault().register(movieService);
 	}
 }

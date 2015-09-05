@@ -3,15 +3,16 @@ package sk.kasper.movieapp;
 import android.util.Log;
 
 import retrofit.RestAdapter;
-import sk.kasper.movieapp.api.NotTodayApi;
+import sk.kasper.movieapp.api.MovieApi;
 
 /**
  * Created by Valter on 01.08.2015.
  */
 public class Utils {
-	public static NotTodayApi getApi() {
+
+	public static MovieApi getApi() {
 		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(NotTodayApi.REST_TASTEKID_ENDPOINT)
+				.setEndpoint(MovieApi.REST_TASTEKID_ENDPOINT)
 				.setLogLevel(RestAdapter.LogLevel.FULL)
 				.setLog(new RestAdapter.Log() {
 					@Override
@@ -21,7 +22,7 @@ public class Utils {
 				})
 				.build();
 
-		return restAdapter.create(NotTodayApi.class);
+		return restAdapter.create(MovieApi.class);
 	}
 
 }

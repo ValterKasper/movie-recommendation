@@ -10,7 +10,7 @@ import sk.kasper.movieapp.models.Item;
 /**
  * Created by Valter on 01.08.2015.
  */
-public interface NotTodayApi {
+public interface MovieApi {
     String REST_APIARY_ENDPOINT = "http://private-e16bf-nottoday.apiary-mock.com";
     String REST_TASTEKID_ENDPOINT = "https://www.tastekid.com/api/";
 

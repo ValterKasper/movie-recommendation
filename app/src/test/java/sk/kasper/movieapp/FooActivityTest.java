@@ -17,7 +17,6 @@ import org.robolectric.util.ActivityController;
 import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
-import sk.kasper.movieapp.activities.takes.FooActivity;
 import sk.kasper.movieapp.api.Requests;
 import sk.kasper.movieapp.api.Responses;
 import sk.kasper.movieapp.models.Item;

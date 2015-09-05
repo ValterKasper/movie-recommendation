@@ -12,44 +12,6 @@
 		<item name="colorAccent">@color/accent</item>
 	</style>
 
-	<style name="Green" parent="android:TextAppearance">
-		<item name="android:textColor">@android:color/holo_green_dark</item>
-		<item name="android:layout_width">wrap_content</item>
-		<item name="android:layout_height">wrap_content</item>
-	</style>
-
-	<style name="Green.Big">
-		<item name="android:textSize">20sp</item>
-		<item name="android:layout_margin">4dp</item>
-	</style>
-
-
-	<style name="ETSpeci">
-        <item name="android:capitalize">words</item>
-        <item name="android:hint">ETSpeci</item>
-        <item name="android:typeface">serif</item>
-    </style>
-
-	<style name="Green.Big.Mono">
-		<item name="android:typeface">monospace</item>
-	</style>
-
-	<style name="Red.Big.Mono" parent="Green.Big.Mono">
-		<item name="android:textColor">@android:color/holo_red_dark</item>
-	</style>
-
-	<style name="ButtonBlue" parent="android:Widget.Holo.Button.Borderless">
-		<item name="android:textColor">@android:color/holo_blue_light</item>
-		<item name="android:layout_width">wrap_content</item>
-		<item name="android:layout_height">wrap_content</item>
-	</style>
-
-	<style name="centered">
-		<item name="android:layout_width">wrap_content</item>
-		<item name="android:layout_height">wrap_content</item>
-		<item name="android:layout_centerHorizontal">true</item>
-	</style>
-
 	<style name="opinionButton" parent="android:Widget.Holo.Button.Borderless">
 		<item name="android:layout_width">wrap_content</item>
 		<item name="android:layout_height">wrap_content</item>
@@ -62,6 +24,4 @@
 	<style name="opinionButton.Red">
 		<item name="android:textColor">@android:color/holo_red_light</item>
 	</style>
-
-
 </resources>

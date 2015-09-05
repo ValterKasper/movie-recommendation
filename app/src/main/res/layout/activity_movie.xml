@@ -4,13 +4,7 @@
                 android:layout_height="match_parent"
                 tools:context="sk.kasper.movieapp.movie.MovieActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="4dp"
-        android:minHeight="?android:attr/actionBarSize"/>
+    <include layout="@layout/movie_toolbar"/>
 
     <TextView
         android:id="@+id/tvMovieName"
@@ -46,22 +40,5 @@
         android:layout_alignRight="@+id/bDislike"
         android:layout_below="@+id/toolbar"
         android:src="@drawable/abc_btn_check_material"/>
-
-    <Button
-        android:id="@+id/bStartService"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        android:text="Start service"/>
-
-    <Button
-        android:id="@+id/bAskBindedService"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView"
-        android:layout_centerHorizontal="true"
-        android:text="Ask binded service"/>
 
 </RelativeLayout>
