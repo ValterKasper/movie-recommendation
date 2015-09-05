@@ -24,7 +24,6 @@
 
 package sk.kasper.movieapp.ui.movie;
 
-import rx.Subscriber;
 import rx.Subscription;
 import sk.kasper.movieapp.models.Movie;
 
@@ -43,22 +42,7 @@ public class MoviePresenter {
 
     private Subscription getMovieSubscription() {
         return movieInteractor.getSuggestion()
-                .subscribe(new Subscriber<Movie>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Movie movie) {
-                        movieView.addMovieCard(movie);
-                    }
-                });
+                .subscribe(movieView::addMovieCard);
     }
 
     public void onResume() {

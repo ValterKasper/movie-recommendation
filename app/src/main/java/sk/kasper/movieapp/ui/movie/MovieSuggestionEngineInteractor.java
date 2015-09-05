@@ -24,11 +24,8 @@
 
 package sk.kasper.movieapp.ui.movie;
 
-import java.util.List;
-
 import rx.Observable;
 import rx.Subscriber;
-import rx.functions.Action1;
 import sk.kasper.movieapp.models.Movie;
 import sk.kasper.movieapp.network.ApiaryApi;
 
@@ -45,12 +42,9 @@ public class MovieSuggestionEngineInteractor implements IMovieSuggestionEngineIn
 
     @Override
 	public Observable<Movie> getSuggestion() {
-		api.loadMovies().subscribe(new Action1<List<Movie>>() {
-			@Override
-			public void call(final List<Movie> movies) {
-				for (final Movie movie : movies) {
-					subscriber.onNext(movie);
-				}
+		api.loadMovies().subscribe(movies -> {
+			for (final Movie movie : movies) {
+				subscriber.onNext(movie);
 			}
 		});
 
@@ -65,12 +59,7 @@ public class MovieSuggestionEngineInteractor implements IMovieSuggestionEngineIn
 
     @Override
     public void movieLiked(Movie movie) {
-		api.loadMovie().subscribe(new Action1<Movie>() {
-			@Override
-			public void call(final Movie movie) {
-				subscriber.onNext(movie);
-			}
-		});
+		api.loadMovie().subscribe(subscriber::onNext);
 	}
 
     @Override
