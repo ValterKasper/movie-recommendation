@@ -36,6 +36,7 @@ import sk.kasper.movieapp.network.TasteKidApi;
 
 public class MovieSuggestionEngineInteractor implements IMovieSuggestionEngineInteractor {
 
+	public static final int LIMIT_OF_SUGGESTIONS = 3;
 	private final TasteKidApi api;
 	private Queue<Movie> cachedMovies = new ArrayDeque<>();
 	private Queue<Movie> likedMovies = new ArrayDeque<>();
@@ -66,11 +67,11 @@ public class MovieSuggestionEngineInteractor implements IMovieSuggestionEngineIn
 	@NonNull
 	private Observable<Movie> loadMovieSuggestions() {
 		if (!likedMovies.isEmpty()) {
-			return api.loadRecommendations(getNextLikedMovie().name)
+			return api.loadRecommendations(getNextLikedMovie().name, LIMIT_OF_SUGGESTIONS)
 					.map(tasteKidResponse -> tasteKidResponse.Similar.Results)
 					.flatMap(Observable::from)
 					.map(dataItem -> new Movie(1L, dataItem.Name))
-					.limit(3);
+					.limit(LIMIT_OF_SUGGESTIONS);
 		} else {
 			return Observable.error(new IllegalStateException("No liked movies for creating recommendations"));
 		}
