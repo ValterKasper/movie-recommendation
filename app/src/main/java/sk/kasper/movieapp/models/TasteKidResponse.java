@@ -31,17 +31,17 @@ import java.util.List;
  */
 public class TasteKidResponse {
 
-	Similar Similar;
+	public Similar Similar;
 
 	public class Similar {
 
-		List<Similar.DataItem> Info;
-		List<Similar.DataItem> Results;
+		public List<Similar.DataItem> Info;
+		public List<Similar.DataItem> Results;
 
 		public class DataItem {
 
-			String Name;
-			String Type;
+			public String Name;
+			public String Type;
 		}
 	}
 

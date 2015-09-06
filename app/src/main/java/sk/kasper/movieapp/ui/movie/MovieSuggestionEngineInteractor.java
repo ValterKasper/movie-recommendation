@@ -40,7 +40,10 @@ public class MovieSuggestionEngineInteractor implements IMovieSuggestionEngineIn
 
     @Override
 	public Observable<Movie> getSuggestion() {
-		return api.loadMovies().flatMap(Observable::from);
+		return api.loadRecommendations("Up!")
+				.map(tasteKidResponse -> tasteKidResponse.Similar.Results)
+				.flatMap(Observable::from)
+				.map(dataItem -> new Movie(1L, dataItem.Name));
 	}
 
     @Override

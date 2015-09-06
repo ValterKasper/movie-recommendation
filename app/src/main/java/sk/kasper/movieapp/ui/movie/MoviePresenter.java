@@ -50,13 +50,13 @@ public class MoviePresenter {
 
     public void onLikeMovie(Movie movie) {
         movieInteractor.movieLiked(movie);
-        getMovieSugestion();
+        //getMovieSugestion();
         movieView.showNextMovie();
     }
 
     public void onDislikeMovie(Movie movie) {
         movieInteractor.movieDisliked(movie);
-        getMovieSugestion();
+        //getMovieSugestion();
         movieView.showNextMovie();
     }
 }

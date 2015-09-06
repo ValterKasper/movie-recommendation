@@ -48,14 +48,14 @@ public interface TasteKidApi {
 	 * @return response from taste kid server
 	 */
 	@GET("/similar?type=movies")
-	Observable<TasteKidResponse> loadMovies(@Query("q") String movieName);
+	Observable<TasteKidResponse> loadRecommendations(@Query("q") String movieName);
 
 	/**
 	 * Temporary
 	 * Just for starting
 	 */
 	@GET("/movies")
-	Observable<List<Movie>> loadMovies();
+	Observable<List<Movie>> loadRecommendations();
 
 	/**
 	 * Temporary
