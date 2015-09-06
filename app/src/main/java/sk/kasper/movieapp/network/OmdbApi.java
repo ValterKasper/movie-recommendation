@@ -22,36 +22,21 @@
  * THE SOFTWARE.
  */
 
-package sk.kasper.movieapp;
+package sk.kasper.movieapp.network;
 
-import android.util.Log;
-
-import retrofit.RestAdapter;
-import sk.kasper.movieapp.network.OmdbApi;
-import sk.kasper.movieapp.network.TasteKidApi;
+import retrofit.http.GET;
+import retrofit.http.Query;
+import rx.Observable;
+import sk.kasper.movieapp.models.OmdbResponse;
 
 /**
- * Helper methods
+ * Api to The Open Movie Database
  */
-public class Utils {
+public interface OmdbApi {
 
-	public static TasteKidApi getTasteKidApi() {
-		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(TasteKidApi.REST_APIARY_ENDPOINT)
-				.setLogLevel(RestAdapter.LogLevel.FULL)
-				.setLog(msg -> Log.d("Retrofit: ", msg))
-				.build();
+	String REST_OMDB_ENDPOINT = "http://www.omdbapi.com";
+	String REST_APIARY_ENDPOINT = "http://private-e16bf-nottoday.apiary-mock.com/detail";
 
-		return restAdapter.create(TasteKidApi.class);
-	}
-
-	public static OmdbApi getOmdbApi() {
-		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(OmdbApi.REST_OMDB_ENDPOINT)
-				.setLogLevel(RestAdapter.LogLevel.FULL)
-				.setLog(msg -> Log.d("Retrofit: ", msg))
-				.build();
-
-		return restAdapter.create(OmdbApi.class);
-	}
+	@GET("/?plot=short&r=json")
+	Observable<OmdbResponse> getDetailOfMovie(@Query("t") String movieTitle);
 }

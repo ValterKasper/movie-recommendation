@@ -31,19 +31,22 @@ import java.util.Queue;
 
 import rx.Observable;
 import sk.kasper.movieapp.models.Movie;
+import sk.kasper.movieapp.network.OmdbApi;
 import sk.kasper.movieapp.network.TasteKidApi;
 
 
 public class MovieSuggestionEngineInteractor implements IMovieSuggestionEngineInteractor {
 
 	public static final int LIMIT_OF_SUGGESTIONS = 3;
-	private final TasteKidApi api;
+	private final TasteKidApi tasteKidApi;
+	private OmdbApi omdbApi;
 	private Queue<Movie> cachedMovies = new ArrayDeque<>();
 	private Queue<Movie> likedMovies = new ArrayDeque<>();
 
 
-	public MovieSuggestionEngineInteractor(final TasteKidApi tasteKidApi) {
-		api = tasteKidApi;
+	public MovieSuggestionEngineInteractor(final TasteKidApi tasteKidApi, final OmdbApi omdbApi) {
+		this.tasteKidApi = tasteKidApi;
+		this.omdbApi = omdbApi;
 		likedMovies.add(new Movie(1L, "Up!"));
 	}
 
@@ -67,10 +70,11 @@ public class MovieSuggestionEngineInteractor implements IMovieSuggestionEngineIn
 	@NonNull
 	private Observable<Movie> loadMovieSuggestions() {
 		if (!likedMovies.isEmpty()) {
-			return api.loadRecommendations(getNextLikedMovie().name, LIMIT_OF_SUGGESTIONS)
+			return tasteKidApi.loadRecommendations(getNextLikedMovie().name, LIMIT_OF_SUGGESTIONS)
 					.map(tasteKidResponse -> tasteKidResponse.Similar.Results)
 					.flatMap(Observable::from)
-					.map(dataItem -> new Movie(1L, dataItem.Name))
+					.flatMap(tasteKidRespItem -> omdbApi.getDetailOfMovie(tasteKidRespItem.Name))
+					.flatMap(omdbResp -> Observable.just(new Movie(Long.getLong(omdbResp.imdbID), omdbResp.Title, omdbResp.Poster)))
 					.limit(LIMIT_OF_SUGGESTIONS);
 		} else {
 			return Observable.error(new IllegalStateException("No liked movies for creating recommendations"));

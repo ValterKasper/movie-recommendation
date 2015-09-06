@@ -22,36 +22,22 @@
  * THE SOFTWARE.
  */
 
-package sk.kasper.movieapp;
-
-import android.util.Log;
-
-import retrofit.RestAdapter;
-import sk.kasper.movieapp.network.OmdbApi;
-import sk.kasper.movieapp.network.TasteKidApi;
+package sk.kasper.movieapp.models;
 
 /**
- * Helper methods
+ * Response containing detail of movie from OMDB
  */
-public class Utils {
+public class OmdbResponse {
 
-	public static TasteKidApi getTasteKidApi() {
-		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(TasteKidApi.REST_APIARY_ENDPOINT)
-				.setLogLevel(RestAdapter.LogLevel.FULL)
-				.setLog(msg -> Log.d("Retrofit: ", msg))
-				.build();
-
-		return restAdapter.create(TasteKidApi.class);
-	}
-
-	public static OmdbApi getOmdbApi() {
-		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(OmdbApi.REST_OMDB_ENDPOINT)
-				.setLogLevel(RestAdapter.LogLevel.FULL)
-				.setLog(msg -> Log.d("Retrofit: ", msg))
-				.build();
-
-		return restAdapter.create(OmdbApi.class);
-	}
+	public String Year;
+	public String Runtime;
+	public String Genre;
+	public String Director;
+	public String Country;
+	public String imdbRating;
+	public String Metascore;
+	public String imdbID;
+	public String Poster;
+	public String Plot;
+	public String Title;
 }
