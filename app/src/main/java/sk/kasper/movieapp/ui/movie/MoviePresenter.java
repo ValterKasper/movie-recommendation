@@ -24,39 +24,66 @@
 
 package sk.kasper.movieapp.ui.movie;
 
-import rx.Subscription;
 import sk.kasper.movieapp.models.Movie;
 
 /**
- * Manipulates with UI
+ * Manipulates with UI and interactor
  */
 public class MoviePresenter {
+
+    private static final int MINIMUM_MOVIES_COUNT_THRESHOLD = 3;
     IMovieSuggestionEngineInteractor movieInteractor;
     private IMovieView movieView;
+
+    /**
+     * Count of movies prepared to be shown in view
+     */
+    private int preparedMoviesCount = 0;
 
     public MoviePresenter(IMovieView movieView, IMovieSuggestionEngineInteractor movieInteractor) {
         this.movieView = movieView;
         this.movieInteractor = movieInteractor;
     }
 
-    private Subscription getMovieSugestion() {
-        return movieInteractor.getSuggestion()
-                .subscribe(movieView::addMovieCard);
+    /**
+     * Loads movie suggestions from interactor and sends them to view
+     */
+    private void getSuggestions() {
+        movieInteractor.getSuggestions()
+                .subscribe((movie) -> {
+                    preparedMoviesCount++;
+                    movieView.addMovieCard(movie);
+                });
     }
 
     public void onResume() {
-        getMovieSugestion();
+        getSuggestions();
     }
 
     public void onLikeMovie(Movie movie) {
+        preparedMoviesCount--;
+        getMovieSuggestionsLazy();
         movieInteractor.movieLiked(movie);
-        //getMovieSugestion();
         movieView.showNextMovie();
     }
 
     public void onDislikeMovie(Movie movie) {
+        preparedMoviesCount--;
+        getMovieSuggestionsLazy();
         movieInteractor.movieDisliked(movie);
-        //getMovieSugestion();
         movieView.showNextMovie();
+    }
+
+    /**
+     * Loads movies only if there isn't enough of them
+     */
+    private void getMovieSuggestionsLazy() {
+        if (moreMoviesToViewAreNeeded()) {
+            getSuggestions();
+        }
+    }
+
+    private boolean moreMoviesToViewAreNeeded() {
+        return preparedMoviesCount < MINIMUM_MOVIES_COUNT_THRESHOLD;
     }
 }

@@ -32,7 +32,7 @@ import sk.kasper.movieapp.models.Movie;
  */
 public interface IMovieSuggestionEngineInteractor {
 
-	Observable<Movie> getSuggestion();
+	Observable<Movie> getSuggestions();
 
     void movieLiked(Movie movie);
 

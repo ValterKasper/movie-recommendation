@@ -48,7 +48,7 @@ public class MovieSuggestionEngineInteractorMock implements IMovieSuggestionEngi
     }
 
     @Override
-    public Observable<Movie> getSuggestion() {
+    public Observable<Movie> getSuggestions() {
         nextMoviePosition++;
         return Observable.just(movies.get(nextMoviePosition % movies.size()))
                 .subscribeOn(Schedulers.newThread())
