@@ -51,12 +51,16 @@ public class MovieActivity extends BaseActivity implements IMovieView {
     private static final String TAG = "MovieActivity";
     @Bind(R.id.tvMovieName)
     TextView tvMovieName;
-
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-
 	@Bind(R.id.ivCover)
 	ImageView ivCover;
+	@Bind(R.id.tvImdb)
+	TextView tvImdb;
+	@Bind(R.id.tvMetascore)
+	TextView tvMetascore;
+	@Bind(R.id.tvPLot)
+	TextView tvPlot;
 
     private MoviePresenter presenter;
 
@@ -144,10 +148,15 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 	@Override
 	public void showNextMovie() {
 		movieQueue.remove();
-		tvMovieName.setText(movieQueue.element().name);
+		final Movie movie = movieQueue.element();
+		tvMovieName.setText(movie.name);
+		tvPlot.setText(movie.plot);
+		tvImdb.setText("IMDB " + movie.imdbScore);
+		tvMetascore.setText("Metascore " + movie.metascore);
 		Picasso.with(this)
-				.load(movieQueue.element().coverUrl)
-				.placeholder(R.mipmap.ic_launcher)
+				.load(movie.coverUrl)
+				.resize(ivCover.getWidth(), ivCover.getHeight())
+				.centerCrop()
 				.into(ivCover);
 	}
 

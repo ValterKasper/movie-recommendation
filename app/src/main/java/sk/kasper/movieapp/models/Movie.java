@@ -31,6 +31,18 @@ public class Movie {
     public Long id;
     public String name;
     public String coverUrl;
+    public String plot;
+    public String imdbScore;
+    public String metascore;
+
+    public Movie(final Long id, final String name, final String coverUrl, final String plot, final String imdbScore, final String metascore) {
+        this.id = id;
+        this.name = name;
+        this.coverUrl = coverUrl;
+        this.plot = plot;
+        this.imdbScore = imdbScore;
+        this.metascore = metascore;
+    }
 
     public Movie(final Long id, final String name, final String coverUrl) {
         this.id = id;

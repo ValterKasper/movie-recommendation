@@ -74,7 +74,13 @@ public class MovieSuggestionEngineInteractor implements IMovieSuggestionEngineIn
 					.map(tasteKidResponse -> tasteKidResponse.Similar.Results)
 					.flatMap(Observable::from)
 					.flatMap(tasteKidRespItem -> omdbApi.getDetailOfMovie(tasteKidRespItem.Name))
-					.flatMap(omdbResp -> Observable.just(new Movie(Long.getLong(omdbResp.imdbID), omdbResp.Title, omdbResp.Poster)))
+					.flatMap(omdbResp -> Observable.just(new Movie(
+							Long.getLong(omdbResp.imdbID),
+							omdbResp.Title,
+							omdbResp.Poster,
+							omdbResp.Plot,
+							omdbResp.imdbRating,
+							omdbResp.Metascore)))
 					.limit(LIMIT_OF_SUGGESTIONS);
 		} else {
 			return Observable.error(new IllegalStateException("No liked movies for creating recommendations"));
