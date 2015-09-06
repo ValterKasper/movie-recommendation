@@ -5,4 +5,5 @@ Android app which is using
 * [Robolectric](https://github.com/robolectric/robolectric)
 * [ButterKnife](http://jakewharton.github.io/butterknife/)
 * [RetroFit](http://square.github.io/retrofit/)
+* [Gradle Retrolambda Plugin](https://github.com/evant/gradle-retrolambda)
 * MVP architecture (more [here](http://antonioleiva.com/mvp-android/) or in this [podcast] (http://fragmentedpodcast.com/episodes/11/)).
