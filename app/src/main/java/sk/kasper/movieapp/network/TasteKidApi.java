@@ -27,7 +27,10 @@ package sk.kasper.movieapp.network;
 import java.util.List;
 
 import retrofit.http.GET;
+import retrofit.http.Query;
 import rx.Observable;
+import sk.kasper.movieapp.models.Movie;
+import sk.kasper.movieapp.models.TasteKidResponse;
 
 /**
  * Api for movie REST services
@@ -35,22 +38,29 @@ import rx.Observable;
 public interface TasteKidApi {
 
 	String REST_TASTEKID_ENDPOINT = "https://www.tastekid.com/api/";
+	String REST_APIARY_ENDPOINT = "http://private-e16bf-nottoday.apiary-mock.com";
 
-    @GET("https://www.tastekid.com/api/similar?q=rush&type=movies")
-    Observable<TasteKidResponse> loadMovies();
+	/**
+	 * Retrieves similar movies to given movie name
+	 *
+	 * @param movieName - favorite movie
+	 *
+	 * @return response from taste kid server
+	 */
+	@GET("/similar?type=movies")
+	Observable<TasteKidResponse> loadMovies(@Query("q") String movieName);
 
-    class TasteKidResponse {
-        Similar Similar;
+	/**
+	 * Temporary
+	 * Just for starting
+	 */
+	@GET("/movies")
+	Observable<List<Movie>> loadMovies();
 
-        public class Similar {
-            List<DataItem> Info;
-            List<DataItem> Results;
-
-            public class DataItem {
-                String Name;
-                String Type;
-            }
-        }
-
-    }
+	/**
+	 * Temporary
+	 * Just for starting
+	 */
+	@GET("/movie")
+	Observable<Movie> loadMovie();
 }

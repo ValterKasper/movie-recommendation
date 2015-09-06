@@ -33,29 +33,30 @@ import sk.kasper.movieapp.models.Movie;
 public class MoviePresenter {
     IMovieSuggestionEngineInteractor movieInteractor;
     private IMovieView movieView;
-    private Subscription movieSubscription;
 
     public MoviePresenter(IMovieView movieView, IMovieSuggestionEngineInteractor movieInteractor) {
         this.movieView = movieView;
         this.movieInteractor = movieInteractor;
     }
 
-    private Subscription getMovieSubscription() {
+    private Subscription getMovieSugestion() {
         return movieInteractor.getSuggestion()
                 .subscribe(movieView::addMovieCard);
     }
 
     public void onResume() {
-        movieSubscription = getMovieSubscription();
+        getMovieSugestion();
     }
 
     public void onLikeMovie(Movie movie) {
         movieInteractor.movieLiked(movie);
+        getMovieSugestion();
         movieView.showNextMovie();
     }
 
     public void onDislikeMovie(Movie movie) {
         movieInteractor.movieDisliked(movie);
+        getMovieSugestion();
         movieView.showNextMovie();
     }
 }

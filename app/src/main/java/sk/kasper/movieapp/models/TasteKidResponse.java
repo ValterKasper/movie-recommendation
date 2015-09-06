@@ -22,20 +22,27 @@
  * THE SOFTWARE.
  */
 
-package sk.kasper.movieapp.network;
+package sk.kasper.movieapp.models;
+
+import java.util.List;
 
 /**
- * Movie service
+ * Response from Taste kid service
  */
-public class MovieService {
+public class TasteKidResponse {
 
-	private TasteKidApi movieApi;
+	Similar Similar;
 
-	public MovieService(final TasteKidApi movieApi) {
-		this.movieApi = movieApi;
+	public class Similar {
+
+		List<Similar.DataItem> Info;
+		List<Similar.DataItem> Results;
+
+		public class DataItem {
+
+			String Name;
+			String Type;
+		}
 	}
 
-	public void onEvent(Object object) {
-
-	}
 }

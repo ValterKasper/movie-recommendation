@@ -25,41 +25,27 @@
 package sk.kasper.movieapp.ui.movie;
 
 import rx.Observable;
-import rx.Subscriber;
 import sk.kasper.movieapp.models.Movie;
-import sk.kasper.movieapp.network.ApiaryApi;
+import sk.kasper.movieapp.network.TasteKidApi;
 
 
 public class MovieSuggestionEngineInteractor implements IMovieSuggestionEngineInteractor {
 
-	private static Subscriber<? super Movie> subscriber;
-	private final ApiaryApi api;
+	private final TasteKidApi api;
 
 
-	public MovieSuggestionEngineInteractor(final ApiaryApi apiaryApi) {
-		api = apiaryApi;
+	public MovieSuggestionEngineInteractor(final TasteKidApi tasteKidApi) {
+		api = tasteKidApi;
 	}
 
     @Override
 	public Observable<Movie> getSuggestion() {
-		api.loadMovies().subscribe(movies -> {
-			for (final Movie movie : movies) {
-				subscriber.onNext(movie);
-			}
-		});
-
-		return Observable.create(new Observable.OnSubscribe<Movie>() {
-
-			@Override
-			public void call(final Subscriber<? super Movie> subscriber) {
-				MovieSuggestionEngineInteractor.subscriber = subscriber;
-			}
-		});
+		return api.loadMovies().flatMap(Observable::from);
 	}
 
     @Override
     public void movieLiked(Movie movie) {
-		api.loadMovie().subscribe(subscriber::onNext);
+
 	}
 
     @Override

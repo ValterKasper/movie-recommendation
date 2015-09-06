@@ -27,7 +27,6 @@ package sk.kasper.movieapp;
 import android.util.Log;
 
 import retrofit.RestAdapter;
-import sk.kasper.movieapp.network.ApiaryApi;
 import sk.kasper.movieapp.network.TasteKidApi;
 
 /**
@@ -37,31 +36,11 @@ public class Utils {
 
 	public static TasteKidApi getTasteKidApi() {
 		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(TasteKidApi.REST_TASTEKID_ENDPOINT)
+				.setEndpoint(TasteKidApi.REST_APIARY_ENDPOINT)
 				.setLogLevel(RestAdapter.LogLevel.FULL)
-				.setLog(new RestAdapter.Log() {
-					@Override
-					public void log(String msg) {
-						Log.d("Retrofit: ", msg);
-					}
-				})
+				.setLog(msg -> Log.d("Retrofit: ", msg))
 				.build();
 
 		return restAdapter.create(TasteKidApi.class);
-	}
-
-	public static ApiaryApi getApiaryApi() {
-		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(ApiaryApi.REST_APIARY_ENDPOINT)
-				.setLogLevel(RestAdapter.LogLevel.FULL)
-				.setLog(new RestAdapter.Log() {
-					@Override
-					public void log(String msg) {
-						Log.d("Retrofit: ", msg);
-					}
-				})
-				.build();
-
-		return restAdapter.create(ApiaryApi.class);
 	}
 }
