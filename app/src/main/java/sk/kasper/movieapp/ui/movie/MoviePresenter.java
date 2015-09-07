@@ -32,7 +32,7 @@ import sk.kasper.movieapp.models.Movie;
 public class MoviePresenter {
 
     private static final int MINIMUM_MOVIES_COUNT_THRESHOLD = 3;
-    IMovieSuggestionEngineInteractor movieInteractor;
+    private IMovieSuggestionEngineInteractor movieInteractor;
     private IMovieView movieView;
 
     /**
@@ -43,13 +43,21 @@ public class MoviePresenter {
     public MoviePresenter(IMovieView movieView, IMovieSuggestionEngineInteractor movieInteractor) {
         this.movieView = movieView;
         this.movieInteractor = movieInteractor;
+
+        movieView.getMovieLikeStream().subscribe(like -> {
+            onLikeMovie(like.getMovie());
+        });
+
+        movieView.getMovieDislikeStream().subscribe(dislike -> {
+            onDislikeMovie(dislike.getMovie());
+        });
     }
 
     /**
      * Loads movie suggestions from interactor and sends them to view
      */
-    private void getSuggestions() {
-        movieInteractor.getSuggestions()
+    private void subscribeSuggestionStream() {
+        movieInteractor.getSuggestionStream()
                 .subscribe((movie) -> {
                     preparedMoviesCount++;
                     movieView.addMovieCard(movie);
@@ -57,17 +65,17 @@ public class MoviePresenter {
     }
 
     public void onResume() {
-        getSuggestions();
+        subscribeSuggestionStream();
     }
 
-    public void onLikeMovie(Movie movie) {
+    private void onLikeMovie(Movie movie) {
         preparedMoviesCount--;
         getMovieSuggestionsLazy();
         movieInteractor.movieLiked(movie);
         movieView.showNextMovie();
     }
 
-    public void onDislikeMovie(Movie movie) {
+    private void onDislikeMovie(Movie movie) {
         preparedMoviesCount--;
         getMovieSuggestionsLazy();
         movieInteractor.movieDisliked(movie);
@@ -79,7 +87,7 @@ public class MoviePresenter {
      */
     private void getMovieSuggestionsLazy() {
         if (moreMoviesToViewAreNeeded()) {
-            getSuggestions();
+            subscribeSuggestionStream();
         }
     }
 

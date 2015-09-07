@@ -24,13 +24,9 @@
 
 package sk.kasper.movieapp.ui.movie;
 
-import android.content.ComponentName;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,10 +37,13 @@ import java.util.Queue;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
+import rx.Observable;
+import rx.Subscriber;
 import sk.kasper.movieapp.R;
 import sk.kasper.movieapp.Utils;
 import sk.kasper.movieapp.models.Movie;
+import sk.kasper.movieapp.models.MovieDislike;
+import sk.kasper.movieapp.models.MovieLike;
 import sk.kasper.movieapp.ui.BaseActivity;
 
 public class MovieActivity extends BaseActivity implements IMovieView {
@@ -61,23 +60,17 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 	TextView tvMetascore;
 	@Bind(R.id.tvPLot)
 	TextView tvPlot;
+    @Bind(R.id.bLike)
+    Button bLike;
+    @Bind(R.id.bDislike)
+    Button bDislike;
 
     private MoviePresenter presenter;
 
-	private Queue<Movie> movieQueue = new ArrayDeque<>();
-	private boolean isBound = false;
-
-    private ServiceConnection mConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            isBound = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            isBound = false;
-        }
-    };
+    /**
+     * Movies prepared to be shown
+     */
+    private Queue<Movie> movieQueue = new ArrayDeque<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,23 +83,6 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 	}
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if (isBound) {
-            unbindService(mConnection);
-            isBound = false;
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_movie, menu);
-        return true;
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         presenter.onResume();
@@ -116,18 +92,6 @@ public class MovieActivity extends BaseActivity implements IMovieView {
     protected void onPause() {
         super.onPause();
         presenter.onResume();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -160,13 +124,23 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 				.into(ivCover);
 	}
 
-	@OnClick(R.id.bLike)
-	public void likeClick() {
-		presenter.onLikeMovie(movieQueue.element());
-	}
+    @Override
+    public Observable<MovieLike> getMovieLikeStream() {
+        return Observable.create(new Observable.OnSubscribe<MovieLike>() {
+            @Override
+            public void call(Subscriber<? super MovieLike> subscriber) {
+                bLike.setOnClickListener(v -> subscriber.onNext(new MovieLike(movieQueue.element())));
+            }
+        });
+    }
 
-    @OnClick(R.id.bDislike)
-    public void dislikeClick() {
-		presenter.onDislikeMovie(movieQueue.element());
-	}
+    @Override
+    public Observable<MovieDislike> getMovieDislikeStream() {
+        return Observable.create(new Observable.OnSubscribe<MovieDislike>() {
+            @Override
+            public void call(Subscriber<? super MovieDislike> subscriber) {
+                bDislike.setOnClickListener(v -> subscriber.onNext(new MovieDislike(movieQueue.element())));
+            }
+        });
+    }
 }

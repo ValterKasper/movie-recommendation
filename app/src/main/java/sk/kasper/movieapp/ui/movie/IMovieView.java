@@ -24,7 +24,10 @@
 
 package sk.kasper.movieapp.ui.movie;
 
+import rx.Observable;
 import sk.kasper.movieapp.models.Movie;
+import sk.kasper.movieapp.models.MovieDislike;
+import sk.kasper.movieapp.models.MovieLike;
 
 /**
  * Represents UI for movie suggestion.
@@ -45,4 +48,14 @@ public interface IMovieView {
 	 * Show next movie that was added with addMovieCard
 	 */
 	void showNextMovie();
+
+    /**
+     * @return Infinite stream of likes. Yap!
+     */
+    Observable<MovieLike> getMovieLikeStream();
+
+    /**
+     * @return Stream of dislikes
+     */
+    Observable<MovieDislike> getMovieDislikeStream();
 }

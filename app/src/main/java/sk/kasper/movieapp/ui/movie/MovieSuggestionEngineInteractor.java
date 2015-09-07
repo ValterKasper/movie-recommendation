@@ -53,7 +53,7 @@ public class MovieSuggestionEngineInteractor implements IMovieSuggestionEngineIn
 	private Movie getNextLikedMovie() {return likedMovies.element();}
 
     @Override
-	public Observable<Movie> getSuggestions() {
+	public Observable<Movie> getSuggestionStream() {
 		return loadMovieSuggestions();
 	}
 
