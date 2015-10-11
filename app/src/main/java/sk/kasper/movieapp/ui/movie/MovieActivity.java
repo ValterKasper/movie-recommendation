@@ -79,7 +79,10 @@ public class MovieActivity extends BaseActivity implements IMovieView {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-		presenter = new MoviePresenter(this, new MovieSuggestionEngineInteractor(Utils.getTasteKidApi(), Utils.getOmdbApi()));
+		presenter = new MoviePresenter(
+				this,
+				new MovieSuggestionEngineInteractor(Utils.getTasteKidApi(), Utils.getOmdbApi())
+		);
 	}
 
     @Override

@@ -27,6 +27,8 @@ package sk.kasper.movieapp.ui.movie;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 
 import rx.Observable;
@@ -37,20 +39,30 @@ import sk.kasper.movieapp.network.TasteKidApi;
 
 public class MovieSuggestionEngineInteractor implements IMovieSuggestionEngineInteractor {
 
-	public static final int LIMIT_OF_SUGGESTIONS = 3;
+	private static final int LIMIT_OF_SUGGESTIONS = 3;
+	private static final Movie[] SEED_MOVIES = {new Movie(1L, "Up!"), new Movie(2L, "Matrix"), new Movie(3L, "Rush"), new Movie(4L, "Everest")};
+	private int seedMoviesIndex = 0;
 	private final TasteKidApi tasteKidApi;
 	private OmdbApi omdbApi;
-	private Queue<Movie> cachedMovies = new ArrayDeque<>();
-	private Queue<Movie> likedMovies = new ArrayDeque<>();
-
+	private List<Movie> shownMovies = new ArrayList<>();
+	private List<Movie> dislikedMovies = new ArrayList<>();
+	private Queue<Movie> likedMoviesQueue = new ArrayDeque<>();
 
 	public MovieSuggestionEngineInteractor(final TasteKidApi tasteKidApi, final OmdbApi omdbApi) {
 		this.tasteKidApi = tasteKidApi;
 		this.omdbApi = omdbApi;
-		likedMovies.add(new Movie(1L, "Up!"));
 	}
 
-	private Movie getNextLikedMovie() {return likedMovies.element();}
+	private boolean isMoreMoviesToRetrieveRecommendations() {return true;}
+
+	// todo extract to class
+	private Movie getNextMovieToRetrieveRecommendations() {
+		if (likedMoviesQueue.isEmpty()) {
+			return SEED_MOVIES[seedMoviesIndex++];
+		} else {
+			return likedMoviesQueue.remove();
+		}
+	}
 
     @Override
 	public Observable<Movie> getSuggestionStream() {
@@ -59,31 +71,39 @@ public class MovieSuggestionEngineInteractor implements IMovieSuggestionEngineIn
 
 	@Override
 	public void movieLiked(Movie movie) {
-		likedMovies.add(movie);
+		likedMoviesQueue.add(movie);
+		shownMovies.add(movie);
 	}
 
     @Override
     public void movieDisliked(Movie movie) {
-
-    }
+		dislikedMovies.add(movie);
+		shownMovies.add(movie);
+	}
 
 	@NonNull
 	private Observable<Movie> loadMovieSuggestions() {
-		if (!likedMovies.isEmpty()) {
-			return tasteKidApi.loadRecommendations(getNextLikedMovie().name, LIMIT_OF_SUGGESTIONS)
+		if (isMoreMoviesToRetrieveRecommendations()) {
+			return tasteKidApi.loadRecommendations(getNextMovieToRetrieveRecommendations().name, LIMIT_OF_SUGGESTIONS) // load recommendations
 					.map(tasteKidResponse -> tasteKidResponse.Similar.Results)
 					.flatMap(Observable::from)
-					.flatMap(tasteKidRespItem -> omdbApi.getDetailOfMovie(tasteKidRespItem.Name))
-					.flatMap(omdbResp -> Observable.just(new Movie(
-							Long.getLong(omdbResp.imdbID),
+					.flatMap(tasteKidRespItem -> omdbApi.getDetailOfMovie(tasteKidRespItem.Name)) // get detail of movie
+					.flatMap(omdbResp -> Observable.just(new Movie( // create movie stream
+							parseImdbId(omdbResp.imdbID),
 							omdbResp.Title,
 							omdbResp.Poster,
 							omdbResp.Plot,
 							omdbResp.imdbRating,
 							omdbResp.Metascore)))
-					.limit(LIMIT_OF_SUGGESTIONS);
+					.filter(movie -> !shownMovies.contains(movie)) // movie cant be shown again
+					.limit(LIMIT_OF_SUGGESTIONS); // enough is enough
 		} else {
 			return Observable.error(new IllegalStateException("No liked movies for creating recommendations"));
 		}
+	}
+
+	private Long parseImdbId(final String imdbID) {
+		final String substring = imdbID.substring(2);
+		return Long.parseLong(substring);
 	}
 }

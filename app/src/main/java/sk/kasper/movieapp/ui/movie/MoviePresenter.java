@@ -65,20 +65,20 @@ public class MoviePresenter {
     }
 
     public void onResume() {
-        subscribeSuggestionStream();
-    }
+		getMovieSuggestionsLazy();
+	}
 
     private void onLikeMovie(Movie movie) {
         preparedMoviesCount--;
-        getMovieSuggestionsLazy();
         movieInteractor.movieLiked(movie);
-        movieView.showNextMovie();
+		getMovieSuggestionsLazy();
+		movieView.showNextMovie();
     }
 
     private void onDislikeMovie(Movie movie) {
         preparedMoviesCount--;
-        getMovieSuggestionsLazy();
-        movieInteractor.movieDisliked(movie);
+		movieInteractor.movieDisliked(movie);
+		getMovieSuggestionsLazy();
         movieView.showNextMovie();
     }
 
