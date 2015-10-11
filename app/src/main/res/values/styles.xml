@@ -57,4 +57,8 @@
 		<item name="android:fontFamily">sans-serif-thin</item>
 		<item name="android:layout_margin">8dp</item>
 	</style>
+
+	<style name="TransparentText" parent="@android:style/TextAppearance">
+		<item name="android:textColor">#00666666</item>
+	</style>
 </resources>

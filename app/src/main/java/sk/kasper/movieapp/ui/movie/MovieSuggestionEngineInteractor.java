@@ -94,7 +94,8 @@ public class MovieSuggestionEngineInteractor implements IMovieSuggestionEngineIn
 							omdbResp.Poster,
 							omdbResp.Plot,
 							omdbResp.imdbRating,
-							omdbResp.Metascore)))
+							omdbResp.Metascore,
+							omdbResp.Genre)))
 					.filter(movie -> !shownMovies.contains(movie)) // movie cant be shown again
 					.limit(LIMIT_OF_SUGGESTIONS); // enough is enough
 		} else {

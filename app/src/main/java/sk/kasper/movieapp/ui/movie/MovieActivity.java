@@ -25,7 +25,7 @@
 package sk.kasper.movieapp.ui.movie;
 
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -50,8 +50,6 @@ public class MovieActivity extends BaseActivity implements IMovieView {
     private static final String TAG = "MovieActivity";
     @Bind(R.id.tvMovieName)
     TextView tvMovieName;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
 	@Bind(R.id.ivCover)
 	ImageView ivCover;
 	@Bind(R.id.tvImdb)
@@ -64,6 +62,10 @@ public class MovieActivity extends BaseActivity implements IMovieView {
     Button bLike;
     @Bind(R.id.bDislike)
     Button bDislike;
+	@Bind(R.id.collapsing_toolbar)
+	CollapsingToolbarLayout collapsingToolbarLayout;
+	@Bind(R.id.tvGenre)
+	TextView tvGenre;
 
     private MoviePresenter presenter;
 
@@ -75,10 +77,9 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_movie);
+		ButterKnife.bind(this);
 
 		presenter = new MoviePresenter(
 				this,
@@ -116,7 +117,9 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 	@Override
 	public void showNextMovie() {
 		shownMovie = movieQueue.remove();
+		collapsingToolbarLayout.setTitle(shownMovie.name);
 		tvMovieName.setText(shownMovie.name);
+		tvGenre.setText(shownMovie.genre);
 		tvPlot.setText(shownMovie.plot);
 		tvImdb.setText("IMDB " + shownMovie.imdbScore);
 		tvMetascore.setText("Metascore " + shownMovie.metascore);
