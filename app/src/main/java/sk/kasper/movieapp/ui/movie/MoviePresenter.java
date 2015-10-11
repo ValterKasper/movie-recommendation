@@ -24,6 +24,10 @@
 
 package sk.kasper.movieapp.ui.movie;
 
+import android.util.Log;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import sk.kasper.movieapp.models.Movie;
 
 /**
@@ -34,6 +38,7 @@ public class MoviePresenter {
     private static final int MINIMUM_MOVIES_COUNT_THRESHOLD = 3;
     private IMovieSuggestionEngineInteractor movieInteractor;
     private IMovieView movieView;
+	private boolean noMovieIsShown = true;
 
     /**
      * Count of movies prepared to be shown in view
@@ -49,41 +54,51 @@ public class MoviePresenter {
         });
 
         movieView.getMovieDislikeStream().subscribe(dislike -> {
-            onDislikeMovie(dislike.getMovie());
-        });
-    }
+			onDislikeMovie(dislike.getMovie());
+		});
+	}
 
     /**
      * Loads movie suggestions from interactor and sends them to view
      */
     private void subscribeSuggestionStream() {
         movieInteractor.getSuggestionStream()
-                .subscribe((movie) -> {
-                    preparedMoviesCount++;
-                    movieView.addMovieCard(movie);
-                });
-    }
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribeOn(Schedulers.io())
+				.subscribe((movie) -> {
+					preparedMoviesCount++;
+					movieView.addMovieCard(movie);
+
+					if (noMovieIsShown) {
+						Log.d("FOO", "subscribeSuggestionStream no movie shonw");
+						showNextMovieInView();
+						noMovieIsShown = false;
+					}
+				});
+	}
 
     public void onResume() {
 		getMovieSuggestionsLazy();
 	}
 
     private void onLikeMovie(Movie movie) {
-        preparedMoviesCount--;
-        movieInteractor.movieLiked(movie);
-		getMovieSuggestionsLazy();
-		movieView.showNextMovie();
-    }
+		movieInteractor.movieLiked(movie);
+		showNextMovieInView();
+	}
 
     private void onDislikeMovie(Movie movie) {
-        preparedMoviesCount--;
 		movieInteractor.movieDisliked(movie);
-		getMovieSuggestionsLazy();
-        movieView.showNextMovie();
-    }
+		showNextMovieInView();
+	}
 
-    /**
-     * Loads movies only if there isn't enough of them
+	private void showNextMovieInView() {
+		preparedMoviesCount--;
+		movieView.showNextMovie();
+		getMovieSuggestionsLazy();
+	}
+
+	/**
+	 * Loads movies only if there isn't enough of them
      */
     private void getMovieSuggestionsLazy() {
         if (moreMoviesToViewAreNeeded()) {

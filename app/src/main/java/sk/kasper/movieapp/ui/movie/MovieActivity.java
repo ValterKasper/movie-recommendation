@@ -71,9 +71,10 @@ public class MovieActivity extends BaseActivity implements IMovieView {
      * Movies prepared to be shown
      */
     private Queue<Movie> movieQueue = new ArrayDeque<>();
+	private Movie shownMovie;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
         ButterKnife.bind(this);
@@ -114,14 +115,13 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 
 	@Override
 	public void showNextMovie() {
-		movieQueue.remove();
-		final Movie movie = movieQueue.element();
-		tvMovieName.setText(movie.name);
-		tvPlot.setText(movie.plot);
-		tvImdb.setText("IMDB " + movie.imdbScore);
-		tvMetascore.setText("Metascore " + movie.metascore);
+		shownMovie = movieQueue.remove();
+		tvMovieName.setText(shownMovie.name);
+		tvPlot.setText(shownMovie.plot);
+		tvImdb.setText("IMDB " + shownMovie.imdbScore);
+		tvMetascore.setText("Metascore " + shownMovie.metascore);
 		Picasso.with(this)
-				.load(movie.coverUrl)
+				.load(shownMovie.coverUrl)
 				.resize(ivCover.getWidth(), ivCover.getHeight())
 				.centerCrop()
 				.into(ivCover);
@@ -132,8 +132,8 @@ public class MovieActivity extends BaseActivity implements IMovieView {
         return Observable.create(new Observable.OnSubscribe<MovieLike>() {
             @Override
             public void call(Subscriber<? super MovieLike> subscriber) {
-                bLike.setOnClickListener(v -> subscriber.onNext(new MovieLike(movieQueue.element())));
-            }
+				bLike.setOnClickListener(v -> subscriber.onNext(new MovieLike(shownMovie)));
+			}
         });
     }
 
@@ -142,8 +142,8 @@ public class MovieActivity extends BaseActivity implements IMovieView {
         return Observable.create(new Observable.OnSubscribe<MovieDislike>() {
             @Override
             public void call(Subscriber<? super MovieDislike> subscriber) {
-                bDislike.setOnClickListener(v -> subscriber.onNext(new MovieDislike(movieQueue.element())));
-            }
+				bDislike.setOnClickListener(v -> subscriber.onNext(new MovieDislike(shownMovie)));
+			}
         });
     }
 }
