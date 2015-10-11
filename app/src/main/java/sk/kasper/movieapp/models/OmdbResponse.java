@@ -40,4 +40,5 @@ public class OmdbResponse {
 	public String Poster;
 	public String Plot;
 	public String Title;
+	public String Actors;
 }

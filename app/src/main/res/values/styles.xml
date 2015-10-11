@@ -37,10 +37,12 @@
 	</style>
 
 	<style name="opinionButton" parent="android:Widget.Holo.Button.Borderless">
-		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_width">120dp</item>
 		<item name="android:layout_height">wrap_content</item>
 		<item name="android:textSize">24sp</item>
-		<item name="android:padding">16dp</item>
+		<item name="android:padding">10dp</item>
+		<item name="android:background">#464646</item>
+		<!--		<item name="android:layout_margin">16dp</item>-->
 	</style>
 
 	<style name="opinionButton.Green">
@@ -54,10 +56,13 @@
 	<style name="ScoreTextStyle">
 		<item name="android:layout_width">wrap_content</item>
 		<item name="android:layout_height">wrap_content</item>
-		<item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+		<item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
 		<item name="android:textColor">@color/primary_text_default_material_dark</item>
 		<item name="android:fontFamily">sans-serif-thin</item>
-		<item name="android:layout_margin">8dp</item>
+		<item name="android:layout_marginRight">4dp</item>
+		<item name="android:layout_marginTop">4dp</item>
+		<item name="android:layout_marginBottom">4dp</item>
+		<item name="android:padding">4dp</item>
 	</style>
 
 	<style name="TransparentText" parent="@android:style/TextAppearance">

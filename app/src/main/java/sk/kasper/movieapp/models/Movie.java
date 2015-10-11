@@ -35,15 +35,21 @@ public class Movie {
     public String imdbScore;
     public String metascore;
 	public String genre;
+	public String actors;
+	public String director;
+	public String country;
 
-	public Movie(final Long id, final String name, final String coverUrl, final String plot, final String imdbScore, final String metascore, final String genre) {
+	public Movie(final Long id, final String name, final String coverUrl, final String plot, final String imdbScore, final String metascore, final String genre, final String actors, final String director, final String country) {
 		this.id = id;
-        this.name = name;
-        this.coverUrl = coverUrl;
-        this.plot = plot;
-        this.imdbScore = imdbScore;
-        this.metascore = metascore;
+		this.name = name;
+		this.coverUrl = coverUrl;
+		this.plot = plot;
+		this.imdbScore = imdbScore;
+		this.metascore = metascore;
 		this.genre = genre;
+		this.actors = actors;
+		this.director = director;
+		this.country = country;
 	}
 
     public Movie(final Long id, final String name, final String coverUrl) {

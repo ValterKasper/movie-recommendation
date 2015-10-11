@@ -37,6 +37,6 @@ public interface OmdbApi {
 	String REST_OMDB_ENDPOINT = "http://www.omdbapi.com";
 	String REST_APIARY_ENDPOINT = "http://private-e16bf-nottoday.apiary-mock.com/detail";
 
-	@GET("/?plot=short&r=json")
+	@GET("/?plot=full&r=json")
 	Observable<OmdbResponse> getDetailOfMovie(@Query("t") String movieTitle);
 }

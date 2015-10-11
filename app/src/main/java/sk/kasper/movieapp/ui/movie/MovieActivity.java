@@ -66,6 +66,12 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 	CollapsingToolbarLayout collapsingToolbarLayout;
 	@Bind(R.id.tvGenre)
 	TextView tvGenre;
+	@Bind(R.id.tvDirector)
+	TextView tvDirector;
+	@Bind(R.id.tvActors)
+	TextView tvActors;
+	@Bind(R.id.tvCountry)
+	TextView tvCountry;
 
     private MoviePresenter presenter;
 
@@ -122,7 +128,10 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 		tvGenre.setText(shownMovie.genre);
 		tvPlot.setText(shownMovie.plot);
 		tvImdb.setText("IMDB " + shownMovie.imdbScore);
-		tvMetascore.setText("Metascore " + shownMovie.metascore);
+		tvMetascore.setText("Metacritic " + shownMovie.metascore);
+		tvActors.setText("Actors: " + shownMovie.actors);
+		tvDirector.setText("Director: " + shownMovie.director);
+		tvCountry.setText("Country: " + shownMovie.country);
 		Picasso.with(this)
 				.load(shownMovie.coverUrl)
 				.resize(ivCover.getWidth(), ivCover.getHeight())
