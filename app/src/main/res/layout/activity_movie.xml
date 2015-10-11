@@ -22,75 +22,77 @@
   ~ THE SOFTWARE.
   -->
 
-<android.support.design.widget.CoordinatorLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:fitsSystemWindows="true">
+	android:layout_height="match_parent">
 
-	<include
-		layout="@layout/movie_toolbar"/>
-
-	<android.support.v4.widget.NestedScrollView
-		android:id="@+id/scroll"
+	<android.support.design.widget.CoordinatorLayout
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_gravity="fill_vertical"
-		app:layout_behavior="@string/appbar_scrolling_view_behavior">
+		android:layout_height="match_parent">
 
-		<RelativeLayout
+		<include
+			layout="@layout/movie_toolbar"/>
+
+		<android.support.v4.widget.NestedScrollView
+			android:id="@+id/scroll"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
+			android:layout_height="match_parent"
+			android:layout_gravity="fill_vertical"
 			android:background="@color/background_material_dark"
-			android:minHeight="500dp">
+			app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-			<Button
-				android:id="@+id/bLike"
-				style="@style/opinionButton.Green"
-				android:layout_alignParentBottom="true"
-				android:layout_alignParentLeft="true"
-				android:layout_alignParentStart="true"
-				android:text="Like"/>
-
-			<Button
-				android:id="@+id/bDislike"
-				style="@style/opinionButton.Red"
-				android:layout_alignParentBottom="true"
-				android:layout_alignParentEnd="true"
-				android:layout_alignParentRight="true"
-				android:text="Dislike"/>
-
-			<TextView
-				android:id="@+id/tvImdb"
-				style="@style/ScoreTextStyle"
-				android:layout_alignParentEnd="true"
-				android:layout_alignParentRight="true"
-				android:text="IMDB 7.5"/>
-
-			<TextView
-				android:id="@+id/tvMetascore"
-				style="@style/ScoreTextStyle"
-				android:layout_alignParentLeft="true"
-				android:layout_alignParentStart="true"
-				android:layout_alignTop="@+id/tvImdb"
-				android:text="Metascore 7.5"/>
-
-			<TextView
-				android:id="@+id/tvPLot"
-				android:layout_width="wrap_content"
+			<RelativeLayout
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_above="@+id/bLike"
-				android:layout_alignParentEnd="true"
-				android:layout_alignParentLeft="true"
-				android:layout_alignParentRight="true"
-				android:layout_alignParentStart="true"
-				android:fontFamily="sans-serif-light"
-				android:padding="8dp"
-				android:text="Small Text"
-				android:textAppearance="?android:attr/textAppearanceSmall"
-				android:textColor="@color/primary_text_default_material_dark"/>
-		</RelativeLayout>
+				android:minHeight="500dp">
 
-	</android.support.v4.widget.NestedScrollView>
-</android.support.design.widget.CoordinatorLayout>
+				<TextView
+					android:id="@+id/tvImdb"
+					style="@style/ScoreTextStyle"
+					android:layout_alignParentEnd="true"
+					android:layout_alignParentRight="true"
+					android:text="IMDB 7.5"/>
+
+				<TextView
+					android:id="@+id/tvMetascore"
+					style="@style/ScoreTextStyle"
+					android:layout_alignParentEnd="true"
+					android:layout_alignParentRight="true"
+					android:layout_below="@+id/tvImdb"
+					android:text="Metascore 7.5"/>
+
+				<TextView
+					android:id="@+id/tvPLot"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentLeft="true"
+					android:layout_alignParentStart="true"
+					android:layout_below="@+id/tvMetascore"
+					android:fontFamily="sans-serif-light"
+					android:padding="8dp"
+					android:text="Small Text"
+					android:textAppearance="?android:attr/textAppearanceSmall"
+					android:textColor="@color/primary_text_default_material_dark"/>
+			</RelativeLayout>
+
+		</android.support.v4.widget.NestedScrollView>
+	</android.support.design.widget.CoordinatorLayout>
+
+	<Button
+		android:id="@+id/bLike"
+		style="@style/opinionButton.Green"
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentStart="true"
+		android:text="Like"/>
+
+	<Button
+		android:id="@+id/bDislike"
+		style="@style/opinionButton.Red"
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentEnd="true"
+		android:layout_alignParentRight="true"
+		android:text="Dislike"/>
+</RelativeLayout>
