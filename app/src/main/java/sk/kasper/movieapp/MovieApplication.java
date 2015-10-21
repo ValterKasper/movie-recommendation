@@ -25,14 +25,45 @@
 package sk.kasper.movieapp;
 
 import android.app.Application;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
+import com.squareup.otto.ThreadEnforcer;
+
+import sk.kasper.movieapp.models.Movie;
+import sk.kasper.movieapp.ui.events.ApiErrorEvent;
+import sk.kasper.movieapp.ui.movie.MovieService;
 
 /**
  * Used aplication
  */
 public class MovieApplication extends Application {
+    private Bus bus;
+    private MovieService movieService;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-	}
+        bus = new Bus(ThreadEnforcer.MAIN);
+        movieService = new MovieService(Utils.getTasteKidApi(), Utils.getOmdbApi(), bus);
+        bus.register(movieService);
+        bus.register(this);
+    }
+
+    @Subscribe
+    public void onApiError(ApiErrorEvent event) {
+        Toast.makeText(MovieApplication.this, event.msg, Toast.LENGTH_SHORT).show();
+        Log.e("ReaderApp", event.msg);
+    }
+
+    public Bus getBus() {
+        return bus;
+    }
+
+    @Subscribe
+    public void movieRecommendation(Movie movie) {
+        Log.d("Tralala", "movieRecommendation ");
+    }
 }

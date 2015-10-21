@@ -39,8 +39,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
+import sk.kasper.movieapp.MovieApplication;
 import sk.kasper.movieapp.R;
-import sk.kasper.movieapp.Utils;
 import sk.kasper.movieapp.models.Movie;
 import sk.kasper.movieapp.models.MovieDislike;
 import sk.kasper.movieapp.models.MovieLike;
@@ -89,8 +89,8 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 
 		presenter = new MoviePresenter(
 				this,
-				new MovieSuggestionEngineInteractor(Utils.getTasteKidApi(), Utils.getOmdbApi())
-		);
+                ((MovieApplication) getApplication()).getBus()
+        );
 	}
 
     @Override
@@ -102,7 +102,7 @@ public class MovieActivity extends BaseActivity implements IMovieView {
     @Override
     protected void onPause() {
         super.onPause();
-        presenter.onResume();
+        presenter.onPause();
     }
 
     @Override

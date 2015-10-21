@@ -30,7 +30,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import sk.kasper.movieapp.models.Movie;
-import sk.kasper.movieapp.ui.movie.IMovieSuggestionEngineInteractor;
 import sk.kasper.movieapp.ui.movie.IMovieView;
 import sk.kasper.movieapp.ui.movie.MoviePresenter;
 
@@ -38,7 +37,6 @@ import sk.kasper.movieapp.ui.movie.MoviePresenter;
 public class MoviePresenterTest {
     private MoviePresenter moviePresenter;
     private IMovieView view;
-    private IMovieSuggestionEngineInteractor interactor;
 	private Movie fooMovie;
 
     @Before
