@@ -27,15 +27,18 @@ package sk.kasper.movieapp.ui.movie;
 import android.util.Log;
 
 import com.squareup.otto.Bus;
-import com.squareup.otto.Subscribe;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import sk.kasper.movieapp.models.Movie;
-import sk.kasper.movieapp.ui.events.LoadSuggestionsEvent;
+import sk.kasper.movieapp.network.OmdbApi;
+import sk.kasper.movieapp.network.TasteKidApi;
 
 /**
  * Manipulates with UI
@@ -45,6 +48,8 @@ public class MoviePresenter {
     private static final int MINIMUM_MOVIES_COUNT_THRESHOLD = 3;
     private static final int LIMIT_OF_SUGGESTIONS = 3;
     private static final Movie[] SEED_MOVIES = {new Movie(1L, "Up!"), new Movie(2L, "Matrix"), new Movie(3L, "Rush"), new Movie(4L, "Everest")};
+    private final TasteKidApi tasteKidApi;
+    private final OmdbApi omdbApi;
     private IMovieView movieView;
     private Bus bus;
     private boolean noMovieIsShown = true;
@@ -52,15 +57,15 @@ public class MoviePresenter {
     private List<Movie> shownMovies = new ArrayList<>();
     private List<Movie> dislikedMovies = new ArrayList<>();
     private Queue<Movie> likedMoviesQueue = new ArrayDeque<>();
-
     /**
      * Count of movies prepared to be shown in view
      */
     private int preparedMoviesCount = 0;
 
-    public MoviePresenter(IMovieView movieView, Bus bus) {
+    public MoviePresenter(IMovieView movieView, TasteKidApi tasteKidApi, OmdbApi omdbApi) {
         this.movieView = movieView;
-        this.bus = bus;
+        this.tasteKidApi = tasteKidApi;
+        this.omdbApi = omdbApi;
 
         movieView.getMovieLikeStream().subscribe(like -> {
             onLikeMovie(like.getMovie());
@@ -72,32 +77,21 @@ public class MoviePresenter {
     }
 
     public void onResume() {
-        bus.register(this);
         getMovieSuggestionsLazy();
-        bus.post(new String("ABC"));
     }
 
-    @Subscribe
-    public void recieveLong(Long l) {
-        Log.d("asd", "recieveLong " + l);
-    }
-
-    @Subscribe
     public void movieRecommendation(Movie movie) {
-        if (!shownMovies.contains(movie)) {
-            preparedMoviesCount++;
-            movieView.addMovieCard(movie);
+        preparedMoviesCount++;
+        movieView.addMovieCard(movie);
 
-            if (noMovieIsShown) {
-                Log.d("FOO", "subscribeSuggestionStream no movie shown");
-                showNextMovieInView();
-                noMovieIsShown = false;
-            }
+        if (noMovieIsShown) {
+            Log.d("FOO", "subscribeSuggestionStream no movie shown");
+            showNextMovieInView();
+            noMovieIsShown = false;
         }
     }
 
     public void onPause() {
-        bus.unregister(this);
     }
 
     private void onLikeMovie(Movie movie) {
@@ -123,8 +117,32 @@ public class MoviePresenter {
      */
     private void getMovieSuggestionsLazy() {
         if (moreMoviesToViewAreNeeded()) {
-            bus.post(new LoadSuggestionsEvent(getNextMovieToRetrieveRecommendations()));
+            tasteKidApi.loadRecommendations(getNextMovieToRetrieveRecommendations().name, LIMIT_OF_SUGGESTIONS) // load recommendations
+                    .map(tasteKidResponse -> tasteKidResponse.Similar.Results)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .flatMap(Observable::from)
+                    .flatMap(tasteKidRespItem -> omdbApi.getDetailOfMovie(tasteKidRespItem.Name)) // get detail of movie
+                    .flatMap(omdbResp -> Observable.just(new Movie( // create movie stream
+                            parseImdbId(omdbResp.imdbID),
+                            omdbResp.Title,
+                            omdbResp.Poster,
+                            omdbResp.Plot,
+                            omdbResp.imdbRating,
+                            omdbResp.Metascore,
+                            omdbResp.Genre,
+                            omdbResp.Actors,
+                            omdbResp.Director,
+                            omdbResp.Country)))
+                    .limit(LIMIT_OF_SUGGESTIONS) // enough is enough
+                    .filter(movie -> !shownMovies.contains(movie))
+                    .subscribe(this::movieRecommendation);
         }
+    }
+
+    private Long parseImdbId(final String imdbID) {
+        final String substring = imdbID.substring(2);
+        return Long.parseLong(substring);
     }
 
     private boolean moreMoviesToViewAreNeeded() {

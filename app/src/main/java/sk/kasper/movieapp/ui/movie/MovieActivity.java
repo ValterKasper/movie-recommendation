@@ -39,8 +39,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
-import sk.kasper.movieapp.MovieApplication;
 import sk.kasper.movieapp.R;
+import sk.kasper.movieapp.Utils;
 import sk.kasper.movieapp.models.Movie;
 import sk.kasper.movieapp.models.MovieDislike;
 import sk.kasper.movieapp.models.MovieLike;
@@ -50,28 +50,28 @@ public class MovieActivity extends BaseActivity implements IMovieView {
     private static final String TAG = "MovieActivity";
     @Bind(R.id.tvMovieName)
     TextView tvMovieName;
-	@Bind(R.id.ivCover)
-	ImageView ivCover;
-	@Bind(R.id.tvImdb)
-	TextView tvImdb;
-	@Bind(R.id.tvMetascore)
-	TextView tvMetascore;
-	@Bind(R.id.tvPLot)
-	TextView tvPlot;
+    @Bind(R.id.ivCover)
+    ImageView ivCover;
+    @Bind(R.id.tvImdb)
+    TextView tvImdb;
+    @Bind(R.id.tvMetascore)
+    TextView tvMetascore;
+    @Bind(R.id.tvPLot)
+    TextView tvPlot;
     @Bind(R.id.bLike)
     Button bLike;
     @Bind(R.id.bDislike)
     Button bDislike;
-	@Bind(R.id.collapsing_toolbar)
-	CollapsingToolbarLayout collapsingToolbarLayout;
-	@Bind(R.id.tvGenre)
-	TextView tvGenre;
-	@Bind(R.id.tvDirector)
-	TextView tvDirector;
-	@Bind(R.id.tvActors)
-	TextView tvActors;
-	@Bind(R.id.tvCountry)
-	TextView tvCountry;
+    @Bind(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    @Bind(R.id.tvGenre)
+    TextView tvGenre;
+    @Bind(R.id.tvDirector)
+    TextView tvDirector;
+    @Bind(R.id.tvActors)
+    TextView tvActors;
+    @Bind(R.id.tvCountry)
+    TextView tvCountry;
 
     private MoviePresenter presenter;
 
@@ -79,19 +79,19 @@ public class MovieActivity extends BaseActivity implements IMovieView {
      * Movies prepared to be shown
      */
     private Queue<Movie> movieQueue = new ArrayDeque<>();
-	private Movie shownMovie;
+    private Movie shownMovie;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_movie);
-		ButterKnife.bind(this);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_movie);
+        ButterKnife.bind(this);
 
-		presenter = new MoviePresenter(
-				this,
-                ((MovieApplication) getApplication()).getBus()
-        );
-	}
+        presenter = new MoviePresenter(
+                this,
+                Utils.getTasteKidApi(),
+                Utils.getOmdbApi());
+    }
 
     @Override
     protected void onResume() {
@@ -117,35 +117,35 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 
     @Override
     public void addMovieCard(Movie movie) {
-		movieQueue.add(movie);
-	}
+        movieQueue.add(movie);
+    }
 
-	@Override
-	public void showNextMovie() {
-		shownMovie = movieQueue.remove();
-		collapsingToolbarLayout.setTitle(shownMovie.name);
-		tvMovieName.setText(shownMovie.name);
-		tvGenre.setText(shownMovie.genre);
-		tvPlot.setText(shownMovie.plot);
-		tvImdb.setText("IMDB " + shownMovie.imdbScore);
-		tvMetascore.setText("Metacritic " + shownMovie.metascore);
-		tvActors.setText("Actors: " + shownMovie.actors);
-		tvDirector.setText("Director: " + shownMovie.director);
-		tvCountry.setText("Country: " + shownMovie.country);
-		Picasso.with(this)
-				.load(shownMovie.coverUrl)
-				.resize(ivCover.getWidth(), ivCover.getHeight())
-				.centerCrop()
-				.into(ivCover);
-	}
+    @Override
+    public void showNextMovie() {
+        shownMovie = movieQueue.remove();
+        collapsingToolbarLayout.setTitle(shownMovie.name);
+        tvMovieName.setText(shownMovie.name);
+        tvGenre.setText(shownMovie.genre);
+        tvPlot.setText(shownMovie.plot);
+        tvImdb.setText("IMDB " + shownMovie.imdbScore);
+        tvMetascore.setText("Metacritic " + shownMovie.metascore);
+        tvActors.setText("Actors: " + shownMovie.actors);
+        tvDirector.setText("Director: " + shownMovie.director);
+        tvCountry.setText("Country: " + shownMovie.country);
+        Picasso.with(this)
+                .load(shownMovie.coverUrl)
+                .resize(ivCover.getWidth(), ivCover.getHeight())
+                .centerCrop()
+                .into(ivCover);
+    }
 
     @Override
     public Observable<MovieLike> getMovieLikeStream() {
         return Observable.create(new Observable.OnSubscribe<MovieLike>() {
             @Override
             public void call(Subscriber<? super MovieLike> subscriber) {
-				bLike.setOnClickListener(v -> subscriber.onNext(new MovieLike(shownMovie)));
-			}
+                bLike.setOnClickListener(v -> subscriber.onNext(new MovieLike(shownMovie)));
+            }
         });
     }
 
@@ -154,8 +154,8 @@ public class MovieActivity extends BaseActivity implements IMovieView {
         return Observable.create(new Observable.OnSubscribe<MovieDislike>() {
             @Override
             public void call(Subscriber<? super MovieDislike> subscriber) {
-				bDislike.setOnClickListener(v -> subscriber.onNext(new MovieDislike(shownMovie)));
-			}
+                bDislike.setOnClickListener(v -> subscriber.onNext(new MovieDislike(shownMovie)));
+            }
         });
     }
 }
