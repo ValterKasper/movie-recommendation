@@ -76,6 +76,18 @@ public class MoviePresenter {
         });
     }
 
+	private boolean isMoreMoviesToRetrieveRecommendations() {
+		return true;
+	}
+
+	private Movie getNextMovieToRetrieveRecommendations() {
+		if (likedMoviesQueue.isEmpty()) {
+			return SEED_MOVIES[seedMoviesIndex++];
+		} else {
+			return likedMoviesQueue.remove();
+		}
+	}
+
     public void onResume() {
         getMovieSuggestionsLazy();
     }
@@ -119,24 +131,24 @@ public class MoviePresenter {
         if (moreMoviesToViewAreNeeded()) {
             tasteKidApi.loadRecommendations(getNextMovieToRetrieveRecommendations().name, LIMIT_OF_SUGGESTIONS) // load recommendations
                     .map(tasteKidResponse -> tasteKidResponse.Similar.Results)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
                     .flatMap(Observable::from)
                     .flatMap(tasteKidRespItem -> omdbApi.getDetailOfMovie(tasteKidRespItem.Name)) // get detail of movie
                     .flatMap(omdbResp -> Observable.just(new Movie( // create movie stream
-                            parseImdbId(omdbResp.imdbID),
-                            omdbResp.Title,
-                            omdbResp.Poster,
-                            omdbResp.Plot,
-                            omdbResp.imdbRating,
-                            omdbResp.Metascore,
-                            omdbResp.Genre,
-                            omdbResp.Actors,
-                            omdbResp.Director,
-                            omdbResp.Country)))
-                    .limit(LIMIT_OF_SUGGESTIONS) // enough is enough
+							parseImdbId(omdbResp.imdbID),
+							omdbResp.Title,
+							omdbResp.Poster,
+							omdbResp.Plot,
+							omdbResp.imdbRating,
+							omdbResp.Metascore,
+							omdbResp.Genre,
+							omdbResp.Actors,
+							omdbResp.Director,
+							omdbResp.Country)))
+					.limit(LIMIT_OF_SUGGESTIONS) // enough is enough
                     .filter(movie -> !shownMovies.contains(movie))
-                    .subscribe(this::movieRecommendation);
+					.observeOn(AndroidSchedulers.mainThread())
+					.subscribeOn(Schedulers.newThread())
+					.subscribe(this::movieRecommendation);
         }
     }
 
@@ -147,17 +159,5 @@ public class MoviePresenter {
 
     private boolean moreMoviesToViewAreNeeded() {
         return preparedMoviesCount < MINIMUM_MOVIES_COUNT_THRESHOLD;
-    }
-
-    private boolean isMoreMoviesToRetrieveRecommendations() {
-        return true;
-    }
-
-    private Movie getNextMovieToRetrieveRecommendations() {
-        if (likedMoviesQueue.isEmpty()) {
-            return SEED_MOVIES[seedMoviesIndex++];
-        } else {
-            return likedMoviesQueue.remove();
-        }
     }
 }

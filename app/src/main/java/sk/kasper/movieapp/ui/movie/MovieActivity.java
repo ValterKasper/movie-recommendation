@@ -122,22 +122,22 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 
     @Override
     public void showNextMovie() {
-        shownMovie = movieQueue.remove();
-        collapsingToolbarLayout.setTitle(shownMovie.name);
-        tvMovieName.setText(shownMovie.name);
-        tvGenre.setText(shownMovie.genre);
-        tvPlot.setText(shownMovie.plot);
-        tvImdb.setText("IMDB " + shownMovie.imdbScore);
-        tvMetascore.setText("Metacritic " + shownMovie.metascore);
-        tvActors.setText("Actors: " + shownMovie.actors);
-        tvDirector.setText("Director: " + shownMovie.director);
-        tvCountry.setText("Country: " + shownMovie.country);
-        Picasso.with(this)
-                .load(shownMovie.coverUrl)
-                .resize(ivCover.getWidth(), ivCover.getHeight())
-                .centerCrop()
-                .into(ivCover);
-    }
+		shownMovie = movieQueue.remove();
+		collapsingToolbarLayout.setTitle(shownMovie.name);
+		tvMovieName.setText(shownMovie.name);
+		tvGenre.setText(shownMovie.genre);
+		tvPlot.setText(shownMovie.plot);
+		tvImdb.setText("IMDB " + shownMovie.imdbScore);
+		tvMetascore.setText("Metacritic " + shownMovie.metascore);
+		tvActors.setText("Actors: " + shownMovie.actors);
+		tvDirector.setText("Director: " + shownMovie.director);
+		tvCountry.setText("Country: " + shownMovie.country);
+		Picasso.with(MovieActivity.this)
+				.load(shownMovie.coverUrl)
+				.resize(ivCover.getWidth(), ivCover.getHeight())
+				.centerCrop()
+				.into(ivCover);
+	}
 
     @Override
     public Observable<MovieLike> getMovieLikeStream() {
