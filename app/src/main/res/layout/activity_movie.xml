@@ -56,7 +56,7 @@
 					android:layout_alignParentTop="true"
 					android:layout_marginTop="16dp"
 					android:background="#c6a438"
-					android:text="IMDB 7.5"/>
+					android:text="@string/imdb_label"/>
 
 				<TextView
 					android:id="@+id/tvMetascore"
@@ -65,7 +65,7 @@
 					android:layout_alignParentRight="true"
 					android:layout_below="@+id/tvImdb"
 					android:background="#44445c"
-					android:text="Metascore 7.5"/>
+					android:text="@string/metacritic_label"/>
 
 				<TextView
 					android:id="@+id/tvPLot"
@@ -91,7 +91,7 @@
 					android:layout_marginTop="16dp"
 					android:paddingLeft="16dp"
 					android:paddingRight="16dp"
-					android:text="Director: "
+					android:text="@string/director_label"
 					android:textAppearance="?android:attr/textAppearanceMedium"
 					android:textColor="@color/primary_text_default_material_dark"/>
 
@@ -104,7 +104,7 @@
 					android:layout_below="@+id/tvDirector"
 					android:paddingLeft="16dp"
 					android:paddingRight="16dp"
-					android:text="Actors: "
+					android:text="@string/actor_label"
 					android:textAppearance="?android:attr/textAppearanceMedium"
 					android:textColor="@color/primary_text_default_material_dark"/>
 
@@ -117,7 +117,7 @@
 					android:layout_below="@+id/tvActors"
 					android:paddingLeft="16dp"
 					android:paddingRight="16dp"
-					android:text="Country: "
+					android:text="@string/country_label"
 					android:textAppearance="?android:attr/textAppearanceMedium"
 					android:textColor="@color/primary_text_default_material_dark"/>
 			</RelativeLayout>

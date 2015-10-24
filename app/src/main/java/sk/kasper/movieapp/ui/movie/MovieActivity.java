@@ -132,11 +132,11 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 		tvMovieName.setText(shownMovie.name);
 		tvGenre.setText(shownMovie.genre);
 		tvPlot.setText(shownMovie.plot);
-		tvImdb.setText("IMDB " + shownMovie.imdbScore);
-		tvMetascore.setText("Metacritic " + shownMovie.metascore);
-		tvActors.setText("Actors: " + shownMovie.actors);
-		tvDirector.setText("Director: " + shownMovie.director);
-		tvCountry.setText("Country: " + shownMovie.country);
+		tvImdb.setText(String.format("%s%s", getString(R.string.imdb_label), shownMovie.imdbScore));
+		tvMetascore.setText(String.format("%s%s", getString(R.string.metacritic_label), shownMovie.metascore));
+		tvActors.setText(String.format("%s%s", getString(R.string.actor_label), shownMovie.actors));
+		tvDirector.setText(String.format("%s%s", getString(R.string.director_label), shownMovie.director));
+		tvCountry.setText(String.format("%s%s", getString(R.string.country_label), shownMovie.country));
 		Picasso.with(MovieActivity.this)
 				.load(shownMovie.coverUrl)
 				.resize(ivCover.getWidth(), ivCover.getHeight())

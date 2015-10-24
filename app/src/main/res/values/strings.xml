@@ -26,4 +26,9 @@
 	<string name="app_name">Movie suggestions</string>
 	<string name="action_settings">Settings</string>
 	<string name="title_activity_movie">Movie suggestions</string>
+  <string name="imdb_label">"IMDB "</string>
+  <string name="metacritic_label">"Metacritic "</string>
+  <string name="actor_label">"Actors: "</string>
+  <string name="director_label">"Director: "</string>
+  <string name="country_label">"Country: "</string>
 </resources>
