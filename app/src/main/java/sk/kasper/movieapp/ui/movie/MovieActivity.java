@@ -26,6 +26,7 @@ package sk.kasper.movieapp.ui.movie;
 
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ import java.util.Queue;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import rx.Observable;
 import rx.Subscriber;
 import sk.kasper.movieapp.R;
@@ -80,6 +82,7 @@ public class MovieActivity extends BaseActivity implements IMovieView {
      */
     private Queue<Movie> movieQueue = new ArrayDeque<>();
     private Movie shownMovie;
+	private boolean bookmarked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,5 +160,13 @@ public class MovieActivity extends BaseActivity implements IMovieView {
                 bDislike.setOnClickListener(v -> subscriber.onNext(new MovieDislike(shownMovie)));
             }
         });
-    }
+	}
+
+	@OnClick(R.id.fabBookmark)
+	void bookmarkClick(android.support.design.widget.FloatingActionButton fab) {
+		bookmarked = !bookmarked;
+		updateBookmarkFabIcon(fab);
+	}
+
+	private void updateBookmarkFabIcon(final FloatingActionButton fab) {fab.setImageResource(bookmarked ? R.drawable.ic_bookmark_add : R.drawable.ic_bookmark_remove);}
 }
