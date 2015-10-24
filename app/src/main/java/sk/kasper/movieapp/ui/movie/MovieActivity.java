@@ -38,11 +38,11 @@ import java.util.Queue;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import rx.Observable;
 import rx.Subscriber;
 import sk.kasper.movieapp.R;
 import sk.kasper.movieapp.Utils;
+import sk.kasper.movieapp.models.BookmarkToggle;
 import sk.kasper.movieapp.models.Movie;
 import sk.kasper.movieapp.models.MovieDislike;
 import sk.kasper.movieapp.models.MovieLike;
@@ -74,6 +74,8 @@ public class MovieActivity extends BaseActivity implements IMovieView {
     TextView tvActors;
     @Bind(R.id.tvCountry)
     TextView tvCountry;
+	@Bind(R.id.fabBookmark)
+	FloatingActionButton fabBookmark;
 
     private MoviePresenter presenter;
 
@@ -162,11 +164,17 @@ public class MovieActivity extends BaseActivity implements IMovieView {
         });
 	}
 
-	@OnClick(R.id.fabBookmark)
-	void bookmarkClick(android.support.design.widget.FloatingActionButton fab) {
-		bookmarked = !bookmarked;
-		updateBookmarkFabIcon(fab);
+	@Override
+	public Observable<BookmarkToggle> getMovieBookmarkToggleStream() {
+		return Observable.create(new Observable.OnSubscribe<BookmarkToggle>() {
+			@Override
+			public void call(Subscriber<? super BookmarkToggle> subscriber) {
+				fabBookmark.setOnClickListener(v -> subscriber.onNext(new BookmarkToggle(shownMovie)));
+			}
+		});
 	}
 
-	private void updateBookmarkFabIcon(final FloatingActionButton fab) {fab.setImageResource(bookmarked ? R.drawable.ic_bookmark_add : R.drawable.ic_bookmark_remove);}
+	public void showAsBookmarked(final boolean bookmarked) {
+		fabBookmark.setImageResource(bookmarked ? R.drawable.ic_bookmark_add : R.drawable.ic_bookmark_remove);
+	}
 }

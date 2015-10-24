@@ -28,5 +28,5 @@
 
 	<color name="primary">#F44336</color>
 	<color name="primary_dark">#D32F2F</color>
-  <color name="accent">#f48236</color>
+  <color name="accent">#F44336</color>
 </resources>

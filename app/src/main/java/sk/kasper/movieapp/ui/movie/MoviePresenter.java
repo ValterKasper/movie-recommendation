@@ -74,7 +74,11 @@ public class MoviePresenter {
         movieView.getMovieDislikeStream().subscribe(dislike -> {
             onDislikeMovie(dislike.getMovie());
         });
-    }
+
+		movieView.getMovieBookmarkToggleStream().subscribe(bookmarkToggle -> {
+			onBookmarkMovie(bookmarkToggle.movie);
+		});
+	}
 
 	private boolean isMoreMoviesToRetrieveRecommendations() {
 		return true;
@@ -116,6 +120,11 @@ public class MoviePresenter {
         dislikedMovies.add(movie);
         shownMovies.add(movie);
         showNextMovieInView();
+	}
+
+	private void onBookmarkMovie(final Movie movie) {
+		movie.bookmarked = !movie.bookmarked;
+		movieView.showAsBookmarked(movie.bookmarked);
 	}
 
 	private void showNextMovieInView() {

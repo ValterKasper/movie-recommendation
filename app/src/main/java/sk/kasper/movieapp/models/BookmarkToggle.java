@@ -22,47 +22,16 @@
  * THE SOFTWARE.
  */
 
-package sk.kasper.movieapp.ui.movie;
-
-import rx.Observable;
-import sk.kasper.movieapp.models.BookmarkToggle;
-import sk.kasper.movieapp.models.Movie;
-import sk.kasper.movieapp.models.MovieDislike;
-import sk.kasper.movieapp.models.MovieLike;
+package sk.kasper.movieapp.models;
 
 /**
- * Represents UI for movie suggestion.
+ * Event of bookmarking movie
  */
-public interface IMovieView {
+public class BookmarkToggle {
 
-	/**
-	 * @return Infinite stream of likes. Yap!
-	 */
-	Observable<MovieLike> getMovieLikeStream();
-	/**
-	 * @return Stream of dislikes
-	 */
-	Observable<MovieDislike> getMovieDislikeStream();
-	/**
-	 * @return Stream of bookmark clicks
-	 */
-	Observable<BookmarkToggle> getMovieBookmarkToggleStream();
-	void showProgressBar();
-	void hideProgressBar();
-	/**
-	 * Adds new movie card
-	 *
-	 * @param movie to add
-	 */
-	void addMovieCard(Movie movie);
-	/**
-	 * Show next movie that was added with addMovieCard
-	 */
-	void showNextMovie();
-	/**
-	 * Display current movie as bookmarked
-	 *
-	 * @param bookmarked is movie (yoda time)
-	 */
-	void showAsBookmarked(final boolean bookmarked);
+	public final Movie movie;
+
+	public BookmarkToggle(final Movie shownMovie) {
+		this.movie = shownMovie;
+	}
 }
