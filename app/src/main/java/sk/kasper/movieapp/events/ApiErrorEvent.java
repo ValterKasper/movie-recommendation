@@ -22,44 +22,15 @@
  * THE SOFTWARE.
  */
 
-package sk.kasper.movieapp;
-
-import android.app.Application;
-import android.content.SharedPreferences;
-import android.util.Log;
-import android.widget.Toast;
-
-import com.squareup.otto.Bus;
-import com.squareup.otto.Subscribe;
-import com.squareup.otto.ThreadEnforcer;
-
-import sk.kasper.movieapp.events.ApiErrorEvent;
+package sk.kasper.movieapp.events;
 
 /**
- * Used aplication
+ * General remote api error
  */
-public class MovieApplication extends Application {
-    private Bus bus;
-    private MovieService movieService;
+public class ApiErrorEvent {
+    public final String msg;
 
-    public Bus getBus() {
-        return bus;
-    }
-
-	@Override
-	public void onCreate() {
-		super.onCreate();
-        bus = new Bus(ThreadEnforcer.MAIN);
-        SharedPreferences sharedPref = this.getSharedPreferences(
-                getString(R.string.preference_file_key), MODE_PRIVATE);
-        movieService = new MovieService(Utils.getTasteKidApi(), Utils.getOmdbApi(), bus, sharedPref);
-        bus.register(movieService);
-        bus.register(this);
-    }
-
-    @Subscribe
-    public void onApiError(ApiErrorEvent event) {
-        Toast.makeText(MovieApplication.this, event.msg, Toast.LENGTH_SHORT).show();
-        Log.e("ReaderApp", event.msg);
+    public ApiErrorEvent(String msg) {
+        this.msg = msg;
     }
 }

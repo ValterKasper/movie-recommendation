@@ -22,10 +22,9 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-
 <manifest
-    package="sk.kasper.movieapp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+	package="sk.kasper.movieapp"
+	xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -39,12 +38,23 @@
         <activity
             android:name=".ui.movie.MovieActivity"
             android:label="@string/title_activity_movie"
-            android:screenOrientation="portrait">
+			android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+		<activity
+			android:name=".ui.bookmarks.BookmarksListActivity"
+			android:label="@string/title_activity_bookmarks_list"
+			android:theme="@style/AppTheme">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
     </application>
+
 </manifest>

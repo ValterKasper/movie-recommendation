@@ -22,14 +22,10 @@
  * THE SOFTWARE.
  */
 
-package sk.kasper.movieapp.models;
+package sk.kasper.movieapp.events;
 
 /**
- * Bookmark movie event
+ * Movie has been bookmarked
  */
-public class BookmarkMovieEvent {
-
-	public final Movie movie;
-
-	public BookmarkMovieEvent(final Movie movie) {this.movie = movie;}
+public class BookmarkMovieEventResponse {
 }

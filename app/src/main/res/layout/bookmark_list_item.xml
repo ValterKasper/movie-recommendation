@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ The MIT License (MIT)
   ~
@@ -22,15 +23,17 @@
   ~ THE SOFTWARE.
   -->
 
-<resources>
-	<string name="app_name">Movie suggestions</string>
-	<string name="action_settings">Settings</string>
-	<string name="title_activity_movie">Movie suggestions</string>
-  <string name="imdb_label">"IMDB "</string>
-  <string name="metacritic_label">"Metacritic "</string>
-  <string name="actor_label">"Actors: "</string>
-  <string name="director_label">"Director: "</string>
-  <string name="country_label">"Country: "</string>
-  <string name="preference_file_key">preference_file_key</string>
-  <string name="title_activity_bookmarks_list">BookmarksListActivity</string>
-</resources>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				android:layout_width="match_parent"
+				android:layout_height="56dp"
+				android:orientation="vertical">
+
+	<TextView
+		android:id="@+id/tvTitle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+		android:layout_centerVertical="true"
+		android:text="Medium Text"
+		android:textAppearance="?android:attr/textAppearanceMedium"/>
+</RelativeLayout>

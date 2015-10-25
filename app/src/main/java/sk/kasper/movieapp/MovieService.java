@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package sk.kasper.movieapp.ui.movie;
+package sk.kasper.movieapp;
 
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -33,9 +33,12 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
+import java.util.List;
 
-import sk.kasper.movieapp.models.BookmarkMovieEvent;
+import sk.kasper.movieapp.events.BookmarkMovieEventRequest;
+import sk.kasper.movieapp.events.BookmarkMovieEventResponse;
+import sk.kasper.movieapp.events.LoadBookmarksEventRequest;
+import sk.kasper.movieapp.events.LoadBookmarksEventResponse;
 import sk.kasper.movieapp.models.Movie;
 import sk.kasper.movieapp.network.OmdbApi;
 import sk.kasper.movieapp.network.TasteKidApi;
@@ -61,18 +64,35 @@ public class MovieService {
 	}
 
     @Subscribe
-	public void bookmarkMovie(BookmarkMovieEvent event) {
+	public void bookmarkMovieRequets(BookmarkMovieEventRequest event) {
 		Log.d(TAG, "bookmarkMovie() called with: " + "event = [" + event + "]");
-		Gson gson = new Gson();
 
-		Type collectionType = new TypeToken<ArrayList<Movie>>() {}.getType();
-		final ArrayList<Movie> movies = gson.fromJson(sharedPref.getString(PREF_BOOKMARKS, "[]"), collectionType);
-		if (event.movie.bookmarked) {
-			movies.remove(event.movie);
+		bookmarkMovie(event.movie);
+		bus.post(new BookmarkMovieEventResponse());
+	}
+
+	private void bookmarkMovie(final Movie movie) {
+		final List<Movie> movies = loadBookmarks();
+		if (movie.bookmarked) {
+			movies.add(movie);
 		} else {
-			movies.add(event.movie);
+			movies.remove(movie);
 		}
 
+		Gson gson = new Gson();
 		sharedPref.edit().putString(PREF_BOOKMARKS, gson.toJson(movies)).apply();
+	}
+
+	private List<Movie> loadBookmarks() {
+		Type collectionType = new TypeToken<List<Movie>>() {}.getType();
+		Gson gson = new Gson();
+
+		return gson.fromJson(sharedPref.getString(PREF_BOOKMARKS, "[]"), collectionType);
+	}
+
+	@Subscribe
+	public void loadBookmarksRequest(LoadBookmarksEventRequest event) {
+		final List<Movie> bookmarks = loadBookmarks();
+		bus.post(new LoadBookmarksEventResponse(bookmarks));
 	}
 }

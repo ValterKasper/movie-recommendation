@@ -36,7 +36,7 @@ import java.util.Queue;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import sk.kasper.movieapp.models.BookmarkMovieEvent;
+import sk.kasper.movieapp.events.BookmarkMovieEventRequest;
 import sk.kasper.movieapp.models.Movie;
 import sk.kasper.movieapp.network.OmdbApi;
 import sk.kasper.movieapp.network.TasteKidApi;
@@ -128,7 +128,7 @@ public class MoviePresenter {
 	private void onBookmarkMovie(final Movie movie) {
 		movie.bookmarked = !movie.bookmarked;
 		movieView.showAsBookmarked(movie.bookmarked);
-        bus.post(new BookmarkMovieEvent(movie));
+        bus.post(new BookmarkMovieEventRequest(movie));
     }
 
 	private void showNextMovieInView() {

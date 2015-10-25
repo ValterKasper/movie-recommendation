@@ -24,11 +24,23 @@
 
 package sk.kasper.movieapp.ui;
 
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.squareup.otto.Bus;
+
+import sk.kasper.movieapp.MovieApplication;
 
 /**
  * Base class for creating activities in application
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
+	protected Bus bus;
+
+	@Override
+	protected void onCreate(final Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		bus = ((MovieApplication) getApplication()).getBus();
+	}
 }
