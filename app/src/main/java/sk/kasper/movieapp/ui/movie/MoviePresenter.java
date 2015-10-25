@@ -36,6 +36,7 @@ import java.util.Queue;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import sk.kasper.movieapp.models.BookmarkMovieEvent;
 import sk.kasper.movieapp.models.Movie;
 import sk.kasper.movieapp.network.OmdbApi;
 import sk.kasper.movieapp.network.TasteKidApi;
@@ -57,15 +58,17 @@ public class MoviePresenter {
     private List<Movie> shownMovies = new ArrayList<>();
     private List<Movie> dislikedMovies = new ArrayList<>();
     private Queue<Movie> likedMoviesQueue = new ArrayDeque<>();
+
     /**
      * Count of movies prepared to be shown in view
      */
     private int preparedMoviesCount = 0;
 
-    public MoviePresenter(IMovieView movieView, TasteKidApi tasteKidApi, OmdbApi omdbApi) {
+    public MoviePresenter(IMovieView movieView, TasteKidApi tasteKidApi, OmdbApi omdbApi, final Bus bus) {
         this.movieView = movieView;
         this.tasteKidApi = tasteKidApi;
         this.omdbApi = omdbApi;
+        this.bus = bus;
 
         movieView.getMovieLikeStream().subscribe(like -> {
             onLikeMovie(like.getMovie());
@@ -125,7 +128,8 @@ public class MoviePresenter {
 	private void onBookmarkMovie(final Movie movie) {
 		movie.bookmarked = !movie.bookmarked;
 		movieView.showAsBookmarked(movie.bookmarked);
-	}
+        bus.post(new BookmarkMovieEvent(movie));
+    }
 
 	private void showNextMovieInView() {
 		preparedMoviesCount--;

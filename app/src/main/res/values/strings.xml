@@ -31,4 +31,5 @@
   <string name="actor_label">"Actors: "</string>
   <string name="director_label">"Director: "</string>
   <string name="country_label">"Country: "</string>
+  <string name="preference_file_key">preference_file_key</string>
 </resources>

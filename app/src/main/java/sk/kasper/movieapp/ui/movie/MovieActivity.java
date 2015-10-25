@@ -40,6 +40,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
+import sk.kasper.movieapp.MovieApplication;
 import sk.kasper.movieapp.R;
 import sk.kasper.movieapp.Utils;
 import sk.kasper.movieapp.models.BookmarkToggle;
@@ -84,7 +85,7 @@ public class MovieActivity extends BaseActivity implements IMovieView {
      */
     private Queue<Movie> movieQueue = new ArrayDeque<>();
     private Movie shownMovie;
-	private boolean bookmarked = false;
+    private boolean bookmarked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +96,8 @@ public class MovieActivity extends BaseActivity implements IMovieView {
         presenter = new MoviePresenter(
                 this,
                 Utils.getTasteKidApi(),
-                Utils.getOmdbApi());
+                Utils.getOmdbApi(),
+                ((MovieApplication) getApplication()).getBus());
     }
 
     @Override
@@ -127,8 +129,10 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 
     @Override
     public void showNextMovie() {
-		shownMovie = movieQueue.remove();
-		collapsingToolbarLayout.setTitle(shownMovie.name);
+        bookmarked = false;
+        showAsBookmarked(false);
+        shownMovie = movieQueue.remove();
+        collapsingToolbarLayout.setTitle(shownMovie.name);
 		tvMovieName.setText(shownMovie.name);
 		tvGenre.setText(shownMovie.genre);
 		tvPlot.setText(shownMovie.plot);
@@ -175,6 +179,7 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 	}
 
 	public void showAsBookmarked(final boolean bookmarked) {
-		fabBookmark.setImageResource(bookmarked ? R.drawable.ic_bookmark_add : R.drawable.ic_bookmark_remove);
-	}
+        this.bookmarked = bookmarked;
+        fabBookmark.setImageResource(bookmarked ? R.drawable.ic_bookmark_remove : R.drawable.ic_bookmark_add);
+    }
 }
