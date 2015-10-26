@@ -35,24 +35,13 @@
 
 	<TextView
 		android:id="@+id/tvMovieName"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="right"
-		android:background="#242424"
-		android:padding="4dp"
-		android:text="Movie name"
-		android:textColor="@color/primary_text_default_material_dark"
-		android:textSize="20sp"/>
+		style="@style/TextOnBackground"
+		android:text="Movie name"/>
 
 	<TextView
 		android:id="@+id/tvGenre"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="right"
-		android:background="@color/primary"
-		android:padding="4dp"
+		style="@style/TextOnBackground.PrimaryColor"
 		android:text="Drama"
 		android:textAllCaps="true"
-		android:textColor="@color/primary_text_default_material_dark"
 		android:textSize="24sp"/>
 </LinearLayout>

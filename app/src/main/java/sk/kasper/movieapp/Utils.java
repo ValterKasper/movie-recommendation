@@ -37,7 +37,7 @@ public class Utils {
 
 	public static TasteKidApi getTasteKidApi() {
 		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(TasteKidApi.REST_TASTEKID_ENDPOINT)
+				.setEndpoint(TasteKidApi.REST_APIARY_ENDPOINT)
 				.setLogLevel(RestAdapter.LogLevel.FULL)
 				.setLog(msg -> Log.d("Retrofit: ", msg))
 				.build();

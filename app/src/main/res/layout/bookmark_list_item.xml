@@ -26,14 +26,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 				android:layout_width="match_parent"
 				android:layout_height="56dp"
-				android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="4dp">
 
 	<TextView
 		android:id="@+id/tvTitle"
+        style="@style/TextOnBackground"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_centerHorizontal="true"
-		android:layout_centerVertical="true"
-		android:text="Medium Text"
-		android:textAppearance="?android:attr/textAppearanceMedium"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="Medium Text"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/tvType"
+        style="@style/TextOnBackground.PrimaryColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/tvTitle"
+        android:layout_alignRight="@+id/tvTitle"
+        android:layout_below="@+id/tvTitle"
+        android:text="Drama"
+        android:textSize="14sp"/>
 </RelativeLayout>

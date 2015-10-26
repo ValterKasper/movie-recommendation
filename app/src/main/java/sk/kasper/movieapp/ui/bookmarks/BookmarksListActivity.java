@@ -128,6 +128,7 @@ public class BookmarksListActivity
 
 			Movie movie = (Movie) getItem(i);
 			holder.tvTitle.setText(movie.name);
+			holder.tvType.setText(movie.genre);
 
 			return convertView;
 		}
@@ -136,6 +137,8 @@ public class BookmarksListActivity
 
 			@Bind(R.id.tvTitle)
 			public TextView tvTitle;
+			@Bind(R.id.tvType)
+			public TextView tvType;
 
 			public ViewHolder(final View convertView) {
 				ButterKnife.bind(this, convertView);
