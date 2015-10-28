@@ -24,6 +24,7 @@
 
 package sk.kasper.movieapp;
 
+import android.content.Context;
 import android.util.Log;
 
 import retrofit.RestAdapter;
@@ -37,7 +38,7 @@ public class Utils {
 
 	public static TasteKidApi getTasteKidApi() {
 		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(TasteKidApi.REST_APIARY_ENDPOINT)
+				.setEndpoint(TasteKidApi.REST_TASTEKID_ENDPOINT)
 				.setLogLevel(RestAdapter.LogLevel.FULL)
 				.setLog(msg -> Log.d("Retrofit: ", msg))
 				.build();
@@ -53,5 +54,9 @@ public class Utils {
 				.build();
 
 		return restAdapter.create(OmdbApi.class);
+	}
+
+	public static String getTastekidApiKey(Context context) {
+		return context.getString(R.string.taste_kid_api_key);
 	}
 }

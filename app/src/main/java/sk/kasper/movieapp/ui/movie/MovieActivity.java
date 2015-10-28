@@ -96,7 +96,9 @@ public class MovieActivity extends BaseActivity implements IMovieView {
         presenter = new MoviePresenter(
                 this,
                 Utils.getTasteKidApi(),
-                Utils.getOmdbApi(), bus);
+                Utils.getOmdbApi(),
+                bus,
+                Utils.getTastekidApiKey(this));
     }
 
     @Override

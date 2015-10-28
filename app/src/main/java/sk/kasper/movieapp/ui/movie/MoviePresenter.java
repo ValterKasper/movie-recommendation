@@ -53,6 +53,7 @@ public class MoviePresenter {
     private final OmdbApi omdbApi;
     private IMovieView movieView;
     private Bus bus;
+    private String tastekidApiKey;
     private boolean noMovieIsShown = true;
     private int seedMoviesIndex = 0;
     private List<Movie> shownMovies = new ArrayList<>();
@@ -64,11 +65,12 @@ public class MoviePresenter {
      */
     private int preparedMoviesCount = 0;
 
-    public MoviePresenter(IMovieView movieView, TasteKidApi tasteKidApi, OmdbApi omdbApi, final Bus bus) {
+    public MoviePresenter(IMovieView movieView, TasteKidApi tasteKidApi, OmdbApi omdbApi, final Bus bus, final String tastekidApiKey) {
         this.movieView = movieView;
         this.tasteKidApi = tasteKidApi;
         this.omdbApi = omdbApi;
         this.bus = bus;
+        this.tastekidApiKey = tastekidApiKey;
 
         movieView.getMovieLikeStream().subscribe(like -> {
             onLikeMovie(like.getMovie());
@@ -142,7 +144,7 @@ public class MoviePresenter {
      */
     private void getMovieSuggestionsLazy() {
         if (moreMoviesToViewAreNeeded()) {
-            tasteKidApi.loadRecommendations(getNextMovieToRetrieveRecommendations().name, LIMIT_OF_SUGGESTIONS) // load recommendations
+            tasteKidApi.loadRecommendations(getNextMovieToRetrieveRecommendations().name, LIMIT_OF_SUGGESTIONS, tastekidApiKey) // load recommendations
                     .map(tasteKidResponse -> tasteKidResponse.Similar.Results)
                     .flatMap(Observable::from)
                     .flatMap(tasteKidRespItem -> omdbApi.getDetailOfMovie(tasteKidRespItem.Name)) // get detail of movie

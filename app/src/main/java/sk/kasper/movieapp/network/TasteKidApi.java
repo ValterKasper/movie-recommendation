@@ -45,11 +45,17 @@ public interface TasteKidApi {
 	 *
 	 * @param movieName - favorite movie
 	 * @param limit - max count of suggestions
-	 *
+     * @param apiKey - key to access api
+     *
 	 * @return response from taste kid server
 	 */
 	@GET("/similar?type=movies")
-	Observable<TasteKidResponse> loadRecommendations(@Query("q") String movieName, @Query("limit") int limit);
+    Observable<TasteKidResponse> loadRecommendations(
+            @Query("q") String movieName,
+            @Query("limit") int limit,
+            @Query("k") String apiKey);
+
+
 
 	/**
 	 * Temporary
