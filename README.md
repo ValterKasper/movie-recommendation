@@ -8,3 +8,7 @@ Android app which is using
 * [RetroFit](http://square.github.io/retrofit/)
 * [Gradle Retrolambda Plugin](https://github.com/evant/gradle-retrolambda)
 * ~~MVP architecture (more [here](http://antonioleiva.com/mvp-android/) or in this [podcast]~~ (http://fragmentedpodcast.com/episodes/11/)).
+
+# Used API services
+* Movie suggestions - [tastekid](https://www.tastekid.com/read/api)
+* Movie informations - [OMDb](http://www.omdbapi.com/)
