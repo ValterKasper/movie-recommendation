@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    android:id="@+id/left_drawer"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="112dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:background="#111"
+    android:divider="@android:color/transparent"
+    android:dividerHeight="0dp"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/moviesDrawerItem"
+        android:layout_width="match_parent"
+        android:layout_height="112dp"
+        android:background="@drawable/movies_drawer_item_background"
+        android:drawableBottom="@drawable/ic_movies_drawer_item_selector"
+        android:paddingBottom="40dp"
+        android:scaleType="center"/>
+
+    <Button
+        android:id="@+id/bookmarksDrawerItem"
+        android:layout_width="match_parent"
+        android:layout_height="112dp"
+        android:background="@drawable/movies_drawer_item_background"
+        android:drawableBottom="@drawable/ic_bookmark_drawer_item_selector"
+        android:paddingBottom="40dp"
+        android:scaleType="center"/>
+</LinearLayout>

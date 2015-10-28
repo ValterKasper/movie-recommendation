@@ -69,9 +69,14 @@ public class BookmarksListActivity
 		bus.post(new LoadBookmarksEventRequest());
 	}
 
-	@OnItemLongClick(R.id.lvBookmarks)
-	public boolean bookmarkLongClick(int position) {
-		Movie movie = (Movie) lvBookmarks.getAdapter().getItem(position);
+    @Override
+    public int getDrawerId() {
+        return BOOKMARKS_ACTIVITY;
+    }
+
+    @OnItemLongClick(R.id.lvBookmarks)
+    public boolean bookmarkLongClick(int position) {
+        Movie movie = (Movie) lvBookmarks.getAdapter().getItem(position);
 		movie.bookmarked = false;
 		bus.post(new BookmarkMovieEventRequest(movie));
 
@@ -88,8 +93,8 @@ public class BookmarksListActivity
 		lvBookmarks.setAdapter(new BookmarksAdapter(event.bookmarks, this));
 	}
 
-	public static class BookmarksAdapter
-			extends BaseAdapter {
+    public static class BookmarksAdapter
+            extends BaseAdapter {
 
 		private final List<Movie> bookmarks;
 		private final LayoutInflater inflater;

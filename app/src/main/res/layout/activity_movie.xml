@@ -21,133 +21,143 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="sk.kasper.movieapp.ui.movie.MovieActivity">
+    <!-- The main content view -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-	<android.support.design.widget.CoordinatorLayout
-		android:layout_width="match_parent"
-		android:layout_height="match_parent">
+            <include
+                layout="@layout/movie_toolbar"/>
 
-		<include
-			layout="@layout/movie_toolbar"/>
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/scroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="fill_vertical"
+                android:background="@color/background_material_dark"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-		<android.support.v4.widget.NestedScrollView
-			android:id="@+id/scroll"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:layout_gravity="fill_vertical"
-			android:background="@color/background_material_dark"
-			app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="500dp">
 
-			<RelativeLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:minHeight="500dp">
+                    <TextView
+                        android:id="@+id/tvImdb"
+                        style="@style/ScoreTextStyle"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="16dp"
+                        android:background="#c6a438"
+                        android:text="@string/imdb_label"/>
 
-				<TextView
-					android:id="@+id/tvImdb"
-					style="@style/ScoreTextStyle"
-					android:layout_alignParentEnd="true"
-					android:layout_alignParentRight="true"
-					android:layout_alignParentTop="true"
-					android:layout_marginTop="16dp"
-					android:background="#c6a438"
-					android:text="@string/imdb_label"/>
+                    <TextView
+                        android:id="@+id/tvMetascore"
+                        style="@style/ScoreTextStyle"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/tvImdb"
+                        android:background="#44445c"
+                        android:text="@string/metacritic_label"/>
 
-				<TextView
-					android:id="@+id/tvMetascore"
-					style="@style/ScoreTextStyle"
-					android:layout_alignParentEnd="true"
-					android:layout_alignParentRight="true"
-					android:layout_below="@+id/tvImdb"
-					android:background="#44445c"
-					android:text="@string/metacritic_label"/>
+                    <TextView
+                        android:id="@+id/tvPLot"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/tvCountry"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="sans-serif-light"
+                        android:padding="16dp"
+                        android:text="Small Text"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/primary_text_default_material_dark"/>
 
-				<TextView
-					android:id="@+id/tvPLot"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_alignParentLeft="true"
-					android:layout_alignParentStart="true"
-					android:layout_below="@+id/tvCountry"
-					android:layout_marginTop="16dp"
-					android:fontFamily="sans-serif-light"
-					android:padding="16dp"
-					android:text="Small Text"
-					android:textAppearance="?android:attr/textAppearanceSmall"
-					android:textColor="@color/primary_text_default_material_dark"/>
+                    <TextView
+                        android:id="@+id/tvDirector"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/tvMetascore"
+                        android:layout_marginTop="16dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:text="@string/director_label"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/primary_text_default_material_dark"/>
 
-				<TextView
-					android:id="@+id/tvDirector"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_alignParentLeft="true"
-					android:layout_alignParentStart="true"
-					android:layout_below="@+id/tvMetascore"
-					android:layout_marginTop="16dp"
-					android:paddingLeft="16dp"
-					android:paddingRight="16dp"
-					android:text="@string/director_label"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:textColor="@color/primary_text_default_material_dark"/>
+                    <TextView
+                        android:id="@+id/tvActors"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/tvDirector"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:text="@string/actor_label"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/primary_text_default_material_dark"/>
 
-				<TextView
-					android:id="@+id/tvActors"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_alignParentLeft="true"
-					android:layout_alignParentStart="true"
-					android:layout_below="@+id/tvDirector"
-					android:paddingLeft="16dp"
-					android:paddingRight="16dp"
-					android:text="@string/actor_label"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:textColor="@color/primary_text_default_material_dark"/>
+                    <TextView
+                        android:id="@+id/tvCountry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/tvActors"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:text="@string/country_label"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/primary_text_default_material_dark"/>
+                </RelativeLayout>
 
-				<TextView
-					android:id="@+id/tvCountry"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_alignParentLeft="true"
-					android:layout_alignParentStart="true"
-					android:layout_below="@+id/tvActors"
-					android:paddingLeft="16dp"
-					android:paddingRight="16dp"
-					android:text="@string/country_label"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:textColor="@color/primary_text_default_material_dark"/>
-			</RelativeLayout>
+            </android.support.v4.widget.NestedScrollView>
 
-		</android.support.v4.widget.NestedScrollView>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fabBookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="36dp"
+                android:src="@drawable/ic_bookmark_add"
+                app:fabSize="normal"
+                app:layout_anchor="@+id/app_bar_layout"
+                app:layout_anchorGravity="bottom|left|start"/>
+        </android.support.design.widget.CoordinatorLayout>
 
-		<android.support.design.widget.FloatingActionButton
-			android:id="@+id/fabBookmark"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="36dp"
-			android:src="@drawable/ic_bookmark_add"
-			app:fabSize="normal"
-			app:layout_anchor="@+id/app_bar_layout"
-			app:layout_anchorGravity="bottom|left|start"/>
-	</android.support.design.widget.CoordinatorLayout>
+        <Button
+            android:id="@+id/bLike"
+            style="@style/opinionButton.Green"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="Like"/>
 
-	<Button
-		android:id="@+id/bLike"
-		style="@style/opinionButton.Green"
-		android:layout_alignParentBottom="true"
-		android:layout_alignParentEnd="true"
-		android:layout_alignParentRight="true"
-		android:text="Like"/>
+        <Button
+            android:id="@+id/bDislike"
+            style="@style/opinionButton.Red"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="Dislike"/>
+    </RelativeLayout>
+    <!-- The navigation drawer -->
+    <include layout="@layout/navigation_drawer"/>
+</android.support.v4.widget.DrawerLayout>
 
-	<Button
-		android:id="@+id/bDislike"
-		style="@style/opinionButton.Red"
-		android:layout_alignParentBottom="true"
-		android:layout_alignParentLeft="true"
-		android:layout_alignParentStart="true"
-		android:text="Dislike"/>
-</RelativeLayout>

@@ -77,6 +77,7 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 	@Bind(R.id.fabBookmark)
 	FloatingActionButton fabBookmark;
 
+
     private MoviePresenter presenter;
 
     /**
@@ -96,6 +97,11 @@ public class MovieActivity extends BaseActivity implements IMovieView {
                 this,
                 Utils.getTasteKidApi(),
                 Utils.getOmdbApi(), bus);
+    }
+
+    @Override
+    public int getDrawerId() {
+        return MOVIE_ACTIVITY;
     }
 
     @Override
