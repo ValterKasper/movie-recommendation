@@ -12,3 +12,6 @@ Android app which is using
 # Used API services
 * Movie suggestions - [tastekid](https://www.tastekid.com/read/api)
 * Movie informations - [OMDb](http://www.omdbapi.com/)
+
+# How use
+* to compile project you need TasteKid api key
