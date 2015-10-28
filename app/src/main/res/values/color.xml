@@ -24,13 +24,12 @@
   -->
 
 <resources>
-    <color name="header">#11aaff</color>
-
     <color name="primary">#F44336</color>
     <color name="primary_focused_hover">#fdf76059</color>
     <color name="primary_pressed">#fdf27f7c</color>
     <color name="primary_disabled">#c1c29191</color>
     <color name="primary_dark">#D32F2F</color>
 
-    <color name="accent">#11aaff</color>
+    <color name="accent">#246d8c</color>
+    <color name="accent_light">#11aaff</color>
 </resources>
