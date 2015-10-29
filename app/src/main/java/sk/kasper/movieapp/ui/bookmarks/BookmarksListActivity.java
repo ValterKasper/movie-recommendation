@@ -35,19 +35,15 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.squareup.otto.Subscribe;
-
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnItemLongClick;
 import sk.kasper.movieapp.R;
-import sk.kasper.movieapp.events.BookmarkMovieEventRequest;
-import sk.kasper.movieapp.events.BookmarkMovieEventResponse;
-import sk.kasper.movieapp.events.LoadBookmarksEventRequest;
-import sk.kasper.movieapp.events.LoadBookmarksEventResponse;
+import sk.kasper.movieapp.Utils;
 import sk.kasper.movieapp.models.Movie;
+import sk.kasper.movieapp.storage.BookmarksStorage;
 import sk.kasper.movieapp.ui.BaseActivity;
 
 public class BookmarksListActivity
@@ -55,6 +51,8 @@ public class BookmarksListActivity
 
 	@Bind(R.id.lvBookmarks)
 	ListView lvBookmarks;
+
+    BookmarksStorage bookmarksStorage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +63,9 @@ public class BookmarksListActivity
 
 		ButterKnife.bind(this);
 
-		bus.register(this);
-		bus.post(new LoadBookmarksEventRequest());
-	}
+        bookmarksStorage = new BookmarksStorage(Utils.getSharedPrefs(this));
+        lvBookmarks.setAdapter(new BookmarksAdapter(bookmarksStorage.loadBookmarks(), this));
+    }
 
     @Override
     public int getDrawerId() {
@@ -78,19 +76,10 @@ public class BookmarksListActivity
     public boolean bookmarkLongClick(int position) {
         Movie movie = (Movie) lvBookmarks.getAdapter().getItem(position);
 		movie.bookmarked = false;
-		bus.post(new BookmarkMovieEventRequest(movie));
+        bookmarksStorage.bookmarkMovie(movie);
+        lvBookmarks.setAdapter(new BookmarksAdapter(bookmarksStorage.loadBookmarks(), this));
 
 		return true;
-	}
-
-	@Subscribe
-	public void bookmarkEventResponse(BookmarkMovieEventResponse event) {
-		bus.post(new LoadBookmarksEventRequest());
-	}
-
-	@Subscribe
-	public void loadBookmarsRespose(LoadBookmarksEventResponse event) {
-		lvBookmarks.setAdapter(new BookmarksAdapter(event.bookmarks, this));
 	}
 
     public static class BookmarksAdapter

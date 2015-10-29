@@ -46,6 +46,7 @@ import sk.kasper.movieapp.models.BookmarkToggle;
 import sk.kasper.movieapp.models.Movie;
 import sk.kasper.movieapp.models.MovieDislike;
 import sk.kasper.movieapp.models.MovieLike;
+import sk.kasper.movieapp.storage.BookmarksStorage;
 import sk.kasper.movieapp.ui.BaseActivity;
 
 public class MovieActivity extends BaseActivity implements IMovieView {
@@ -97,8 +98,8 @@ public class MovieActivity extends BaseActivity implements IMovieView {
                 this,
                 Utils.getTasteKidApi(),
                 Utils.getOmdbApi(),
-                bus,
-                Utils.getTastekidApiKey(this));
+                Utils.getTastekidApiKey(this),
+                new BookmarksStorage(Utils.getSharedPrefs(this)));
     }
 
     @Override

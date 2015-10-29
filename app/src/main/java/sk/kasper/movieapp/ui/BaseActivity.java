@@ -27,10 +27,6 @@ package sk.kasper.movieapp.ui;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.squareup.otto.Bus;
-
-import sk.kasper.movieapp.MovieApplication;
-
 /**
  * Base class for creating activities in application
  */
@@ -39,13 +35,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     public static final int MOVIE_ACTIVITY = 711;
     public static final int BOOKMARKS_ACTIVITY = 712;
     public static final int HAS_NOT_DRAWER_ACTIVITY = 710;
-    protected Bus bus;
     private DrawerHelper drawerHelper;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		bus = ((MovieApplication) getApplication()).getBus();
 	}
 
     @Override

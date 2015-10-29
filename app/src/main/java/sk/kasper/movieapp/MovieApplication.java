@@ -25,7 +25,6 @@
 package sk.kasper.movieapp;
 
 import android.app.Application;
-import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -40,7 +39,6 @@ import sk.kasper.movieapp.events.ApiErrorEvent;
  */
 public class MovieApplication extends Application {
     private Bus bus;
-    private MovieService movieService;
 
     public Bus getBus() {
         return bus;
@@ -50,10 +48,6 @@ public class MovieApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
         bus = new Bus(ThreadEnforcer.MAIN);
-        SharedPreferences sharedPref = this.getSharedPreferences(
-                getString(R.string.preference_file_key), MODE_PRIVATE);
-        movieService = new MovieService(Utils.getTasteKidApi(), Utils.getOmdbApi(), bus, sharedPref);
-        bus.register(movieService);
         bus.register(this);
     }
 

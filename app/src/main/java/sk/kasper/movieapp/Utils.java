@@ -25,6 +25,8 @@
 package sk.kasper.movieapp;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import retrofit.RestAdapter;
@@ -58,5 +60,9 @@ public class Utils {
 
 	public static String getTastekidApiKey(Context context) {
 		return context.getString(R.string.taste_kid_api_key);
+	}
+
+	public static SharedPreferences getSharedPrefs(Context context) {
+		return PreferenceManager.getDefaultSharedPreferences(context);
 	}
 }

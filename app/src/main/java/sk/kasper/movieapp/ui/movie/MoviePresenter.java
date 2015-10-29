@@ -26,8 +26,6 @@ package sk.kasper.movieapp.ui.movie;
 
 import android.util.Log;
 
-import com.squareup.otto.Bus;
-
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +34,10 @@ import java.util.Queue;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import sk.kasper.movieapp.events.BookmarkMovieEventRequest;
 import sk.kasper.movieapp.models.Movie;
 import sk.kasper.movieapp.network.OmdbApi;
 import sk.kasper.movieapp.network.TasteKidApi;
+import sk.kasper.movieapp.storage.BookmarksStorage;
 
 /**
  * Manipulates with UI
@@ -48,11 +46,11 @@ public class MoviePresenter {
 
     private static final int MINIMUM_MOVIES_COUNT_THRESHOLD = 3;
     private static final int LIMIT_OF_SUGGESTIONS = 3;
-    private static final Movie[] SEED_MOVIES = {new Movie(1L, "Up!"), new Movie(2L, "Matrix"), new Movie(3L, "Rush"), new Movie(4L, "Everest")};
+    private static final Movie[] SEED_MOVIES = {new Movie(1L, "Up!"), new Movie(2L, "Matrix"), new Movie(3L, "Rush")};
     private final TasteKidApi tasteKidApi;
     private final OmdbApi omdbApi;
+    private final BookmarksStorage bookmarksStorage;
     private IMovieView movieView;
-    private Bus bus;
     private String tastekidApiKey;
     private boolean noMovieIsShown = true;
     private int seedMoviesIndex = 0;
@@ -65,12 +63,12 @@ public class MoviePresenter {
      */
     private int preparedMoviesCount = 0;
 
-    public MoviePresenter(IMovieView movieView, TasteKidApi tasteKidApi, OmdbApi omdbApi, final Bus bus, final String tastekidApiKey) {
+    public MoviePresenter(IMovieView movieView, TasteKidApi tasteKidApi, OmdbApi omdbApi, final String tastekidApiKey, final BookmarksStorage bookmarksStorage) {
         this.movieView = movieView;
         this.tasteKidApi = tasteKidApi;
         this.omdbApi = omdbApi;
-        this.bus = bus;
         this.tastekidApiKey = tastekidApiKey;
+        this.bookmarksStorage = bookmarksStorage;
 
         movieView.getMovieLikeStream().subscribe(like -> {
             onLikeMovie(like.getMovie());
@@ -130,7 +128,7 @@ public class MoviePresenter {
 	private void onBookmarkMovie(final Movie movie) {
 		movie.bookmarked = !movie.bookmarked;
 		movieView.showAsBookmarked(movie.bookmarked);
-        bus.post(new BookmarkMovieEventRequest(movie));
+        bookmarksStorage.bookmarkMovie(movie);
     }
 
 	private void showNextMovieInView() {

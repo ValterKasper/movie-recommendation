@@ -22,10 +22,47 @@
  * THE SOFTWARE.
  */
 
-package sk.kasper.movieapp.events;
+package sk.kasper.movieapp.storage;
+
+import android.content.SharedPreferences;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
+
+import sk.kasper.movieapp.models.Movie;
+
 
 /**
- * Movie has been bookmarked
+ * Storage for bookmarks
  */
-public class BookmarkMovieEventResponse {
+public class BookmarksStorage {
+	private static final String TAG = "BookmarksStorage";
+	private static final String PREF_BOOKMARKS = "pref-bookmarks";
+	private final SharedPreferences sharedPref;
+
+	public BookmarksStorage(final SharedPreferences sharedPref) {
+		this.sharedPref = sharedPref;
+	}
+
+	public void bookmarkMovie(final Movie movie) {
+		final List<Movie> movies = loadBookmarks();
+		if (movie.bookmarked) {
+			movies.add(movie);
+		} else {
+			movies.remove(movie);
+		}
+
+		Gson gson = new Gson();
+		sharedPref.edit().putString(PREF_BOOKMARKS, gson.toJson(movies)).apply();
+	}
+
+	public List<Movie> loadBookmarks() {
+		Type collectionType = new TypeToken<List<Movie>>() {}.getType();
+		Gson gson = new Gson();
+
+		return gson.fromJson(sharedPref.getString(PREF_BOOKMARKS, "[]"), collectionType);
+	}
 }
