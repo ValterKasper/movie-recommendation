@@ -26,8 +26,8 @@ package sk.kasper.movieapp.ui.movie;
 
 import android.util.Log;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
@@ -38,6 +38,7 @@ import sk.kasper.movieapp.models.Movie;
 import sk.kasper.movieapp.network.OmdbApi;
 import sk.kasper.movieapp.network.TasteKidApi;
 import sk.kasper.movieapp.storage.BookmarksStorage;
+import sk.kasper.movieapp.storage.MoviesStorage;
 
 /**
  * Manipulates with UI
@@ -50,25 +51,31 @@ public class MoviePresenter {
     private final TasteKidApi tasteKidApi;
     private final OmdbApi omdbApi;
     private final BookmarksStorage bookmarksStorage;
+    private MoviesStorage moviesStorage;
     private IMovieView movieView;
     private String tastekidApiKey;
     private boolean noMovieIsShown = true;
     private int seedMoviesIndex = 0;
-    private List<Movie> shownMovies = new ArrayList<>();
-    private List<Movie> dislikedMovies = new ArrayList<>();
-    private Queue<Movie> likedMoviesQueue = new ArrayDeque<>();
+    private List<Movie> shownMovies;
+    private List<Movie> dislikedMovies;
+    private Queue<Movie> likedMoviesQueue;
 
     /**
      * Count of movies prepared to be shown in view
      */
     private int preparedMoviesCount = 0;
 
-    public MoviePresenter(IMovieView movieView, TasteKidApi tasteKidApi, OmdbApi omdbApi, final String tastekidApiKey, final BookmarksStorage bookmarksStorage) {
+    public MoviePresenter(IMovieView movieView, TasteKidApi tasteKidApi, OmdbApi omdbApi, final String tastekidApiKey, final BookmarksStorage bookmarksStorage, MoviesStorage moviesStorage) {
         this.movieView = movieView;
         this.tasteKidApi = tasteKidApi;
         this.omdbApi = omdbApi;
         this.tastekidApiKey = tastekidApiKey;
         this.bookmarksStorage = bookmarksStorage;
+        this.moviesStorage = moviesStorage;
+
+        this.shownMovies = moviesStorage.loadShownMovies();
+        this.likedMoviesQueue = new LinkedList<>(moviesStorage.loadLikedMovies());
+        this.dislikedMovies = moviesStorage.loadDislikedMovies();
 
         movieView.getMovieLikeStream().subscribe(like -> {
             onLikeMovie(like.getMovie());
@@ -111,6 +118,9 @@ public class MoviePresenter {
     }
 
     public void onPause() {
+        moviesStorage.saveLikedMovies(new ArrayList<>(likedMoviesQueue));
+        moviesStorage.saveDislikedMovies(dislikedMovies);
+        moviesStorage.saveShownMovies(shownMovies);
     }
 
     private void onLikeMovie(Movie movie) {
@@ -147,20 +157,20 @@ public class MoviePresenter {
                     .flatMap(Observable::from)
                     .flatMap(tasteKidRespItem -> omdbApi.getDetailOfMovie(tasteKidRespItem.Name)) // get detail of movie
                     .flatMap(omdbResp -> Observable.just(new Movie( // create movie stream
-							parseImdbId(omdbResp.imdbID),
-							omdbResp.Title,
-							omdbResp.Poster,
-							omdbResp.Plot,
-							omdbResp.imdbRating,
-							omdbResp.Metascore,
-							omdbResp.Genre,
-							omdbResp.Actors,
-							omdbResp.Director,
-							omdbResp.Country)))
-					.limit(LIMIT_OF_SUGGESTIONS) // enough is enough
+                            parseImdbId(omdbResp.imdbID),
+                            omdbResp.Title,
+                            omdbResp.Poster,
+                            omdbResp.Plot,
+                            omdbResp.imdbRating,
+                            omdbResp.Metascore,
+                            omdbResp.Genre,
+                            omdbResp.Actors,
+                            omdbResp.Director,
+                            omdbResp.Country)))
                     .filter(movie -> !shownMovies.contains(movie))
-					.observeOn(AndroidSchedulers.mainThread())
-					.subscribeOn(Schedulers.newThread())
+                    .limit(LIMIT_OF_SUGGESTIONS) // enough is enough
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.newThread())
 					.subscribe(this::movieRecommendation);
         }
     }
