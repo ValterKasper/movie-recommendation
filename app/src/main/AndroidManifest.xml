@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!--
   ~ The MIT License (MIT)
   ~
@@ -38,6 +39,7 @@
         <activity
             android:name=".ui.movie.MovieActivity"
             android:label="@string/title_activity_movie"
+			android:launchMode="singleTask"
 			android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,6 +50,7 @@
 		<activity
 			android:name=".ui.bookmarks.BookmarksListActivity"
 			android:label="@string/title_activity_bookmarks_list"
+			android:launchMode="singleTask"
 			android:theme="@style/AppTheme">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
