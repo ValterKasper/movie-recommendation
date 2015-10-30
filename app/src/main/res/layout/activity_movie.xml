@@ -21,6 +21,7 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
+
 <android.support.v4.widget.DrawerLayout
     android:id="@+id/drawer_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -51,6 +52,16 @@
                 android:minHeight="500dp">
 
                 <TextView
+                    android:id="@+id/tvImdbLabel"
+                    style="@style/ScoreTextStyle"
+                    android:layout_alignTop="@+id/tvImdb"
+                    android:layout_toLeftOf="@+id/tvImdb"
+                    android:layout_toStartOf="@+id/tvImdb"
+                    android:background="@color/primary"
+                    android:fontFamily="sans-serif-thin"
+                    android:text="@string/imdb_label"/>
+
+                <TextView
                     android:id="@+id/tvImdb"
                     style="@style/ScoreTextStyle"
                     android:layout_alignParentEnd="true"
@@ -59,6 +70,16 @@
                     android:layout_marginTop="16dp"
                     android:background="@color/primary"
                     android:text="@string/imdb_label"/>
+
+                <TextView
+                    android:id="@+id/tvMetascoreLabel"
+                    style="@style/ScoreTextStyle"
+                    android:layout_below="@+id/tvImdbLabel"
+                    android:layout_toLeftOf="@+id/tvMetascore"
+                    android:layout_toStartOf="@+id/tvMetascore"
+                    android:background="@color/primary"
+                    android:fontFamily="sans-serif-thin"
+                    android:text="@string/metacritic_label"/>
 
                 <TextView
                     android:id="@+id/tvMetascore"
@@ -76,6 +97,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/tvCountry"
+                    android:layout_marginBottom="56dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="sans-serif-light"
                     android:padding="16dp"
@@ -84,7 +106,8 @@
                     android:textColor="@color/primary_text_default_material_dark"/>
 
                 <TextView
-                    android:id="@+id/tvDirector"
+                    android:id="@+id/tvDirectorLabel"
+                    style="@style/MovieInfoLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -93,25 +116,53 @@
                     android:layout_marginTop="16dp"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:text="@string/director_label"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/primary_text_default_material_dark"/>
+                    android:text="@string/director_label"/>
+
+                <TextView
+                    android:id="@+id/tvDirector"
+                    style="@style/MovieInfoShortText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/tvDirectorLabel"
+                    android:layout_toEndOf="@+id/tvDirectorLabel"
+                    android:layout_toRightOf="@+id/tvDirectorLabel"
+                    android:text="Steven Spielberg Steven Spielberg Steven Spielberg Steven Spielberg"/>
+
+                <TextView
+                    android:id="@+id/tvActorsLabel"
+                    style="@style/MovieInfoLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvDirector"
+                    android:layout_toLeftOf="@+id/tvDirector"
+                    android:layout_toStartOf="@+id/tvDirector"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:text="@string/actor_label"/>
 
                 <TextView
                     android:id="@+id/tvActors"
+                    style="@style/MovieInfoShortText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
                     android:layout_below="@+id/tvDirector"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:text="@string/actor_label"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/primary_text_default_material_dark"/>
+                    android:layout_toEndOf="@+id/tvCountryLabel"
+                    android:layout_toRightOf="@+id/tvCountryLabel"
+                    android:text="Ladislav Chudik Ladislav Chudik Ladislav Chudik Ladislav Chudik Ladislav Chudik"/>
 
                 <TextView
                     android:id="@+id/tvCountry"
+                    style="@style/MovieInfoShortText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/tvCountryLabel"
+                    android:layout_toEndOf="@+id/tvDirectorLabel"
+                    android:layout_toRightOf="@+id/tvDirectorLabel"
+                    android:text="Slovakia"/>
+
+                <TextView
+                    android:id="@+id/tvCountryLabel"
+                    style="@style/MovieInfoLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -119,9 +170,7 @@
                     android:layout_below="@+id/tvActors"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:text="@string/country_label"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/primary_text_default_material_dark"/>
+                    android:text="@string/country_label"/>
             </RelativeLayout>
 
         </android.support.v4.widget.NestedScrollView>

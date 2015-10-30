@@ -26,11 +26,8 @@ package sk.kasper.movieapp.ui.movie;
 
 import android.util.Log;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -59,12 +56,12 @@ public class MoviePresenter {
     private int seedMoviesIndex = 0;
     private List<Movie> shownMovies;
     private List<Movie> dislikedMovies;
-    private Queue<Movie> likedMoviesQueue;
+    private List<Movie> likedMovies;
 
     /**
      * Movies prepared to be shown
      */
-    private Queue<Movie> movieQueue = new ArrayDeque<>();
+    private List<Movie> movieToBeShown;
 
     public MoviePresenter(IMovieView movieView, TasteKidApi tasteKidApi, OmdbApi omdbApi, final String tastekidApiKey, final BookmarksStorage bookmarksStorage, MoviesStorage moviesStorage) {
         this.movieView = movieView;
@@ -75,9 +72,9 @@ public class MoviePresenter {
         this.moviesStorage = moviesStorage;
 
         this.shownMovies = moviesStorage.loadShownMovies();
-        this.likedMoviesQueue = new LinkedList<>(moviesStorage.loadLikedMovies());
+        this.likedMovies = moviesStorage.loadLikedMovies();
         this.dislikedMovies = moviesStorage.loadDislikedMovies();
-        this.movieQueue = new LinkedList<>(moviesStorage.loadMoviesToBeShown());
+        this.movieToBeShown = moviesStorage.loadMoviesToBeShown();
 
         movieView.getMovieLikeStream().subscribe(like -> {
             onLikeMovie(like.getMovie());
@@ -97,11 +94,12 @@ public class MoviePresenter {
 	}
 
 	private Movie getNextMovieToRetrieveRecommendations() {
-		if (likedMoviesQueue.isEmpty()) {
-			return SEED_MOVIES[seedMoviesIndex++];
+        if (likedMovies.isEmpty()) {
+            return SEED_MOVIES[seedMoviesIndex++];
 		} else {
-			return likedMoviesQueue.remove();
-		}
+            final Movie movie = likedMovies.get(0);
+            return movie;
+        }
 	}
 
     public void onResume() {
@@ -113,7 +111,7 @@ public class MoviePresenter {
     }
 
     public void movieRecommendation(Movie movie) {
-        movieQueue.add(movie);
+        movieToBeShown.add(movie);
 
         if (noMovieIsShown) {
             Log.d("FOO", "subscribeSuggestionStream no movie shown");
@@ -122,23 +120,23 @@ public class MoviePresenter {
     }
 
     public void onPause() {
-        moviesStorage.saveLikedMovies(new ArrayList<>(likedMoviesQueue));
+        moviesStorage.saveLikedMovies(new ArrayList<>(likedMovies));
         moviesStorage.saveDislikedMovies(dislikedMovies);
         moviesStorage.saveShownMovies(shownMovies);
-        moviesStorage.saveMoviesToBeShown(new ArrayList<>(movieQueue));
+        moviesStorage.saveMoviesToBeShown(new ArrayList<>(movieToBeShown));
     }
 
     private void onLikeMovie(Movie movie) {
-        likedMoviesQueue.add(movie);
+        likedMovies.add(movie);
         shownMovies.add(movie);
-        movieQueue.remove();
+        movieToBeShown.remove(0);
         showNextMovieInView();
 	}
 
     private void onDislikeMovie(Movie movie) {
         dislikedMovies.add(movie);
         shownMovies.add(movie);
-        movieQueue.remove();
+        movieToBeShown.remove(0);
         showNextMovieInView();
 	}
 
@@ -149,7 +147,7 @@ public class MoviePresenter {
     }
 
 	private void showNextMovieInView() {
-        movieView.showNextMovie(movieQueue.element());
+        movieView.showNextMovie(movieToBeShown.get(0));
         noMovieIsShown = false;
 
         if (moreMoviesToViewAreNeeded()) {
@@ -189,6 +187,6 @@ public class MoviePresenter {
     }
 
     private boolean moreMoviesToViewAreNeeded() {
-        return movieQueue.size() < MINIMUM_MOVIES_COUNT_THRESHOLD;
+        return movieToBeShown.size() < MINIMUM_MOVIES_COUNT_THRESHOLD;
     }
 }
