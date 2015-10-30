@@ -49,16 +49,12 @@ public interface IMovieView {
 	Observable<BookmarkToggle> getMovieBookmarkToggleStream();
 	void showProgressBar();
 	void hideProgressBar();
-	/**
-	 * Adds new movie card
-	 *
-	 * @param movie to add
-	 */
-	void addMovieCard(Movie movie);
+
 	/**
 	 * Show next movie that was added with addMovieCard
 	 */
-	void showNextMovie();
+	void showNextMovie(final Movie movie);
+
 	/**
 	 * Display current movie as bookmarked
 	 *

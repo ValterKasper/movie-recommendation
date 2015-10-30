@@ -44,13 +44,25 @@
 		app:expandedTitleTextAppearance="@style/TransparentText"
 		app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-		<ImageView
-			android:id="@+id/ivCover"
+		<RelativeLayout
+			android:id="@+id/rlCoverBackground"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:scaleType="centerCrop"
-			android:src="@drawable/cover_placeholder"
-			app:layout_collapseMode="parallax"/>
+			android:background="@color/material_grey_800">
+
+			<ImageView
+				android:id="@+id/ivCover"
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:layout_alignParentEnd="true"
+				android:layout_alignParentLeft="true"
+				android:layout_alignParentRight="true"
+				android:layout_alignParentStart="true"
+				android:adjustViewBounds="false"
+				android:scaleType="fitCenter"
+				android:src="@drawable/ic_bookmark_add"
+				app:layout_collapseMode="parallax"/>
+		</RelativeLayout>
 
 		<include
 			layout="@layout/toolbar_content"/>

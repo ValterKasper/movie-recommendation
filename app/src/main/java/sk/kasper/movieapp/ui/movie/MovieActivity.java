@@ -24,17 +24,20 @@
 
 package sk.kasper.movieapp.ui.movie;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.graphics.Palette;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayDeque;
-import java.util.Queue;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -78,14 +81,10 @@ public class MovieActivity extends BaseActivity implements IMovieView {
     TextView tvCountry;
 	@Bind(R.id.fabBookmark)
 	FloatingActionButton fabBookmark;
-
+	@Bind(R.id.rlCoverBackground)
+	RelativeLayout rlCoverBackground;
 
     private MoviePresenter presenter;
-
-    /**
-     * Movies prepared to be shown
-     */
-    private Queue<Movie> movieQueue = new ArrayDeque<>();
     private Movie shownMovie;
     private boolean bookmarked;
 
@@ -132,16 +131,11 @@ public class MovieActivity extends BaseActivity implements IMovieView {
     }
 
     @Override
-    public void addMovieCard(Movie movie) {
-        movieQueue.add(movie);
-    }
-
-    @Override
-    public void showNextMovie() {
-        bookmarked = false;
+	public void showNextMovie(final Movie movie) {
+		bookmarked = false;
         showAsBookmarked(false);
-        shownMovie = movieQueue.remove();
-        collapsingToolbarLayout.setTitle(shownMovie.name);
+		shownMovie = movie;
+		collapsingToolbarLayout.setTitle(shownMovie.name);
 		tvMovieName.setText(shownMovie.name);
 		tvGenre.setText(shownMovie.genre);
 		tvPlot.setText(shownMovie.plot);
@@ -150,22 +144,35 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 		tvActors.setText(String.format("%s%s", getString(R.string.actor_label), shownMovie.actors));
 		tvDirector.setText(String.format("%s%s", getString(R.string.director_label), shownMovie.director));
 		tvCountry.setText(String.format("%s%s", getString(R.string.country_label), shownMovie.country));
-		Picasso.with(MovieActivity.this)
-				.load(shownMovie.coverUrl)
-				.resize(ivCover.getWidth(), ivCover.getHeight())
-				.centerCrop()
-				.into(ivCover);
+
+		if (ivCover.getWidth() > 0 && ivCover.getHeight() > 0) {
+			showCover();
+		} else { // sometimes called from onResume
+			ivCover.getViewTreeObserver()
+					.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+						// Wait until layout to call Picasso
+						@Override
+						public void onGlobalLayout() {
+							// Ensure we call this only once
+							ivCover.getViewTreeObserver()
+									.removeOnGlobalLayoutListener(this);
+
+							showCover();
+						}
+					});
+		}
+
 	}
 
-    @Override
-    public Observable<MovieLike> getMovieLikeStream() {
-        return Observable.create(new Observable.OnSubscribe<MovieLike>() {
-            @Override
-            public void call(Subscriber<? super MovieLike> subscriber) {
-                bLike.setOnClickListener(v -> subscriber.onNext(new MovieLike(shownMovie)));
-            }
-        });
-    }
+	@Override
+	public Observable<MovieLike> getMovieLikeStream() {
+		return Observable.create(new Observable.OnSubscribe<MovieLike>() {
+			@Override
+			public void call(Subscriber<? super MovieLike> subscriber) {
+				bLike.setOnClickListener(v -> subscriber.onNext(new MovieLike(shownMovie)));
+			}
+		});
+	}
 
     @Override
     public Observable<MovieDislike> getMovieDislikeStream() {
@@ -191,4 +198,21 @@ public class MovieActivity extends BaseActivity implements IMovieView {
         this.bookmarked = bookmarked;
         fabBookmark.setImageResource(bookmarked ? R.drawable.ic_bookmark_remove : R.drawable.ic_bookmark_add);
     }
+
+	private void showCover() {
+		Picasso.with(MovieActivity.this)
+				.load(shownMovie.coverUrl)
+				.into(ivCover, new Callback.EmptyCallback() {
+					@Override
+					public void onSuccess() {
+						Bitmap bitmap = ((BitmapDrawable) ivCover.getDrawable()).getBitmap();
+
+						// Asynchronous
+						Palette.from(bitmap).generate(p -> {
+							final int darkMutedColor = p.getDarkVibrantColor(MovieActivity.this.getResources().getColor(R.color.material_grey_800));
+							rlCoverBackground.setBackgroundColor(darkMutedColor);
+						});
+					}
+				});
+	}
 }
