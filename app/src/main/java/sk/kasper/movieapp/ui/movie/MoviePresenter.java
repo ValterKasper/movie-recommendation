@@ -44,8 +44,19 @@ import sk.kasper.movieapp.storage.MoviesStorage;
 public class MoviePresenter {
 
     private static final int MINIMUM_MOVIES_COUNT_THRESHOLD = 3;
-    private static final int LIMIT_OF_SUGGESTIONS = 3;
-    private static final Movie[] SEED_MOVIES = {new Movie(1L, "Up!"), new Movie(2L, "Matrix"), new Movie(3L, "Rush")};
+    private static final int LIMIT_OF_SUGGESTIONS = 8;
+    private static final Movie[] SEED_MOVIES = {
+            new Movie(1L, "Pulp Fiction"),
+            new Movie(40L, "Toy Story"),
+            new Movie(2L, "Matrix"),
+            new Movie(3L, "Rush"),
+            new Movie(4L, "Forrest Gump"),
+            new Movie(41L, "Rocky"),
+            new Movie(5L, "Schindler's List"),
+            new Movie(6L, "Godfather, The"),
+            new Movie(7L, "Up!")
+    };
+    private static final float MIN_IMDB_RATING = 6.5f;
     private final TasteKidApi tasteKidApi;
     private final OmdbApi omdbApi;
     private final BookmarksStorage bookmarksStorage;
@@ -97,7 +108,7 @@ public class MoviePresenter {
         if (likedMovies.isEmpty()) {
             return SEED_MOVIES[seedMoviesIndex++];
 		} else {
-            final Movie movie = likedMovies.get(0);
+            final Movie movie = likedMovies.remove(likedMovies.size() - 1);
             return movie;
         }
 	}
@@ -174,11 +185,23 @@ public class MoviePresenter {
                         omdbResp.Actors,
                         omdbResp.Director,
                         omdbResp.Country)))
+                .filter(movie1 -> hasGoodRating(movie1))
                 .filter(movie -> !shownMovies.contains(movie))
                 .limit(LIMIT_OF_SUGGESTIONS) // enough is enough
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(this::movieRecommendation);
+    }
+
+    private boolean hasGoodRating(final Movie movie) {
+        final float rating;
+        try {
+            rating = Float.parseFloat(movie.imdbScore);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+        return rating > MIN_IMDB_RATING;
     }
 
     private Long parseImdbId(final String imdbID) {

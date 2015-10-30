@@ -40,6 +40,10 @@ public class Movie {
 	public String country;
     public boolean bookmarked = false;
 
+	public Movie() {
+
+	}
+
 	public Movie(final Long id, final String name, final String coverUrl, final String plot, final String imdbScore, final String metascore, final String genre, final String actors, final String director, final String country) {
 		this.id = id;
 		this.name = name;
