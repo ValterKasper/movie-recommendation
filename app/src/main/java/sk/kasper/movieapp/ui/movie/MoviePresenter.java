@@ -30,9 +30,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
+import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import sk.kasper.movieapp.exceptions.TasteKidResponseException;
 import sk.kasper.movieapp.models.Movie;
+import sk.kasper.movieapp.models.TasteKidResponse;
 import sk.kasper.movieapp.network.OmdbApi;
 import sk.kasper.movieapp.network.TasteKidApi;
 import sk.kasper.movieapp.storage.BookmarksStorage;
@@ -57,8 +60,9 @@ public class MoviePresenter {
             new Movie(7L, "Up!")
     };
     private static final float MIN_IMDB_RATING = 6.5f;
-    private final TasteKidApi tasteKidApi;
-    private final OmdbApi omdbApi;
+	private static final String TAG = "MoviePresenter";
+	private final TasteKidApi tasteKidApi;
+	private final OmdbApi omdbApi;
     private final BookmarksStorage bookmarksStorage;
     private MoviesStorage moviesStorage;
     private IMovieView movieView;
@@ -108,9 +112,8 @@ public class MoviePresenter {
         if (likedMovies.isEmpty()) {
             return SEED_MOVIES[seedMoviesIndex++];
 		} else {
-            final Movie movie = likedMovies.remove(likedMovies.size() - 1);
-            return movie;
-        }
+			return likedMovies.remove(likedMovies.size() - 1);
+		}
 	}
 
     public void onResume() {
@@ -171,9 +174,9 @@ public class MoviePresenter {
      */
     private void getMovieSuggestions() {
         tasteKidApi.loadRecommendations(getNextMovieToRetrieveRecommendations().name, LIMIT_OF_SUGGESTIONS, tastekidApiKey) // load recommendations
-                .map(tasteKidResponse -> tasteKidResponse.Similar.Results)
-                .flatMap(Observable::from)
-                .flatMap(tasteKidRespItem -> omdbApi.getDetailOfMovie(tasteKidRespItem.Name)) // get detail of movie
+				.map(this::processTasteKidResponse)
+				.flatMap(Observable::from)
+				.flatMap(tasteKidRespItem -> omdbApi.getDetailOfMovie(tasteKidRespItem.Name)) // get detail of movie
                 .flatMap(omdbResp -> Observable.just(new Movie( // create movie stream
                         parseImdbId(omdbResp.imdbID),
                         omdbResp.Title,
@@ -185,17 +188,42 @@ public class MoviePresenter {
                         omdbResp.Actors,
                         omdbResp.Director,
                         omdbResp.Country)))
-                .filter(movie1 -> hasGoodRating(movie1))
-                .filter(movie -> !shownMovies.contains(movie))
-                .limit(LIMIT_OF_SUGGESTIONS) // enough is enough
+				.filter(this::hasGoodRating)
+				.filter(movie -> !shownMovies.contains(movie))
+				.limit(LIMIT_OF_SUGGESTIONS) // enough is enough
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(this::movieRecommendation);
-    }
+				.subscribe(new Observer<Movie>() {
+					@Override
+					public void onCompleted() {
 
-    private boolean hasGoodRating(final Movie movie) {
-        final float rating;
-        try {
+
+					}
+
+					@Override
+					public void onError(final Throwable e) {
+						if (e instanceof TasteKidResponseException) {
+							movieView.showErrorMessage(((TasteKidResponseException) e).error);
+						}
+					}
+
+					@Override
+					public void onNext(final Movie movie) {
+						movieRecommendation(movie);
+					}
+				});
+	}
+
+	private List<TasteKidResponse.Similar.DataItem> processTasteKidResponse(final TasteKidResponse tasteKidResponse) throws TasteKidResponseException {
+		if (tasteKidResponse.error != null) {
+			throw new TasteKidResponseException(tasteKidResponse.error);
+		}
+		return tasteKidResponse.Similar.Results;
+	}
+
+	private boolean hasGoodRating(final Movie movie) {
+		final float rating;
+		try {
             rating = Float.parseFloat(movie.imdbScore);
         } catch (NumberFormatException e) {
             return false;

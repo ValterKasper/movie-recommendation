@@ -22,28 +22,22 @@
  * THE SOFTWARE.
  */
 
-package sk.kasper.movieapp.models;
-
-import java.util.List;
+package sk.kasper.movieapp.exceptions;
 
 /**
- * Response from Taste kid service
+ * Api error from taste kid
  */
-public class TasteKidResponse {
+public class TasteKidResponseException
+		extends RuntimeException {
 
-	public String error;
-	public Similar Similar;
+	public final String error;
 
-	public class Similar {
+	public TasteKidResponseException(final String error) {this.error = error;}
 
-		public List<Similar.DataItem> Info;
-		public List<Similar.DataItem> Results;
-
-		public class DataItem {
-
-			public String Name;
-			public String Type;
-		}
+	@Override
+	public String toString() {
+		return "TasteKidResponseException{" +
+				"error='" + error + '\'' +
+				'}';
 	}
-
 }

@@ -29,6 +29,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.graphics.Palette;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -199,6 +200,15 @@ public class MovieActivity extends BaseActivity implements IMovieView {
         fabBookmark.setImageResource(bookmarked ? R.drawable.ic_bookmark_remove : R.drawable.ic_bookmark_add);
     }
 
+	@Override
+	public void showErrorMessage(final String error) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(error)
+				.setTitle("Taste Kid Api error");
+		AlertDialog dialog = builder.create();
+		dialog.show();
+	}
+
 	private void showCover() {
 		Picasso.with(MovieActivity.this)
 				.load(shownMovie.coverUrl)
@@ -209,7 +219,7 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 
 						// Asynchronous
 						Palette.from(bitmap).generate(p -> {
-							final int darkMutedColor = p.getDarkVibrantColor(MovieActivity.this.getResources().getColor(R.color.material_grey_800));
+							final int darkMutedColor = p.getDarkVibrantColor(0x000000);
 							rlCoverBackground.setBackgroundColor(darkMutedColor);
 						});
 					}

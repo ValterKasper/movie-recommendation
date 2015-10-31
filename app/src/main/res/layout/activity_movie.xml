@@ -196,7 +196,7 @@
         <Button
             android:id="@+id/bDislike"
             style="@style/opinionButton"
-            android:text="Dislike"
+            android:text="Meh"
             app:layout_anchor="@id/scroll"
             app:layout_anchorGravity="bottom|left|start"/>
     </android.support.design.widget.CoordinatorLayout>

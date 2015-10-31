@@ -61,4 +61,11 @@ public interface IMovieView {
 	 * @param bookmarked is movie (yoda time)
 	 */
 	void showAsBookmarked(final boolean bookmarked);
+
+	/**
+	 * Show error somehow
+	 *
+	 * @param error to be shown
+	 */
+	void showErrorMessage(String error);
 }
