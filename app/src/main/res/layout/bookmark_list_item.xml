@@ -25,29 +25,38 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 				android:layout_width="match_parent"
-				android:layout_height="56dp"
-                android:orientation="vertical"
-                android:paddingTop="4dp">
+				android:layout_height="72dp"
+				android:orientation="vertical">
 
 	<TextView
 		android:id="@+id/tvTitle"
-        style="@style/TextOnBackground"
+		style="@style/TextOnBackground.PrimaryColor"
 		android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+		android:layout_toEndOf="@+id/ivCover"
+		android:layout_toRightOf="@+id/ivCover"
         android:text="Medium Text"
         android:textSize="12sp"/>
 
     <TextView
         android:id="@+id/tvType"
-        style="@style/TextOnBackground.PrimaryColor"
+		style="@style/TextOnBackground"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/tvTitle"
-        android:layout_alignRight="@+id/tvTitle"
         android:layout_below="@+id/tvTitle"
+		android:layout_toEndOf="@+id/ivCover"
+		android:layout_toRightOf="@+id/ivCover"
         android:text="Drama"
-        android:textSize="14sp"/>
+		android:textSize="10sp"/>
+
+	<ImageView
+		android:id="@+id/ivCover"
+		android:layout_width="72dp"
+		android:layout_height="match_parent"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentStart="true"
+		android:layout_alignTop="@+id/tvTitle"
+		android:scaleType="centerInside"
+		android:src="@drawable/cover_placeholder"/>
 </RelativeLayout>
