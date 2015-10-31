@@ -23,13 +23,8 @@
   ~ THE SOFTWARE.
   -->
 
-<resources>
-    <color name="primary">#F44336</color>
-    <color name="primary_focused_hover">#fdf76059</color>
-    <color name="primary_pressed">#fdf27f7c</color>
-    <color name="primary_disabled">#81f76059</color>
-    <color name="primary_dark">#D32F2F</color>
-
-    <color name="accent">#246d8c</color>
-    <color name="accent_light">#11aaff</color>
-</resources>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:drawable="@drawable/ic_info_drawer_item_disabled"
+		  android:state_enabled="false"/>
+	<item android:drawable="@drawable/ic_info_drawer_item"/>
+</selector>

@@ -22,33 +22,37 @@
  * THE SOFTWARE.
  */
 
-package sk.kasper.movieapp.ui;
+package sk.kasper.movieapp.ui.info;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AlertDialog;
 
-/**
- * Base class for creating activities in application
- */
-public abstract class BaseActivity extends AppCompatActivity {
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import sk.kasper.movieapp.R;
+import sk.kasper.movieapp.ui.BaseActivity;
 
-    public static final int MOVIE_ACTIVITY = 711;
-    public static final int BOOKMARKS_ACTIVITY = 712;
-    public static final int INFO_ACTIVITY = 713;
-    public static final int HAS_NOT_DRAWER_ACTIVITY = 710;
-    private DrawerHelper drawerHelper;
-
-    public abstract int getDrawerId();
+public class InfoActivity
+		extends BaseActivity {
 
 	@Override
-	protected void onCreate(final Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_info);
+		ButterKnife.bind(this);
 	}
 
-    @Override
-    public void setContentView(int layoutResID) {
-        super.setContentView(layoutResID);
-        if (getDrawerId() != HAS_NOT_DRAWER_ACTIVITY)
-            drawerHelper = new DrawerHelper(this);
-    }
+	@Override
+	public int getDrawerId() {
+		return INFO_ACTIVITY;
+	}
+
+	@OnClick(R.id.bLicences)
+	public void licencesClick() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setView(R.layout.licences)
+				.setTitle("Licences");
+		AlertDialog dialog = builder.create();
+		dialog.show();
+	}
 }

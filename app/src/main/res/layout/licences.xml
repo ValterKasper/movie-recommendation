@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ The MIT License (MIT)
+  ~
+  ~ Copyright (c) 2015 Valter Kasper
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical"
+			android:padding="16dp">
+
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+
+		<TextView
+			style="@style/LicenceTitle"
+			android:text="Rxandroid"/>
+
+		<TextView
+			style="@style/LicenceLink"
+			android:text="https://github.com/ReactiveX/RxAndroid/blob/master/LICENSE"/>
+
+
+		<TextView
+			style="@style/LicenceTitle"
+			android:text="Retrofit"/>
+
+		<TextView
+			style="@style/LicenceLink"
+			android:text="https://github.com/square/retrofit/blob/master/LICENSE.txt"/>
+
+
+		<TextView
+			style="@style/LicenceTitle"
+			android:text="Otto"/>
+
+		<TextView
+			style="@style/LicenceLink"
+			android:text="https://github.com/square/otto/blob/master/LICENSE.txt"/>
+
+
+		<TextView
+			style="@style/LicenceTitle"
+			android:text="Butterknife"/>
+
+		<TextView
+			style="@style/LicenceLink"
+			android:text="https://github.com/JakeWharton/butterknife/blob/master/LICENSE.txt"/>
+
+
+		<TextView
+			style="@style/LicenceTitle"
+			android:text="Robolectric"/>
+
+		<TextView
+			style="@style/LicenceLink"
+			android:text="https://github.com/robolectric/robolectric/blob/master/LICENSE.txt"/>
+
+
+		<TextView
+			style="@style/LicenceTitle"
+			android:text="Mockito"/>
+
+		<TextView
+			style="@style/LicenceLink"
+			android:text="https://github.com/mockito/mockito/blob/master/LICENSE"/>
+
+
+		<TextView
+			style="@style/LicenceTitle"
+			android:text="Picasso"/>
+
+		<TextView
+			style="@style/LicenceLink"
+			android:text="https://github.com/square/picasso/blob/master/LICENSE.txt"/>
+
+	</LinearLayout>
+</ScrollView>

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <!--
   ~ The MIT License (MIT)
   ~
@@ -24,8 +23,8 @@
   ~ THE SOFTWARE.
   -->
 <manifest
-	package="sk.kasper.movieapp"
-	xmlns:android="http://schemas.android.com/apk/res/android">
+    package="sk.kasper.movieapp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -39,25 +38,27 @@
         <activity
             android:name=".ui.movie.MovieActivity"
             android:label="@string/title_activity_movie"
-			android:launchMode="singleTask"
-			android:screenOrientation="portrait">
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-		<activity
-			android:name=".ui.bookmarks.BookmarksListActivity"
-			android:label="@string/title_activity_bookmarks_list"
-			android:launchMode="singleTask"
-			android:theme="@style/AppTheme">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN"/>
+        <activity
+            android:name=".ui.bookmarks.BookmarksListActivity"
+            android:label="@string/title_activity_bookmarks_list"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-				<category android:name="android.intent.category.LAUNCHER"/>
-			</intent-filter>
-		</activity>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.info.InfoActivity">
+        </activity>
     </application>
 
 </manifest>
