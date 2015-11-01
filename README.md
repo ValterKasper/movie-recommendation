@@ -14,4 +14,6 @@ Android app which is using
 * Movie informations - [OMDb](http://www.omdbapi.com/)
 
 # How use
-* to compile project you need TasteKid api key
+To compile project you need to use your TasteKid API key:
+1. Obtain an API key from [TasteKid.com](https://www.tastekid.com/read/api)
+2. Insert your API key as string resource with name _taste_kid_api_key_ (e.g. to strings.xml)
