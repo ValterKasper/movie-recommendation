@@ -77,6 +77,7 @@ public class MoviePresenter {
      * Movies prepared to be shown
      */
     private List<Movie> movieToBeShown;
+    private final ImdbIdParser imdbIdParser = new ImdbIdParser();
 
     public MoviePresenter(IMovieView movieView, TasteKidApi tasteKidApi, OmdbApi omdbApi, final String tastekidApiKey, final BookmarksStorage bookmarksStorage, MoviesStorage moviesStorage) {
         this.movieView = movieView;
@@ -178,7 +179,7 @@ public class MoviePresenter {
 				.flatMap(Observable::from)
 				.flatMap(tasteKidRespItem -> omdbApi.getDetailOfMovie(tasteKidRespItem.Name)) // get detail of movie
                 .flatMap(omdbResp -> Observable.just(new Movie( // create movie stream
-                        parseImdbId(omdbResp.imdbID),
+                        imdbIdParser.parseImdbId(omdbResp.imdbID),
                         omdbResp.Title,
                         omdbResp.Poster,
                         omdbResp.Plot,
@@ -230,11 +231,6 @@ public class MoviePresenter {
         }
 
         return rating > MIN_IMDB_RATING;
-    }
-
-    private Long parseImdbId(final String imdbID) {
-        final String substring = imdbID.substring(2);
-        return Long.parseLong(substring);
     }
 
     private boolean moreMoviesToViewAreNeeded() {

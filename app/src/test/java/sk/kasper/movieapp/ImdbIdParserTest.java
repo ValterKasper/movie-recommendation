@@ -29,42 +29,20 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import sk.kasper.movieapp.models.Movie;
-import sk.kasper.movieapp.ui.movie.IMovieView;
-import sk.kasper.movieapp.ui.movie.MoviePresenter;
+import sk.kasper.movieapp.ui.movie.ImdbIdParser;
 
+public class ImdbIdParserTest {
 
-public class MoviePresenterTest {
-    private MoviePresenter moviePresenter;
-    private IMovieView view;
-	private Movie fooMovie;
+	private ImdbIdParser parser;
 
-    @Before
-    public void setUp() {
-		/*view = mock(IMovieView.class);
-		interactor = mock(IMovieSuggestionEngineInteractor.class);
-		when(interactor.getSuggestionStream()).thenReturn(Observable.just(new Movie(2L, "Bar")));
-		moviePresenter = new MoviePresenter(view, interactor);
-		fooMovie = new Movie(10L, "Foo");*/
-	}
-
-    @Test
-	public void testNextCardIsShownWhenLikeButtonClicked() throws Exception {
-		//moviePresenter.onLikeMovie(fooMovie);
-		//verify(view).showNextMovie();
-		Assert.assertEquals(3, 1 + 2);
+	@Before
+	public void setUp() {
+		parser = new ImdbIdParser();
 	}
 
 	@Test
-	public void testNextCardIsShownWhenDislikeButtonClicked() throws Exception {
-		//moviePresenter.onDislikeMovie(fooMovie);
-		//verify(view).showNextMovie();
-	}
-
-	@Test
-	public void likedMessageToInteracotor() {
-		//moviePresenter.onLikeMovie(fooMovie);
-		//verify(interactor).movieLiked(fooMovie);
-		Assert.assertTrue(1 == 1 - 0);
+	public void testParseSimple() throws Exception {
+		Assert.assertTrue(parser.parseImdbId("AB123").equals(123L));
+		Assert.assertTrue(parser.parseImdbId("AB123123").equals(123123L));
 	}
 }
