@@ -59,7 +59,6 @@ public class MoviePresenter {
             new Movie(6L, "Godfather, The"),
             new Movie(7L, "Up!")
     };
-    private static final float MIN_IMDB_RATING = 6.5f;
 	private static final String TAG = "MoviePresenter";
 	private final TasteKidApi tasteKidApi;
 	private final OmdbApi omdbApi;
@@ -78,6 +77,7 @@ public class MoviePresenter {
      */
     private List<Movie> movieToBeShown;
     private final ImdbIdParser imdbIdParser = new ImdbIdParser();
+	private final GoodMovieFinder goodMovieFinder = new GoodMovieFinder(6.5f);
 
     public MoviePresenter(IMovieView movieView, TasteKidApi tasteKidApi, OmdbApi omdbApi, final String tastekidApiKey, final BookmarksStorage bookmarksStorage, MoviesStorage moviesStorage) {
         this.movieView = movieView;
@@ -189,7 +189,7 @@ public class MoviePresenter {
                         omdbResp.Actors,
                         omdbResp.Director,
                         omdbResp.Country)))
-				.filter(this::hasGoodRating)
+				.filter(goodMovieFinder::hasGoodRating)
 				.filter(movie -> !shownMovies.contains(movie))
 				.limit(LIMIT_OF_SUGGESTIONS) // enough is enough
                 .observeOn(AndroidSchedulers.mainThread())
@@ -221,17 +221,6 @@ public class MoviePresenter {
 		}
 		return tasteKidResponse.Similar.Results;
 	}
-
-	private boolean hasGoodRating(final Movie movie) {
-		final float rating;
-		try {
-            rating = Float.parseFloat(movie.imdbScore);
-        } catch (NumberFormatException e) {
-            return false;
-        }
-
-        return rating > MIN_IMDB_RATING;
-    }
 
     private boolean moreMoviesToViewAreNeeded() {
         return movieToBeShown.size() < MINIMUM_MOVIES_COUNT_THRESHOLD;
