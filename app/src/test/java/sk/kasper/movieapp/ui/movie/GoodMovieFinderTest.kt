@@ -22,25 +22,29 @@
  * THE SOFTWARE.
  */
 
-package sk.kasper.movieapp.ui.movie;
+package sk.kasper.movieapp.ui.movie
 
-import junit.framework.Assert;
+import junit.framework.Assert
+import org.junit.Test
+import sk.kasper.movieapp.models.Movie
 
-import org.junit.Before;
-import org.junit.Test;
+class GoodMovieFinderTest {
 
-public class ImdbIdParserTest {
+    private var finder: GoodMovieFinder = GoodMovieFinder(2.2f)
 
-	private ImdbIdParser parser;
+    @Test
+    fun testHasGoodRating() {
+        val movie = createMovieWithScore("3")
+        Assert.assertEquals(true, finder.hasGoodRating(movie))
+    }
 
-	@Before
-	public void setUp() {
-		parser = new ImdbIdParser();
-	}
+    @Test
+    fun testHasNotGoodRating() {
+        val movie = createMovieWithScore("1.11")
+        Assert.assertEquals(false, finder.hasGoodRating(movie))
+    }
 
-	@Test
-	public void testParseSimple() throws Exception {
-		Assert.assertTrue(parser.parseImdbId("AB123").equals(123L));
-		Assert.assertTrue(parser.parseImdbId("AB123123").equals(123123L));
-	}
+    private fun createMovieWithScore(imdbScore: String): Movie {
+        return Movie(null, null, null, null, imdbScore, null, null, null, null, null)
+    }
 }

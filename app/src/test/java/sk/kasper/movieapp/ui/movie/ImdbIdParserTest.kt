@@ -22,40 +22,17 @@
  * THE SOFTWARE.
  */
 
-package sk.kasper.movieapp.ui.movie;
+package sk.kasper.movieapp.ui.movie
 
-import android.support.annotation.NonNull;
+import junit.framework.Assert
+import org.junit.Test
 
-import junit.framework.Assert;
+class ImdbIdParserTest {
+    private val parser = ImdbIdParser()
 
-import org.junit.Before;
-import org.junit.Test;
-
-import sk.kasper.movieapp.models.Movie;
-
-public class GoodMovieFinderTest {
-
-	private GoodMovieFinder finder;
-
-	@Before
-	public void setUp() throws Exception {
-		finder = new GoodMovieFinder(2.2f);
-	}
-
-	@Test
-	public void testHasGoodRating() throws Exception {
-		final Movie movie = createMovieWithScore("3");
-		Assert.assertEquals(true, finder.hasGoodRating(movie));
-	}
-
-	@Test
-	public void testHasNotGoodRating() throws Exception {
-		final Movie movie = createMovieWithScore("1.11");
-		Assert.assertEquals(false, finder.hasGoodRating(movie));
-	}
-
-	@NonNull
-	private Movie createMovieWithScore(final String imdbScore) {
-		return new Movie(null, null, null, null, imdbScore, null, null, null, null, null);
-	}
+    @Test
+    fun testParseSimple() {
+        Assert.assertTrue(parser.parseImdbId("AB123") == 123L)
+        Assert.assertTrue(parser.parseImdbId("AB123123") == 123123L)
+    }
 }
