@@ -34,6 +34,7 @@ import dagger.Provides;
 import retrofit.RestAdapter;
 import sk.kasper.movieapp.network.OmdbApi;
 import sk.kasper.movieapp.network.TasteKidApi;
+import sk.kasper.movieapp.network.TasteKidApiKey;
 import sk.kasper.movieapp.storage.BookmarksStorage;
 import sk.kasper.movieapp.storage.MoviesStorage;
 import sk.kasper.movieapp.ui.movie.GoodMovieFinder;
@@ -73,8 +74,8 @@ public class AppModule {
 	}
 
 	@Provides
-	MoviePresenter provideMoviePresenter(final MoviesStorage moviesStorage, final TasteKidApi tasteKidApi, final OmdbApi omdbApi, final BookmarksStorage bookmarksStorage, final ImdbIdParser imdbIdParser, final GoodMovieFinder goodMovieFinder) {
-		return new MoviePresenter(tasteKidApi, omdbApi, bookmarksStorage, Utils.getTastekidApiKey(context), moviesStorage, imdbIdParser, goodMovieFinder);
+	MoviePresenter provideMoviePresenter(final MoviesStorage moviesStorage, final TasteKidApiKey tasteKidApiKey, final TasteKidApi tasteKidApi, final OmdbApi omdbApi, final BookmarksStorage bookmarksStorage, final ImdbIdParser imdbIdParser, final GoodMovieFinder goodMovieFinder) {
+		return new MoviePresenter(tasteKidApi, omdbApi, bookmarksStorage, tasteKidApiKey, moviesStorage, imdbIdParser, goodMovieFinder);
 	}
 
 	@Provides
@@ -85,5 +86,10 @@ public class AppModule {
 	@Provides
 	GoodMovieFinder provideGoodMovieFinder() {
 		return new GoodMovieFinder(6.5f);
+	}
+
+	@Provides
+	TasteKidApiKey provideTasteKidApiKey() {
+		return new TasteKidApiKey(context.getString(R.string.taste_kid_api_key));
 	}
 }

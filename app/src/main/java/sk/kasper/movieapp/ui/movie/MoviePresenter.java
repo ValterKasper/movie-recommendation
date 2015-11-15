@@ -40,6 +40,7 @@ import sk.kasper.movieapp.models.Movie;
 import sk.kasper.movieapp.models.TasteKidResponse;
 import sk.kasper.movieapp.network.OmdbApi;
 import sk.kasper.movieapp.network.TasteKidApi;
+import sk.kasper.movieapp.network.TasteKidApiKey;
 import sk.kasper.movieapp.storage.BookmarksStorage;
 import sk.kasper.movieapp.storage.MoviesStorage;
 
@@ -67,7 +68,7 @@ public class MoviePresenter {
 	private final OmdbApi omdbApi;
 	private final BookmarksStorage bookmarksStorage;
 	private final MoviesStorage moviesStorage;
-	String tastekidApiKey;
+	private final TasteKidApiKey tastekidApiKey;
 
     private IMovieView movieView;
     private boolean noMovieIsShown = true;
@@ -85,7 +86,7 @@ public class MoviePresenter {
 	private final GoodMovieFinder goodMovieFinder;
 
 	@Inject
-	public MoviePresenter(final TasteKidApi tasteKidApi, final OmdbApi omdbApi, final BookmarksStorage bookmarksStorage, final String tastekidApiKey, final MoviesStorage moviesStorage, final ImdbIdParser imdbIdParser, final GoodMovieFinder goodMovieFinder) {
+	public MoviePresenter(final TasteKidApi tasteKidApi, final OmdbApi omdbApi, final BookmarksStorage bookmarksStorage, final TasteKidApiKey tastekidApiKey, final MoviesStorage moviesStorage, final ImdbIdParser imdbIdParser, final GoodMovieFinder goodMovieFinder) {
 		this.tasteKidApi = tasteKidApi;
 		this.omdbApi = omdbApi;
         this.bookmarksStorage = bookmarksStorage;
@@ -183,7 +184,7 @@ public class MoviePresenter {
 	 * Loads movies only if there isn't enough of them
      */
     private void getMovieSuggestions() {
-        tasteKidApi.loadRecommendations(getNextMovieToRetrieveRecommendations().name, LIMIT_OF_SUGGESTIONS, tastekidApiKey) // load recommendations
+		tasteKidApi.loadRecommendations(getNextMovieToRetrieveRecommendations().name, LIMIT_OF_SUGGESTIONS, tastekidApiKey.getValue()) // load recommendations
 				.map(this::processTasteKidResponse)
 				.flatMap(Observable::from)
 				.flatMap(tasteKidRespItem -> omdbApi.getDetailOfMovie(tasteKidRespItem.Name)) // get detail of movie

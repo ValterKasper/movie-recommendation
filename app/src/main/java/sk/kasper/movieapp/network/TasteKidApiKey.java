@@ -22,15 +22,17 @@
  * THE SOFTWARE.
  */
 
-package sk.kasper.movieapp;
+package sk.kasper.movieapp.network;
 
-import android.content.Context;
+public class TasteKidApiKey {
 
-/**
- * Helper methods
- */
-public class Utils {
-	public static String getTastekidApiKey(Context context) {
-		return context.getString(R.string.taste_kid_api_key);
+	private final String value;
+
+	public TasteKidApiKey(final String value) {
+		this.value = value;
+	}
+
+	public String getValue() {
+		return value;
 	}
 }
