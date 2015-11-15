@@ -24,56 +24,45 @@
 
 package sk.kasper.movieapp;
 
-import android.app.Application;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.squareup.otto.Bus;
-import com.squareup.otto.Subscribe;
-import com.squareup.otto.ThreadEnforcer;
+import dagger.Module;
+import dagger.Provides;
+import retrofit.RestAdapter;
+import sk.kasper.movieapp.network.OmdbApi;
+import sk.kasper.movieapp.network.TasteKidApi;
+import sk.kasper.movieapp.ui.movie.MovieActivity;
 
-import java.util.Arrays;
-import java.util.List;
+@Module(
+		injects = {MovieActivity.class},
+		includes = {BlaModule.class}
+)
+public class AppModule {
 
-import dagger.ObjectGraph;
-import sk.kasper.movieapp.events.ApiErrorEvent;
+	@Provides
+	TasteKidApi provideTasteKidApi() {
+		RestAdapter restAdapter = new RestAdapter.Builder()
+				.setEndpoint(TasteKidApi.REST_TASTEKID_ENDPOINT)
+				.setLogLevel(RestAdapter.LogLevel.FULL)
+				.setLog(msg -> Log.d("Retrofit: ", msg))
+				.build();
 
-/**
- * Used aplication
- */
-public class MovieApplication
-		extends Application {
-
-	private ObjectGraph graph;
-	private Bus bus;
-
-	public Bus getBus() {
-		return bus;
+		return restAdapter.create(TasteKidApi.class);
 	}
 
-	protected List<Object> getModules() {
-		return Arrays.asList(
-				new AndroidModule(this),
-				new AppModule()
-		);
+	@Provides
+	OmdbApi provideOmdbApi() {
+		RestAdapter restAdapter = new RestAdapter.Builder()
+				.setEndpoint(OmdbApi.REST_OMDB_ENDPOINT)
+				.setLogLevel(RestAdapter.LogLevel.FULL)
+				.setLog(msg -> Log.d("Retrofit: ", msg))
+				.build();
+
+		return restAdapter.create(OmdbApi.class);
 	}
 
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		graph = ObjectGraph.create(getModules().toArray());
-		bus = new Bus(ThreadEnforcer.MAIN);
-		bus.register(this);
-	}
-
-	@Subscribe
-	public void onApiError(ApiErrorEvent event) {
-		Toast.makeText(MovieApplication.this, event.msg, Toast.LENGTH_SHORT).show();
-		Log.e("ReaderApp", event.msg);
-	}
-
-
-	public void inject(Object object) {
-		graph.inject(object);
+	@Provides
+	Bla provideBla(Foo foo) {
+		return new Bla(foo);
 	}
 }

@@ -27,37 +27,11 @@ package sk.kasper.movieapp;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
-
-import retrofit.RestAdapter;
-import sk.kasper.movieapp.network.OmdbApi;
-import sk.kasper.movieapp.network.TasteKidApi;
 
 /**
  * Helper methods
  */
 public class Utils {
-
-	public static TasteKidApi getTasteKidApi() {
-		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(TasteKidApi.REST_TASTEKID_ENDPOINT)
-				.setLogLevel(RestAdapter.LogLevel.FULL)
-				.setLog(msg -> Log.d("Retrofit: ", msg))
-				.build();
-
-		return restAdapter.create(TasteKidApi.class);
-	}
-
-	public static OmdbApi getOmdbApi() {
-		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(OmdbApi.REST_OMDB_ENDPOINT)
-				.setLogLevel(RestAdapter.LogLevel.FULL)
-				.setLog(msg -> Log.d("Retrofit: ", msg))
-				.build();
-
-		return restAdapter.create(OmdbApi.class);
-	}
-
 	public static String getTastekidApiKey(Context context) {
 		return context.getString(R.string.taste_kid_api_key);
 	}

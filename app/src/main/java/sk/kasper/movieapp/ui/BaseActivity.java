@@ -27,6 +27,8 @@ package sk.kasper.movieapp.ui;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import sk.kasper.movieapp.MovieApplication;
+
 /**
  * Base class for creating activities in application
  */
@@ -43,6 +45,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// Perform injection so that when this call returns all dependencies will be available for use.
+		((MovieApplication) getApplication()).inject(this);
 	}
 
     @Override

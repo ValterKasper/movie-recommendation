@@ -24,56 +24,34 @@
 
 package sk.kasper.movieapp;
 
-import android.app.Application;
-import android.util.Log;
-import android.widget.Toast;
+import android.content.Context;
 
-import com.squareup.otto.Bus;
-import com.squareup.otto.Subscribe;
-import com.squareup.otto.ThreadEnforcer;
+import javax.inject.Singleton;
 
-import java.util.Arrays;
-import java.util.List;
-
-import dagger.ObjectGraph;
-import sk.kasper.movieapp.events.ApiErrorEvent;
+import dagger.Module;
+import dagger.Provides;
 
 /**
- * Used aplication
+ * A module for Android-specific dependencies which require a {@link Context} or
+ * {@link android.app.Application} to create.
  */
-public class MovieApplication
-		extends Application {
+@Module(library = true)
+public class AndroidModule {
 
-	private ObjectGraph graph;
-	private Bus bus;
+	private final MovieApplication application;
 
-	public Bus getBus() {
-		return bus;
+	public AndroidModule(MovieApplication application) {
+		this.application = application;
 	}
 
-	protected List<Object> getModules() {
-		return Arrays.asList(
-				new AndroidModule(this),
-				new AppModule()
-		);
-	}
-
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		graph = ObjectGraph.create(getModules().toArray());
-		bus = new Bus(ThreadEnforcer.MAIN);
-		bus.register(this);
-	}
-
-	@Subscribe
-	public void onApiError(ApiErrorEvent event) {
-		Toast.makeText(MovieApplication.this, event.msg, Toast.LENGTH_SHORT).show();
-		Log.e("ReaderApp", event.msg);
-	}
-
-
-	public void inject(Object object) {
-		graph.inject(object);
+	/**
+	 * Allow the application context to be injected but require that it be annotated with
+	 * {@link ForApplication @Annotation} to explicitly differentiate it from an activity context.
+	 */
+	@Provides
+	@Singleton
+	@ForApplication
+	Context provideApplicationContext() {
+		return application;
 	}
 }

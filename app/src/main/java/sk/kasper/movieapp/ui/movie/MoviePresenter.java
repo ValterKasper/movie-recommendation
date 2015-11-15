@@ -60,7 +60,7 @@ public class MoviePresenter {
             new Movie(7L, "Up!")
     };
 	private static final String TAG = "MoviePresenter";
-	private final TasteKidApi tasteKidApi;
+	TasteKidApi tasteKidApi;
 	private final OmdbApi omdbApi;
     private final BookmarksStorage bookmarksStorage;
     private MoviesStorage moviesStorage;
@@ -79,11 +79,11 @@ public class MoviePresenter {
     private final ImdbIdParser imdbIdParser = new ImdbIdParser();
 	private final GoodMovieFinder goodMovieFinder = new GoodMovieFinder(6.5f);
 
-    public MoviePresenter(IMovieView movieView, TasteKidApi tasteKidApi, OmdbApi omdbApi, final String tastekidApiKey, final BookmarksStorage bookmarksStorage, MoviesStorage moviesStorage) {
-        this.movieView = movieView;
-        this.tasteKidApi = tasteKidApi;
+	public MoviePresenter(IMovieView movieView, final TasteKidApi tasteKidApi, OmdbApi omdbApi, final String tastekidApiKey, final BookmarksStorage bookmarksStorage, MoviesStorage moviesStorage) {
+		this.movieView = movieView;
         this.omdbApi = omdbApi;
-        this.tastekidApiKey = tastekidApiKey;
+		this.tasteKidApi = tasteKidApi;
+		this.tastekidApiKey = tastekidApiKey;
         this.bookmarksStorage = bookmarksStorage;
         this.moviesStorage = moviesStorage;
 

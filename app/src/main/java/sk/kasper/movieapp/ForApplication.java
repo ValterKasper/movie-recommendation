@@ -24,56 +24,13 @@
 
 package sk.kasper.movieapp;
 
-import android.app.Application;
-import android.util.Log;
-import android.widget.Toast;
+import java.lang.annotation.Retention;
 
-import com.squareup.otto.Bus;
-import com.squareup.otto.Subscribe;
-import com.squareup.otto.ThreadEnforcer;
+import javax.inject.Qualifier;
 
-import java.util.Arrays;
-import java.util.List;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import dagger.ObjectGraph;
-import sk.kasper.movieapp.events.ApiErrorEvent;
-
-/**
- * Used aplication
- */
-public class MovieApplication
-		extends Application {
-
-	private ObjectGraph graph;
-	private Bus bus;
-
-	public Bus getBus() {
-		return bus;
-	}
-
-	protected List<Object> getModules() {
-		return Arrays.asList(
-				new AndroidModule(this),
-				new AppModule()
-		);
-	}
-
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		graph = ObjectGraph.create(getModules().toArray());
-		bus = new Bus(ThreadEnforcer.MAIN);
-		bus.register(this);
-	}
-
-	@Subscribe
-	public void onApiError(ApiErrorEvent event) {
-		Toast.makeText(MovieApplication.this, event.msg, Toast.LENGTH_SHORT).show();
-		Log.e("ReaderApp", event.msg);
-	}
-
-
-	public void inject(Object object) {
-		graph.inject(object);
-	}
+@Qualifier
+@Retention(RUNTIME)
+public @interface ForApplication {
 }

@@ -24,6 +24,7 @@
 
 package sk.kasper.movieapp.ui.movie;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -40,16 +41,21 @@ import android.widget.TextView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
+import sk.kasper.movieapp.Bla;
 import sk.kasper.movieapp.R;
 import sk.kasper.movieapp.Utils;
 import sk.kasper.movieapp.models.BookmarkToggle;
 import sk.kasper.movieapp.models.Movie;
 import sk.kasper.movieapp.models.MovieDislike;
 import sk.kasper.movieapp.models.MovieLike;
+import sk.kasper.movieapp.network.OmdbApi;
+import sk.kasper.movieapp.network.TasteKidApi;
 import sk.kasper.movieapp.storage.BookmarksStorage;
 import sk.kasper.movieapp.storage.MoviesStorage;
 import sk.kasper.movieapp.ui.BaseActivity;
@@ -89,20 +95,32 @@ public class MovieActivity extends BaseActivity implements IMovieView {
     private Movie shownMovie;
     private boolean bookmarked;
 
+	@Inject
+	TasteKidApi tasteKidApi;
+	@Inject
+	OmdbApi omdbApi;
+
+	@Inject
+	Bla bla;
+
+	SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
         ButterKnife.bind(this);
 
+		sharedPreferences = Utils.getSharedPrefs(this);
+
         presenter = new MoviePresenter(
                 this,
-                Utils.getTasteKidApi(),
-                Utils.getOmdbApi(),
-                Utils.getTastekidApiKey(this),
-                new BookmarksStorage(Utils.getSharedPrefs(this)),
-                new MoviesStorage(Utils.getSharedPrefs(this)));
-    }
+				tasteKidApi,
+				omdbApi,
+				Utils.getTastekidApiKey(this),
+				new BookmarksStorage(sharedPreferences),
+				new MoviesStorage(sharedPreferences));
+	}
 
     @Override
     public int getDrawerId() {
