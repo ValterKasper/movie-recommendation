@@ -37,7 +37,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import sk.kasper.movieapp.exceptions.TasteKidResponseException;
 import sk.kasper.movieapp.models.Movie;
-import sk.kasper.movieapp.models.TasteKidResponse;
 import sk.kasper.movieapp.network.OmdbApi;
 import sk.kasper.movieapp.network.TasteKidApi;
 import sk.kasper.movieapp.network.TasteKidApiKey;
@@ -71,6 +70,8 @@ public class MoviePresenter {
 	@Inject TasteKidApiKey tastekidApiKey;
 	@Inject ImdbIdParser imdbIdParser;
 	@Inject GoodMovieFinder goodMovieFinder;
+	@Inject
+	TasteKidResponseProcessor tasteKidResponseProcessor;
 
     private IMovieView movieView;
     private boolean noMovieIsShown = true;
@@ -175,7 +176,7 @@ public class MoviePresenter {
      */
     private void getMovieSuggestions() {
 		tasteKidApi.loadRecommendations(getNextMovieToRetrieveRecommendations().name, LIMIT_OF_SUGGESTIONS, tastekidApiKey.getValue()) // load recommendations
-				.map(this::processTasteKidResponse)
+				.map(tasteKidResponseProcessor::processTasteKidResponse)
 				.flatMap(Observable::from)
 				.flatMap(tasteKidRespItem -> omdbApi.getDetailOfMovie(tasteKidRespItem.Name)) // get detail of movie
                 .flatMap(omdbResp -> Observable.just(new Movie( // create movie stream
@@ -216,14 +217,7 @@ public class MoviePresenter {
 				});
 	}
 
-	private List<TasteKidResponse.Similar.DataItem> processTasteKidResponse(final TasteKidResponse tasteKidResponse) throws TasteKidResponseException {
-		if (tasteKidResponse.error != null) {
-			throw new TasteKidResponseException(tasteKidResponse.error);
-		}
-		return tasteKidResponse.Similar.Results;
-	}
-
-    private boolean moreMoviesToViewAreNeeded() {
-        return movieToBeShown.size() < MINIMUM_MOVIES_COUNT_THRESHOLD;
+	private boolean moreMoviesToViewAreNeeded() {
+		return movieToBeShown.size() < MINIMUM_MOVIES_COUNT_THRESHOLD;
     }
 }
