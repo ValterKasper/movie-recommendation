@@ -25,18 +25,11 @@
 package sk.kasper.movieapp;
 
 import android.app.Application;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.squareup.otto.Bus;
-import com.squareup.otto.Subscribe;
-import com.squareup.otto.ThreadEnforcer;
-
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import dagger.ObjectGraph;
-import sk.kasper.movieapp.events.ApiErrorEvent;
 
 /**
  * Used aplication
@@ -45,14 +38,9 @@ public class MovieApplication
 		extends Application {
 
 	private ObjectGraph graph;
-	private Bus bus;
-
-	public Bus getBus() {
-		return bus;
-	}
 
 	protected List<Object> getModules() {
-		return Arrays.asList(
+		return Collections.singletonList(
 				new AppModule(this)
 		);
 	}
@@ -61,16 +49,7 @@ public class MovieApplication
 	public void onCreate() {
 		super.onCreate();
 		graph = ObjectGraph.create(getModules().toArray());
-		bus = new Bus(ThreadEnforcer.MAIN);
-		bus.register(this);
 	}
-
-	@Subscribe
-	public void onApiError(ApiErrorEvent event) {
-		Toast.makeText(MovieApplication.this, event.msg, Toast.LENGTH_SHORT).show();
-		Log.e("ReaderApp", event.msg);
-	}
-
 
 	public void inject(Object object) {
 		graph.inject(object);
