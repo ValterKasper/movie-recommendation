@@ -53,8 +53,7 @@ public class MovieApplication
 
 	protected List<Object> getModules() {
 		return Arrays.asList(
-				new AndroidModule(this),
-				new AppModule()
+				new AppModule(this)
 		);
 	}
 

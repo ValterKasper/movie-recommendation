@@ -24,7 +24,6 @@
 
 package sk.kasper.movieapp.ui.movie;
 
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -47,17 +46,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
-import sk.kasper.movieapp.Bla;
 import sk.kasper.movieapp.R;
-import sk.kasper.movieapp.Utils;
 import sk.kasper.movieapp.models.BookmarkToggle;
 import sk.kasper.movieapp.models.Movie;
 import sk.kasper.movieapp.models.MovieDislike;
 import sk.kasper.movieapp.models.MovieLike;
-import sk.kasper.movieapp.network.OmdbApi;
-import sk.kasper.movieapp.network.TasteKidApi;
-import sk.kasper.movieapp.storage.BookmarksStorage;
-import sk.kasper.movieapp.storage.MoviesStorage;
 import sk.kasper.movieapp.ui.BaseActivity;
 
 public class MovieActivity extends BaseActivity implements IMovieView {
@@ -91,35 +84,17 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 	@Bind(R.id.rlCoverBackground)
 	RelativeLayout rlCoverBackground;
 
-    private MoviePresenter presenter;
     private Movie shownMovie;
     private boolean bookmarked;
 
 	@Inject
-	TasteKidApi tasteKidApi;
-	@Inject
-	OmdbApi omdbApi;
-
-	@Inject
-	Bla bla;
-
-	SharedPreferences sharedPreferences;
+	MoviePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
         ButterKnife.bind(this);
-
-		sharedPreferences = Utils.getSharedPrefs(this);
-
-        presenter = new MoviePresenter(
-                this,
-				tasteKidApi,
-				omdbApi,
-				Utils.getTastekidApiKey(this),
-				new BookmarksStorage(sharedPreferences),
-				new MoviesStorage(sharedPreferences));
 	}
 
     @Override
@@ -130,8 +105,8 @@ public class MovieActivity extends BaseActivity implements IMovieView {
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.onResume();
-    }
+		presenter.onResume(this);
+	}
 
     @Override
     protected void onPause() {

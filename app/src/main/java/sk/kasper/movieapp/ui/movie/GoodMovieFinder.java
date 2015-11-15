@@ -24,12 +24,15 @@
 
 package sk.kasper.movieapp.ui.movie;
 
+import javax.inject.Inject;
+
 import sk.kasper.movieapp.models.Movie;
 
 public class GoodMovieFinder {
 
 	private final float MIN_IMDB_RATING;
 
+	@Inject
 	public GoodMovieFinder(final float min_imdb_rating) { MIN_IMDB_RATING = min_imdb_rating;}
 
 	public boolean hasGoodRating(final Movie movie) {

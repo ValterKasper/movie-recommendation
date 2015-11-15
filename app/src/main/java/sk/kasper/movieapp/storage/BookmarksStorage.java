@@ -32,6 +32,8 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import sk.kasper.movieapp.models.Movie;
 
 
@@ -43,6 +45,7 @@ public class BookmarksStorage {
 	private static final String PREF_BOOKMARKS = "pref-bookmarks";
 	private final SharedPreferences sharedPref;
 
+	@Inject
 	public BookmarksStorage(final SharedPreferences sharedPref) {
 		this.sharedPref = sharedPref;
 	}

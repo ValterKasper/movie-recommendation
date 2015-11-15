@@ -24,6 +24,8 @@
 
 package sk.kasper.movieapp;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import dagger.Module;
@@ -31,13 +33,21 @@ import dagger.Provides;
 import retrofit.RestAdapter;
 import sk.kasper.movieapp.network.OmdbApi;
 import sk.kasper.movieapp.network.TasteKidApi;
+import sk.kasper.movieapp.storage.BookmarksStorage;
+import sk.kasper.movieapp.storage.MoviesStorage;
+import sk.kasper.movieapp.ui.movie.GoodMovieFinder;
+import sk.kasper.movieapp.ui.movie.ImdbIdParser;
 import sk.kasper.movieapp.ui.movie.MovieActivity;
+import sk.kasper.movieapp.ui.movie.MoviePresenter;
 
 @Module(
-		injects = {MovieActivity.class},
-		includes = {BlaModule.class}
+		injects = {MovieActivity.class}
 )
 public class AppModule {
+
+	final Context context;
+
+	public AppModule(final Context context) {this.context = context;}
 
 	@Provides
 	TasteKidApi provideTasteKidApi() {
@@ -62,7 +72,27 @@ public class AppModule {
 	}
 
 	@Provides
-	Bla provideBla(Foo foo) {
-		return new Bla(foo);
+	MoviePresenter provideMoviePresenter(final MoviesStorage moviesStorage, final TasteKidApi tasteKidApi, final OmdbApi omdbApi, final BookmarksStorage bookmarksStorage, final ImdbIdParser imdbIdParser, final GoodMovieFinder goodMovieFinder) {
+		return new MoviePresenter(tasteKidApi, omdbApi, bookmarksStorage, Utils.getTastekidApiKey(context), moviesStorage, imdbIdParser, goodMovieFinder);
+	}
+
+	@Provides
+	MoviesStorage provideMoviesStorage(final SharedPreferences sharedPref) {
+		return new MoviesStorage(sharedPref);
+	}
+
+	@Provides
+	BookmarksStorage provideBookmarksStorage(final SharedPreferences sharedPref) {
+		return new BookmarksStorage(sharedPref);
+	}
+
+	@Provides
+	SharedPreferences provideSharedPreferences() {
+		return Utils.getSharedPrefs(context);
+	}
+
+	@Provides
+	GoodMovieFinder provideGoodMovieFinder() {
+		return new GoodMovieFinder(6.5f);
 	}
 }

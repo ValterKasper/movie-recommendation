@@ -29,6 +29,8 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -60,12 +62,14 @@ public class MoviePresenter {
             new Movie(7L, "Up!")
     };
 	private static final String TAG = "MoviePresenter";
-	TasteKidApi tasteKidApi;
+
+	private final TasteKidApi tasteKidApi;
 	private final OmdbApi omdbApi;
-    private final BookmarksStorage bookmarksStorage;
-    private MoviesStorage moviesStorage;
+	private final BookmarksStorage bookmarksStorage;
+	private final MoviesStorage moviesStorage;
+	String tastekidApiKey;
+
     private IMovieView movieView;
-    private String tastekidApiKey;
     private boolean noMovieIsShown = true;
     private int seedMoviesIndex = 0;
     private List<Movie> shownMovies;
@@ -76,33 +80,19 @@ public class MoviePresenter {
      * Movies prepared to be shown
      */
     private List<Movie> movieToBeShown;
-    private final ImdbIdParser imdbIdParser = new ImdbIdParser();
-	private final GoodMovieFinder goodMovieFinder = new GoodMovieFinder(6.5f);
 
-	public MoviePresenter(IMovieView movieView, final TasteKidApi tasteKidApi, OmdbApi omdbApi, final String tastekidApiKey, final BookmarksStorage bookmarksStorage, MoviesStorage moviesStorage) {
-		this.movieView = movieView;
-        this.omdbApi = omdbApi;
+	private final ImdbIdParser imdbIdParser;
+	private final GoodMovieFinder goodMovieFinder;
+
+	@Inject
+	public MoviePresenter(final TasteKidApi tasteKidApi, final OmdbApi omdbApi, final BookmarksStorage bookmarksStorage, final String tastekidApiKey, final MoviesStorage moviesStorage, final ImdbIdParser imdbIdParser, final GoodMovieFinder goodMovieFinder) {
 		this.tasteKidApi = tasteKidApi;
-		this.tastekidApiKey = tastekidApiKey;
+		this.omdbApi = omdbApi;
         this.bookmarksStorage = bookmarksStorage;
-        this.moviesStorage = moviesStorage;
-
-        this.shownMovies = moviesStorage.loadShownMovies();
-        this.likedMovies = moviesStorage.loadLikedMovies();
-        this.dislikedMovies = moviesStorage.loadDislikedMovies();
-        this.movieToBeShown = moviesStorage.loadMoviesToBeShown();
-
-        movieView.getMovieLikeStream().subscribe(like -> {
-            onLikeMovie(like.getMovie());
-        });
-
-        movieView.getMovieDislikeStream().subscribe(dislike -> {
-            onDislikeMovie(dislike.getMovie());
-        });
-
-		movieView.getMovieBookmarkToggleStream().subscribe(bookmarkToggle -> {
-			onBookmarkMovie(bookmarkToggle.movie);
-		});
+		this.tastekidApiKey = tastekidApiKey;
+		this.moviesStorage = moviesStorage;
+		this.imdbIdParser = imdbIdParser;
+		this.goodMovieFinder = goodMovieFinder;
 	}
 
 	private boolean isMoreMoviesToRetrieveRecommendations() {
@@ -117,7 +107,26 @@ public class MoviePresenter {
 		}
 	}
 
-    public void onResume() {
+	public void onResume(final IMovieView movieView) {
+		this.movieView = movieView;
+
+		this.shownMovies = moviesStorage.loadShownMovies();
+		this.likedMovies = moviesStorage.loadLikedMovies();
+		this.dislikedMovies = moviesStorage.loadDislikedMovies();
+		this.movieToBeShown = moviesStorage.loadMoviesToBeShown();
+
+		movieView.getMovieLikeStream().subscribe(like -> {
+			onLikeMovie(like.getMovie());
+		});
+
+		movieView.getMovieDislikeStream().subscribe(dislike -> {
+			onDislikeMovie(dislike.getMovie());
+		});
+
+		movieView.getMovieBookmarkToggleStream().subscribe(bookmarkToggle -> {
+			onBookmarkMovie(bookmarkToggle.movie);
+		});
+
         if (moreMoviesToViewAreNeeded()) {
             getMovieSuggestions();
         } else {
@@ -206,6 +215,7 @@ public class MoviePresenter {
 						if (e instanceof TasteKidResponseException) {
 							movieView.showErrorMessage(((TasteKidResponseException) e).error);
 						}
+						Log.d(TAG, "exception", e);
 					}
 
 					@Override

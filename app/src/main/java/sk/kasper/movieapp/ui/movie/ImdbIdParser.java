@@ -24,8 +24,11 @@
 
 package sk.kasper.movieapp.ui.movie;
 
+import javax.inject.Inject;
+
 public class ImdbIdParser {
 
+	@Inject
 	public ImdbIdParser() { }
 
 	public Long parseImdbId(final String imdbID) {
