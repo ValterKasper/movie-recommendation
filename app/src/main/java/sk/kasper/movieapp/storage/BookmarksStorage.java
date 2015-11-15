@@ -43,12 +43,9 @@ import sk.kasper.movieapp.models.Movie;
 public class BookmarksStorage {
 	private static final String TAG = "BookmarksStorage";
 	private static final String PREF_BOOKMARKS = "pref-bookmarks";
-	private final SharedPreferences sharedPref;
 
 	@Inject
-	public BookmarksStorage(final SharedPreferences sharedPref) {
-		this.sharedPref = sharedPref;
-	}
+	SharedPreferences sharedPref;
 
 	public void bookmarkMovie(final Movie movie) {
 		final List<Movie> movies = loadBookmarks();

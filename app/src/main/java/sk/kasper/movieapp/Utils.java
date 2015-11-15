@@ -25,8 +25,6 @@
 package sk.kasper.movieapp;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 /**
  * Helper methods
@@ -34,9 +32,5 @@ import android.preference.PreferenceManager;
 public class Utils {
 	public static String getTastekidApiKey(Context context) {
 		return context.getString(R.string.taste_kid_api_key);
-	}
-
-	public static SharedPreferences getSharedPrefs(Context context) {
-		return PreferenceManager.getDefaultSharedPreferences(context);
 	}
 }

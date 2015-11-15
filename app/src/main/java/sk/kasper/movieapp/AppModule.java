@@ -26,6 +26,7 @@ package sk.kasper.movieapp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import dagger.Module;
@@ -77,18 +78,8 @@ public class AppModule {
 	}
 
 	@Provides
-	MoviesStorage provideMoviesStorage(final SharedPreferences sharedPref) {
-		return new MoviesStorage(sharedPref);
-	}
-
-	@Provides
-	BookmarksStorage provideBookmarksStorage(final SharedPreferences sharedPref) {
-		return new BookmarksStorage(sharedPref);
-	}
-
-	@Provides
 	SharedPreferences provideSharedPreferences() {
-		return Utils.getSharedPrefs(context);
+		return PreferenceManager.getDefaultSharedPreferences(context);
 	}
 
 	@Provides

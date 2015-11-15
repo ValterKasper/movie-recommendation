@@ -43,10 +43,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import sk.kasper.movieapp.R;
-import sk.kasper.movieapp.Utils;
 import sk.kasper.movieapp.models.Movie;
 import sk.kasper.movieapp.storage.BookmarksStorage;
 import sk.kasper.movieapp.ui.BaseActivity;
@@ -57,7 +58,8 @@ public class BookmarksListActivity
 	@Bind(R.id.lvBookmarks)
 	ListView lvBookmarks;
 
-    BookmarksStorage bookmarksStorage;
+	@Inject
+	BookmarksStorage bookmarksStorage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +70,6 @@ public class BookmarksListActivity
 
 		ButterKnife.bind(this);
 
-        bookmarksStorage = new BookmarksStorage(Utils.getSharedPrefs(this));
         lvBookmarks.setAdapter(new BookmarksAdapter(bookmarksStorage.loadBookmarks(), this));
 		registerForContextMenu(lvBookmarks);
 	}
