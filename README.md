@@ -9,9 +9,9 @@ The application shows flow of films based on an rating from user. It was founded
 ## Libraries
 Android app which is using 
 * [RxAndroid](https://github.com/ReactiveX/RxAndroid)
-* [Otto](http://square.github.io/otto/)
 * [ButterKnife](http://jakewharton.github.io/butterknife/)
 * [RetroFit](http://square.github.io/retrofit/)
+* [Dagger](http://square.github.io/dagger/)
 * [Gradle Retrolambda Plugin](https://github.com/evant/gradle-retrolambda)
 
 ## Used API services
