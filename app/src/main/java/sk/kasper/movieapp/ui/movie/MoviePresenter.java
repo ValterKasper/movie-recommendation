@@ -64,11 +64,13 @@ public class MoviePresenter {
     };
 	private static final String TAG = "MoviePresenter";
 
-	private final TasteKidApi tasteKidApi;
-	private final OmdbApi omdbApi;
-	private final BookmarksStorage bookmarksStorage;
-	private final MoviesStorage moviesStorage;
-	private final TasteKidApiKey tastekidApiKey;
+	@Inject TasteKidApi tasteKidApi;
+	@Inject OmdbApi omdbApi;
+	@Inject BookmarksStorage bookmarksStorage;
+	@Inject MoviesStorage moviesStorage;
+	@Inject TasteKidApiKey tastekidApiKey;
+	@Inject ImdbIdParser imdbIdParser;
+	@Inject GoodMovieFinder goodMovieFinder;
 
     private IMovieView movieView;
     private boolean noMovieIsShown = true;
@@ -82,19 +84,7 @@ public class MoviePresenter {
      */
     private List<Movie> movieToBeShown;
 
-	private final ImdbIdParser imdbIdParser;
-	private final GoodMovieFinder goodMovieFinder;
 
-	@Inject
-	public MoviePresenter(final TasteKidApi tasteKidApi, final OmdbApi omdbApi, final BookmarksStorage bookmarksStorage, final TasteKidApiKey tastekidApiKey, final MoviesStorage moviesStorage, final ImdbIdParser imdbIdParser, final GoodMovieFinder goodMovieFinder) {
-		this.tasteKidApi = tasteKidApi;
-		this.omdbApi = omdbApi;
-        this.bookmarksStorage = bookmarksStorage;
-		this.tastekidApiKey = tastekidApiKey;
-		this.moviesStorage = moviesStorage;
-		this.imdbIdParser = imdbIdParser;
-		this.goodMovieFinder = goodMovieFinder;
-	}
 
 	private boolean isMoreMoviesToRetrieveRecommendations() {
 		return true;

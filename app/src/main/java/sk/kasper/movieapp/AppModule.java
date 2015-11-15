@@ -35,12 +35,8 @@ import retrofit.RestAdapter;
 import sk.kasper.movieapp.network.OmdbApi;
 import sk.kasper.movieapp.network.TasteKidApi;
 import sk.kasper.movieapp.network.TasteKidApiKey;
-import sk.kasper.movieapp.storage.BookmarksStorage;
-import sk.kasper.movieapp.storage.MoviesStorage;
 import sk.kasper.movieapp.ui.movie.GoodMovieFinder;
-import sk.kasper.movieapp.ui.movie.ImdbIdParser;
 import sk.kasper.movieapp.ui.movie.MovieActivity;
-import sk.kasper.movieapp.ui.movie.MoviePresenter;
 
 @Module(
 		injects = {MovieActivity.class}
@@ -71,11 +67,6 @@ public class AppModule {
 				.build();
 
 		return restAdapter.create(OmdbApi.class);
-	}
-
-	@Provides
-	MoviePresenter provideMoviePresenter(final MoviesStorage moviesStorage, final TasteKidApiKey tasteKidApiKey, final TasteKidApi tasteKidApi, final OmdbApi omdbApi, final BookmarksStorage bookmarksStorage, final ImdbIdParser imdbIdParser, final GoodMovieFinder goodMovieFinder) {
-		return new MoviePresenter(tasteKidApi, omdbApi, bookmarksStorage, tasteKidApiKey, moviesStorage, imdbIdParser, goodMovieFinder);
 	}
 
 	@Provides
