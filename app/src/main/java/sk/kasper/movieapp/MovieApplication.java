@@ -32,14 +32,14 @@ import java.util.List;
 import dagger.ObjectGraph;
 
 /**
- * Used aplication
+ * Used application
  */
 public class MovieApplication
 		extends Application {
 
 	private ObjectGraph graph;
 
-	protected List<Object> getModules() {
+	protected List<?> getModules() {
 		return Collections.singletonList(
 				new AppModule(this)
 		);

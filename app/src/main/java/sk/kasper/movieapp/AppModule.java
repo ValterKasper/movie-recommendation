@@ -53,7 +53,10 @@ public class AppModule {
 		RestAdapter restAdapter = new RestAdapter.Builder()
 				.setEndpoint(TasteKidApi.REST_TASTEKID_ENDPOINT)
 				.setLogLevel(RestAdapter.LogLevel.FULL)
-				.setLog(msg -> Log.d("Retrofit: ", msg))
+				.setLog(new RestAdapter.Log() {
+					@Override
+					public void log(final String msg) {Log.d("Retrofit: ", msg);}
+				})
 				.build();
 
 		return restAdapter.create(TasteKidApi.class);
@@ -64,7 +67,10 @@ public class AppModule {
 		RestAdapter restAdapter = new RestAdapter.Builder()
 				.setEndpoint(OmdbApi.REST_OMDB_ENDPOINT)
 				.setLogLevel(RestAdapter.LogLevel.FULL)
-				.setLog(msg -> Log.d("Retrofit: ", msg))
+				.setLog(new RestAdapter.Log() {
+					@Override
+					public void log(final String msg) {Log.d("Retrofit: ", msg);}
+				})
 				.build();
 
 		return restAdapter.create(OmdbApi.class);

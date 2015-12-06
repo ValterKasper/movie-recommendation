@@ -31,6 +31,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.graphics.Palette;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -162,8 +163,11 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 	public Observable<MovieLike> getMovieLikeStream() {
 		return Observable.create(new Observable.OnSubscribe<MovieLike>() {
 			@Override
-			public void call(Subscriber<? super MovieLike> subscriber) {
-				bLike.setOnClickListener(v -> subscriber.onNext(new MovieLike(shownMovie)));
+			public void call(final Subscriber<? super MovieLike> subscriber) {
+				bLike.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(final View v) {subscriber.onNext(new MovieLike(shownMovie));}
+				});
 			}
 		});
 	}
@@ -172,9 +176,12 @@ public class MovieActivity extends BaseActivity implements IMovieView {
     public Observable<MovieDislike> getMovieDislikeStream() {
         return Observable.create(new Observable.OnSubscribe<MovieDislike>() {
             @Override
-            public void call(Subscriber<? super MovieDislike> subscriber) {
-                bDislike.setOnClickListener(v -> subscriber.onNext(new MovieDislike(shownMovie)));
-            }
+			public void call(final Subscriber<? super MovieDislike> subscriber) {
+				bDislike.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(final View v) {subscriber.onNext(new MovieDislike(shownMovie));}
+				});
+			}
         });
 	}
 
@@ -182,8 +189,11 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 	public Observable<BookmarkToggle> getMovieBookmarkToggleStream() {
 		return Observable.create(new Observable.OnSubscribe<BookmarkToggle>() {
 			@Override
-			public void call(Subscriber<? super BookmarkToggle> subscriber) {
-				fabBookmark.setOnClickListener(v -> subscriber.onNext(new BookmarkToggle(shownMovie)));
+			public void call(final Subscriber<? super BookmarkToggle> subscriber) {
+				fabBookmark.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(final View v) {subscriber.onNext(new BookmarkToggle(shownMovie));}
+				});
 			}
 		});
 	}
@@ -211,9 +221,12 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 						Bitmap bitmap = ((BitmapDrawable) ivCover.getDrawable()).getBitmap();
 
 						// Asynchronous
-						Palette.from(bitmap).generate(p -> {
-							final int darkMutedColor = p.getDarkVibrantColor(0x000000);
-							rlCoverBackground.setBackgroundColor(darkMutedColor);
+						Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+							@Override
+							public void onGenerated(final Palette p) {
+								final int darkMutedColor = p.getDarkVibrantColor(0x000000);
+								rlCoverBackground.setBackgroundColor(darkMutedColor);
+							}
 						});
 					}
 				});

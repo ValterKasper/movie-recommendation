@@ -26,11 +26,14 @@ package sk.kasper.movieapp.ui.movie;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import sk.kasper.movieapp.exceptions.TasteKidResponseException;
 import sk.kasper.movieapp.models.TasteKidResponse;
 
 public class TasteKidResponseProcessor {
 
+	@Inject
 	public TasteKidResponseProcessor() { }
 
 	public List<TasteKidResponse.Similar.DataItem> processTasteKidResponse(final TasteKidResponse tasteKidResponse) throws TasteKidResponseException {
