@@ -26,6 +26,7 @@ package sk.kasper.movieapp.ui.bookmarks;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
@@ -53,13 +54,13 @@ import sk.kasper.movieapp.storage.BookmarksStorage;
 import sk.kasper.movieapp.ui.BaseActivity;
 
 public class BookmarksListActivity
-		extends BaseActivity {
+		extends BaseActivity implements BookmarksContract.BookmarksView{
 
 	@Bind(R.id.lvBookmarks)
 	ListView lvBookmarks;
 
-	@Inject
-	BookmarksStorage bookmarksStorage;
+    @Inject
+	BookmarksPresenter presenter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,16 +71,22 @@ public class BookmarksListActivity
 
 		ButterKnife.bind(this);
 
-        lvBookmarks.setAdapter(new BookmarksAdapter(bookmarksStorage.loadBookmarks(), this));
 		registerForContextMenu(lvBookmarks);
 	}
 
-	@Override
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.onResume(this);
+        presenter.loadBookmarks();
+    }
+
+    @Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 									ContextMenu.ContextMenuInfo menuInfo) {
 		if (v.getId() == R.id.lvBookmarks) {
 			AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-			menu.setHeaderTitle(bookmarksStorage.loadBookmarks().get(info.position).name);
+			menu.setHeaderTitle(((Movie) lvBookmarks.getAdapter().getItem(info.position)).name);
 			menu.add("Remove from bookmarks");
 		}
 	}
@@ -99,13 +106,18 @@ public class BookmarksListActivity
 	public boolean bookmarkRemove(int position) {
 		Movie movie = (Movie) lvBookmarks.getAdapter().getItem(position);
 		movie.bookmarked = false;
-        bookmarksStorage.bookmarkMovie(movie);
-        lvBookmarks.setAdapter(new BookmarksAdapter(bookmarksStorage.loadBookmarks(), this));
+        presenter.bookmarkMovie(movie);
+        presenter.loadBookmarks();
 
 		return true;
 	}
 
-    public static class BookmarksAdapter
+	@Override
+	public void showBookmarks(List<Movie> movies) {
+        lvBookmarks.setAdapter(new BookmarksAdapter(movies, this));
+	}
+
+	public static class BookmarksAdapter
             extends BaseAdapter {
 
 		private final List<Movie> bookmarks;

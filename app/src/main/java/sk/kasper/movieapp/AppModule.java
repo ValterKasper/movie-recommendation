@@ -35,6 +35,7 @@ import retrofit.RestAdapter;
 import sk.kasper.movieapp.network.OmdbApi;
 import sk.kasper.movieapp.network.TasteKidApi;
 import sk.kasper.movieapp.network.TasteKidApiKey;
+import sk.kasper.movieapp.storage.BookmarksStorage;
 import sk.kasper.movieapp.ui.bookmarks.BookmarksListActivity;
 import sk.kasper.movieapp.ui.movie.GoodMovieFinder;
 import sk.kasper.movieapp.ui.movie.MovieActivity;
