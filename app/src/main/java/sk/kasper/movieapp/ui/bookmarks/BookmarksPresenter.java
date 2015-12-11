@@ -12,6 +12,11 @@ public class BookmarksPresenter implements BookmarksContract.UserInteraction {
     @Inject
     BookmarksStorage bookmarksStorage;
 
+    @Inject
+    public BookmarksPresenter(BookmarksStorage bookmarksStorage) {
+        this.bookmarksStorage = bookmarksStorage;
+    }
+
     public void onResume(BookmarksContract.BookmarksView view) {
         this.view = view;
     }
