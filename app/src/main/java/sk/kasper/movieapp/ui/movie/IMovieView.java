@@ -35,18 +35,6 @@ import sk.kasper.movieapp.models.MovieLike;
  */
 public interface IMovieView {
 
-	/**
-	 * @return Infinite stream of likes. Yap!
-	 */
-	Observable<MovieLike> getMovieLikeStream();
-	/**
-	 * @return Stream of dislikes
-	 */
-	Observable<MovieDislike> getMovieDislikeStream();
-	/**
-	 * @return Stream of bookmark clicks
-	 */
-	Observable<BookmarkToggle> getMovieBookmarkToggleStream();
 	void showProgressBar();
 	void hideProgressBar();
 

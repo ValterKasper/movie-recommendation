@@ -34,14 +34,10 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import sk.kasper.movieapp.exceptions.TasteKidResponseException;
-import sk.kasper.movieapp.models.BookmarkToggle;
 import sk.kasper.movieapp.models.Movie;
-import sk.kasper.movieapp.models.MovieDislike;
-import sk.kasper.movieapp.models.MovieLike;
 import sk.kasper.movieapp.models.OmdbResponse;
 import sk.kasper.movieapp.models.TasteKidResponse;
 import sk.kasper.movieapp.network.OmdbApi;
@@ -53,7 +49,7 @@ import sk.kasper.movieapp.storage.MoviesStorage;
 /**
  * Manipulates with UI
  */
-public class MoviePresenter {
+public class MoviePresenter implements IUserInteraction {
 
 	private static final int MINIMUM_MOVIES_COUNT_THRESHOLD = 3;
 	private static final int LIMIT_OF_SUGGESTIONS = 8;
@@ -120,27 +116,6 @@ public class MoviePresenter {
 		this.dislikedMovies = moviesStorage.loadDislikedMovies();
 		this.movieToBeShown = moviesStorage.loadMoviesToBeShown();
 
-		movieView.getMovieLikeStream().subscribe(new Action1<MovieLike>() {
-			@Override
-			public void call(final MovieLike like) {
-				MoviePresenter.this.onLikeMovie(like.getMovie());
-			}
-		});
-
-		movieView.getMovieDislikeStream().subscribe(new Action1<MovieDislike>() {
-			@Override
-			public void call(final MovieDislike dislike) {
-				MoviePresenter.this.onDislikeMovie(dislike.getMovie());
-			}
-		});
-
-		movieView.getMovieBookmarkToggleStream().subscribe(new Action1<BookmarkToggle>() {
-			@Override
-			public void call(final BookmarkToggle bookmarkToggle) {
-				MoviePresenter.this.onBookmarkMovie(bookmarkToggle.movie);
-			}
-		});
-
 		if (moreMoviesToViewAreNeeded()) {
 			getMovieSuggestions();
 		} else {
@@ -164,18 +139,23 @@ public class MoviePresenter {
 		moviesStorage.saveMoviesToBeShown(new ArrayList<>(movieToBeShown));
 	}
 
-	private void onLikeMovie(Movie movie) {
+	public void onLikeMovie(Movie movie) {
 		likedMovies.add(movie);
 		shownMovies.add(movie);
 		movieToBeShown.remove(0);
 		showNextMovieInView();
 	}
 
-	private void onDislikeMovie(Movie movie) {
+	public void onDislikeMovie(Movie movie) {
 		dislikedMovies.add(movie);
 		shownMovies.add(movie);
 		movieToBeShown.remove(0);
 		showNextMovieInView();
+	}
+
+	@Override
+	public void onToogleBookmark(Movie movie) {
+
 	}
 
 	private void onBookmarkMovie(final Movie movie) {
@@ -251,6 +231,7 @@ public class MoviePresenter {
 						}
 						Log.d(TAG, "exception", e);
 					}
+
 
 					@Override
 					public void onNext(final Movie movie) {

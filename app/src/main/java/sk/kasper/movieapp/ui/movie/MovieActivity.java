@@ -45,13 +45,8 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.Subscriber;
 import sk.kasper.movieapp.R;
-import sk.kasper.movieapp.models.BookmarkToggle;
 import sk.kasper.movieapp.models.Movie;
-import sk.kasper.movieapp.models.MovieDislike;
-import sk.kasper.movieapp.models.MovieLike;
 import sk.kasper.movieapp.ui.BaseActivity;
 
 public class MovieActivity extends BaseActivity implements IMovieView {
@@ -91,11 +86,33 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 	@Inject
 	MoviePresenter presenter;
 
+	IUserInteraction iUserInteraction;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
         ButterKnife.bind(this);
+
+		iUserInteraction = presenter;
+
+		bLike.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				iUserInteraction.onLikeMovie(shownMovie);}
+		});
+
+		bDislike.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				iUserInteraction.onDislikeMovie(shownMovie);}
+		});
+
+		fabBookmark.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				iUserInteraction.onToogleBookmark(shownMovie);}
+		});
 	}
 
     @Override
@@ -157,45 +174,6 @@ public class MovieActivity extends BaseActivity implements IMovieView {
 					});
 		}
 
-	}
-
-	@Override
-	public Observable<MovieLike> getMovieLikeStream() {
-		return Observable.create(new Observable.OnSubscribe<MovieLike>() {
-			@Override
-			public void call(final Subscriber<? super MovieLike> subscriber) {
-				bLike.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(final View v) {subscriber.onNext(new MovieLike(shownMovie));}
-				});
-			}
-		});
-	}
-
-    @Override
-    public Observable<MovieDislike> getMovieDislikeStream() {
-        return Observable.create(new Observable.OnSubscribe<MovieDislike>() {
-            @Override
-			public void call(final Subscriber<? super MovieDislike> subscriber) {
-				bDislike.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(final View v) {subscriber.onNext(new MovieDislike(shownMovie));}
-				});
-			}
-        });
-	}
-
-	@Override
-	public Observable<BookmarkToggle> getMovieBookmarkToggleStream() {
-		return Observable.create(new Observable.OnSubscribe<BookmarkToggle>() {
-			@Override
-			public void call(final Subscriber<? super BookmarkToggle> subscriber) {
-				fabBookmark.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(final View v) {subscriber.onNext(new BookmarkToggle(shownMovie));}
-				});
-			}
-		});
 	}
 
 	public void showAsBookmarked(final boolean bookmarked) {
